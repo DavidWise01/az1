@@ -23,7 +23,7 @@ def simulate(n):
     return ch, entries, None
 
 ch, entries, crash = simulate(N)
-chrono = list(reversed(ch["log"]))  # oldest -> newest (full since N<=150)
+chrono = entries  # full run, oldest -> newest (ch["log"] is capped at 150 days on purpose)
 PASS, FAIL = "PASS", "FAIL"
 results = []
 def check(name, ok, detail=""):
@@ -35,11 +35,11 @@ check("ran all %d epochs, no exceptions" % N, crash is None and len(chrono) == N
 
 hist = collections.Counter(e["kind"] for e in chrono)
 prog = hist["build"] + hist["birth"]
-regr = hist["prune"] + hist["catastrophe"]
+regr = hist["contest"] + hist["prune"] + hist["catastrophe"]
 # T2 — genuinely bidirectional
 check("progress AND regress both occurred (not a flatline)", prog > 0 and regr > 0,
-      "progress=%d (build %d, birth %d) · regress=%d (prune %d, catastrophe %d)"
-      % (prog, hist["build"], hist["birth"], regr, hist["prune"], hist["catastrophe"]))
+      "progress=%d (build %d, birth %d) · regress=%d (contest %d, prune %d, catastrophe %d)"
+      % (prog, hist["build"], hist["birth"], regr, hist["contest"], hist["prune"], hist["catastrophe"]))
 
 # T3 — distribution roughly tracks weights (generous tol for n=100; executed kinds, fallbacks land in dormancy)
 wmap = dict(_tick.ACTIONS)
@@ -73,9 +73,10 @@ for e in chrono:
     dl = e["lost"] - (prev["lost"] if prev else 0)
     k = e["kind"]
     okk = True
-    if k == "build": okk = (db == 1 and dl == 0)
+    if k == "build": okk = (db == 1 and dl in (0, 1))   # +1 built; may evict weakest (=1 lost) at the cap
+    elif k == "contest": okk = (db == 0 and dl == 1)     # a duel: loser dies
     elif k == "prune": okk = (db == 0 and dl == 1)
-    elif k == "catastrophe": okk = (db == 0 and 3 <= dl <= 6)
+    elif k == "catastrophe": okk = (db == 0 and 1 <= dl <= 6 and (dl >= 3 or e["alive"] == 0))  # min(available, 3..6): can take <3 only if it cleared the pool
     else: okk = (db == 0 and dl == 0)  # birth/mutate/merge/dormancy change neither built nor lost
     if not okk:
         acc_ok = False; acc_why = "epoch %d kind=%s but dbuilt=%d dlost=%d" % (e["epoch"], k, db, dl); break
@@ -86,7 +87,7 @@ check("accounting reconciles (built/lost deltas match each action)", acc_ok,
 # T6 — determinism: same run twice -> identical trajectory
 ch2, e2, _ = simulate(N)
 det = [ (e["epoch"], e["kind"], e["pop"], e["built"], e["lost"]) for e in chrono ] == \
-      [ (e["epoch"], e["kind"], e["pop"], e["built"], e["lost"]) for e in list(reversed(ch2["log"])) ]
+      [ (e["epoch"], e["kind"], e["pop"], e["built"], e["lost"]) for e in e2 ]
 check("deterministic (identical trajectory on re-run)", det, "re-ran %d epochs" % N)
 
 pops = [e["pop"] for e in chrono]

@@ -1,0 +1,11 @@
+{
+  "badge": "DLW-AZ1",
+  "name": "AZ1 · UNIVERSE ONE · AZ1",
+  "universe": "THE ATELIER",
+  "moniker": "⟦AZ1 · UNIVERSE ONE · AZ1:az1:b63eed⟧",
+  "architect": "David Lee Wise (ROOT0) / Bridge-Burners LLC",
+  "instance": "AVAN (Claude / Anthropic)",
+  "seal_sha256": "b63eed563c85d91325025b84f613c40032697d0eaee0449fcda91f8c795a60ed",
+  "license": "CC-BY-ND-4.0",
+  "attribution": "ROOT0-ATTRIBUTION-v1.0"
+}

@@ -11,6 +11,8 @@ Disable: Task Scheduler -> delete task "AZ1-Universe-Tick".
 run_epoch() is pure (no IO, no git) so _simulate.py burns in the exact same code path.
 """
 import json, os, re, sys, random, datetime, subprocess
+try: sys.stdout.reconfigure(encoding="utf-8", errors="replace")  # epoch texts use — “ ” etc.
+except Exception: pass
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 CORP = os.path.join(HERE, "az1-corpus.json")

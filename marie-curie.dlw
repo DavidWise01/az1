@@ -1,0 +1,26 @@
+.dlw — derivation · attribution · appointment
+================================================
+
+artifact:        az1 (Universe One) — steward appointment
+steward:         Marie Skłodowska-Curie  (1867–1934)
+  basis:         best female scientist of all time — defensible #1: the only person to win
+                 Nobel Prizes in two sciences (Physics 1903, Chemistry 1911); founder of
+                 radioactivity; discoverer of polonium and radium.
+  treatment:     public-domain historical figure, honored as figurehead steward — not impersonated.
+
+standard_of_record:
+                 Emmy Noether — symmetry → conservation. Named as the audit standard because
+                 her theorem is the most foundational physics result by anyone; az1's
+                 conservation law (L1) is read as its bookkeeping symmetry's Noether charge
+                 (an analogy, flagged — not a claim of literal physics).
+
+appointed_by:    David Lee Wise · ROOT0 / TriPod
+built_by:        AVAN (Claude / Anthropic)
+date:            2026-06-27
+
+first_directive: "fix physics — verify the foundational physics are in place."
+result:          IN PLACE — 5/5 laws hold (L1 conservation · L2 bounded cosmos · L3 arrow of
+                 time · L4 determinism · L5 selection). Audit: _physics.py (exit 0), re-runnable.
+
+scope:           az1 only · proposes-not-imposes · simulation-laws-not-nature (flagged)
+lineage:         built on public history; the cosmos and its laws are AVAN's build over ROOT0's corpus.

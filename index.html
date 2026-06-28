@@ -88,9 +88,16 @@
       <button class="btn pri" id="reset">whole system</button>
       <button class="btn" id="share">⇄ share a discovery</button>
       <button class="btn" id="orbits">◌ orbit lines</button>
-      <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled</span>
+      <button class="btn" id="papers">✦ paper belt</button>
+      <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled · ✦ = David's papers</span>
     </div>
     <div class="tree" id="tree"></div>
+  </div>
+
+  <div class="card">
+    <div class="h"><span>✦ the paper belt — David's papers, orbiting their like-for-like planet</span><span class="ct" id="papct"></span></div>
+    <div id="paperlist" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:7px;padding:4px 0"></div>
+    <p class="cap" style="margin-top:10px">Each ✦ is one of David's <b>public papers or books</b>, drawn as an asteroid orbiting the planet it most belongs to (aesthetics→the hearth, AI→the other mind, physics→the elements, formats→the teaching…). Colour = paper-type. <b style="color:var(--ink)">Legal, financial and personal documents are deliberately excluded</b> — this is a public sky.</p>
   </div>
   <p class="cap">The <b>sun</b> at center; <b>Me</b> whips around it, <b>N</b> barely creeps (real periods). Each planet holds <b>residents</b> and glows with the shared knowledge level. When the frontier advances, a <b>discovery flashes to every world at once</b> — that's the rule here: nothing is kept secret, nothing is lost. The tree below lights as it's climbed.</p>
 
@@ -132,7 +139,38 @@ const PLANETS=[
  {L:"N",name:"Neptune",au:30.07,r:24622,P:164.8,e:0.010,c:"#3a5ad8"},
  {L:"P",name:"Pluto",au:39.48,r:1188,P:248.0,e:0.249,c:"#b89a7a"}
 ];
-let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, level=0, research=0, flashes=[];
+// like-for-like theme per planet (the orrery's named-planet scheme), for matching papers
+const PTHEME={Me:"the other mind · AI / governance",V:"the hearth · aesthetics",E:"the made · craft",Ma:"the elements · physics",J:"the bearing · computing",S:"the quick · life-science",U:"the handed world · books / philosophy",N:"the crossing · language",P:"the teaching · the formats"};
+const PCOL={green:"#7fc98a",blue:"#5b8cff",white:"#e8e2d0",purple:"#9a7cff",void:"#6a4d8e",orange:"#e0904a",red:"#e06a6a"};
+const GP="https://davidwise01.github.io/green-papers/papers/";
+// THE ASTEROID BELT — David's PUBLIC papers & books only (legal/financial/personal files deliberately excluded).
+// col = paper-type colour · pl = like-for-like planet · u = live page (where published)
+const ASTEROIDS=[
+ {n:"kintsugi",col:"green",pl:"V",u:GP+"kintsugi.html"},
+ {n:"wabi-sabi",col:"green",pl:"V",u:GP+"wabi-sabi.html"},
+ {n:"ensō",col:"green",pl:"V",u:GP+"enso.html"},
+ {n:"mono-no-aware",col:"green",pl:"V",u:GP+"mono-no-aware.html"},
+ {n:"japan-pamphlets",col:"green",pl:"V",u:GP+"japan-pamphlets.html"},
+ {n:"logos",col:"green",pl:"U",u:GP+"logos.html"},
+ {n:"the-way / ethos",col:"green",pl:"U",u:GP+"the-way-ethos.html"},
+ {n:"three-fundamentals-lineage",col:"green",pl:"U",u:GP+"three-fundamentals-lineage.html"},
+ {n:"the repair-gate",col:"green",pl:"Me",u:GP+"repair-gate.html"},
+ {n:"kintsugi-valence-model",col:"green",pl:"Ma",u:GP+"kintsugi-valence-model.html"},
+ {n:"rainbow · white (spec)",col:"white",pl:"P",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"rainbow · green (build)",col:"green",pl:"P",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"rainbow · purple (reason)",col:"purple",pl:"P",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"rainbow · blueprint",col:"blue",pl:"P",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"rainbow · void (synthesis)",col:"void",pl:"P",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"field-guide · the atom",col:"purple",pl:"J",u:"https://davidwise01.github.io/field-guide/"},
+ {n:"field-guide · the standing wave",col:"purple",pl:"J",u:"https://davidwise01.github.io/field-guide/"},
+ {n:"field-guide · the compiler",col:"purple",pl:"P",u:"https://davidwise01.github.io/field-guide/"},
+ {n:"the-inference-layer",col:"blue",pl:"Me",u:"https://davidwise01.github.io/the-inference-layer/"},
+ {n:"the-next-prediction",col:"blue",pl:"Me",u:"https://davidwise01.github.io/the-next-prediction/"},
+ {n:"the purple book",col:"purple",pl:"Me",u:""},
+ {n:"aci-family · defensive publication",col:"white",pl:"Me",u:""},
+ {n:"haci · defensive publication",col:"white",pl:"Me",u:""}
+];
+let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, level=0, research=0, flashes=[];
 const YEAR=24, AUk=120, SUN={R:24};
 function rAU(au){return Math.sqrt(au)*AUk;}
 function bodyR(km){return 4+Math.sqrt(km/2440)*3.2;}
@@ -140,6 +178,10 @@ function kepler(M,e){M=((M%6.28318)+6.28318)%6.28318;let E=M;for(let i=0;i<6;i++
 PLANETS.forEach((p,i)=>{ p.a=rAU(p.au); p.bR=Math.max(5,Math.min(28,bodyR(p.r))); p.n=6.28318/(p.P*YEAR); p.argp=i*0.7; p.M0=Math.random()*6.283;
   p.res=[]; for(let k=0;k<4;k++){const a=Math.random()*6.283,rr=Math.random()*(p.bR-3); p.res.push({px:Math.cos(a)*rr,py:Math.sin(a)*rr,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,ph:Math.random()*6.28});} });
 const Rmax=rAU(39.48)*1.12;
+// attach each paper-asteroid to its like-for-like planet, in an orbit slot just outside it
+const byP={}; PLANETS.forEach(p=>byP[p.L]=p);
+const cntP={}; ASTEROIDS.forEach(a=>{a.parent=byP[a.pl]||byP.Me; a.idx=(cntP[a.pl]=(cntP[a.pl]||0)+1)-1;});
+ASTEROIDS.forEach(a=>{ const sib=cntP[a.pl]; a.ang=(a.idx/sib)*6.283; a.dist=a.parent.bR+7+(a.idx%3)*5; a.rate=0.14+(a.idx%5)*0.04; });
 function layout(){W=cv.parentElement.clientWidth||640;H=Math.max(440,Math.round(W*0.6));DPR=Math.min(window.devicePixelRatio||1,2);
   cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0);}
 function fit(){scale=(Math.min(W,H)*0.44)/Rmax;ox=0;oy=0;}
@@ -181,6 +223,13 @@ function draw(){
     ctx.font="600 "+Math.max(10,Math.min(15,Rs*0.7))+"px 'JetBrains Mono',monospace";ctx.fillStyle=p.c+"ee";ctx.textAlign="center";
     ctx.fillText(p.L, px, sy===py?py-Rs-6:py-Rs-(p.rings?Rs*0.7+6:6));
   }
+  // the asteroid belt — David's public papers, each orbiting its like-for-like planet
+  if(showPapers){ for(const a of ASTEROIDS){ const p=a.parent;
+    const ax=p.cx+Math.cos(a.ang+t*a.rate)*a.dist, ay=p.cy+Math.sin(a.ang+t*a.rate)*a.dist; const [x,y]=S(ax,ay);
+    const col=PCOL[a.col]||"#ccc"; const s=2.4+(scale-0.5)*1.5;
+    ctx.fillStyle=col; ctx.shadowColor=col; ctx.shadowBlur=6;
+    ctx.beginPath(); ctx.moveTo(x,y-s);ctx.lineTo(x+s,y);ctx.lineTo(x,y+s);ctx.lineTo(x-s,y);ctx.closePath(); ctx.fill(); ctx.shadowBlur=0;
+  } }
   $("zl")&&($("zl").textContent=scale.toFixed(2)+"×");
   requestAnimationFrame(draw);
 }
@@ -200,8 +249,25 @@ function renderChron(d){
 $("reset").onclick=fit;
 $("share").onclick=shareFlash;
 $("orbits").onclick=()=>{showOrbits=!showOrbits;};
+$("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers);};
+function renderPapers(){
+  var groups={}; ASTEROIDS.forEach(function(a){(groups[a.pl]=groups[a.pl]||[]).push(a);});
+  var order=["Me","V","E","Ma","J","S","U","N","P"], html="";
+  order.forEach(function(L){ if(!groups[L])return;
+    html+='<div style="border:1px solid var(--line);border-radius:9px;padding:9px 11px;background:rgba(255,255,255,.02)">';
+    html+='<div style="font:600 11px/1 \'JetBrains Mono\',monospace;color:var(--know);letter-spacing:.08em;margin-bottom:7px">'+L+' · '+(PTHEME[L]||"")+'</div>';
+    groups[L].forEach(function(a){ var col=PCOL[a.col]||"#ccc";
+      var dot='<span style="display:inline-block;width:8px;height:8px;transform:rotate(45deg);background:'+col+';box-shadow:0 0 6px '+col+';margin-right:8px;vertical-align:middle"></span>';
+      var nm=a.u?'<a href="'+a.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+a.n+'</a>':'<span style="color:var(--dim)">'+a.n+'</span>';
+      html+='<div style="font:400 12.5px/1.5 \'JetBrains Mono\',monospace;padding:2px 0">'+dot+nm+'</div>';
+    });
+    html+='</div>';
+  });
+  $("paperlist").innerHTML=html;
+  $("papct").textContent=ASTEROIDS.length+" papers · public only";
+}
 window.addEventListener("resize",layout);
-layout(); fit(); renderTree(); draw();
+layout(); fit(); renderTree(); renderPapers(); draw();
 // auto-share flashes periodically (knowledge keeps circulating)
 setInterval(shareFlash, 4200);
 fetch("./az1-chronicle.json?"+Date.now()).then(function(r){return r.ok?r.json():null;}).then(renderChron).catch(function(){ $("frontier").textContent="the chronicle hasn't been written yet — the daily tick will begin it."; });

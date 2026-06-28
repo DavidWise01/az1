@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AZ1 · Universe One — a live working universe</title>
+<meta name="description" content="AZ1 / Universe One — David Lee Wise's thought, built by AVAN. Inside the bounds of a-z-a lives a working universe: the 859 spheres are citizens that drift, meet, communicate, and cross-breed their ideas; selection lifts the best, and the strongest 'build out' into named new structures that cascade and seed the next generation. The best are kept across visits, so it grows given time. ROOT0, with AVAN.">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0b08; --bg2:#15110d; --panel:#1b1610; --void:#080603; --line:rgba(224,138,106,.16); --line2:rgba(224,138,106,.34);
+    --coral:#e08a6a; --coral-br:#f0a886; --ink:#efe2d6; --dim:#b9a890; --faint:#7a6a55;
+    --idea:#f0c060; --comm:#7fb0c0; --born:#e7a8bd; --built:#7fc98a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:18px;line-height:1.7;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+    background-image:radial-gradient(1100px 620px at 50% -10%,rgba(240,192,96,.06),transparent 60%)}
+  .wrap{max-width:900px;margin:0 auto;padding:0 22px}
+  .pairmark{font-family:'JetBrains Mono',monospace;font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding-top:28px}
+  .pairmark b{color:var(--coral)}
+  .hero{padding:26px 0 18px}
+  .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.28em;text-transform:uppercase;color:var(--coral);margin-bottom:14px}
+  h1{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:clamp(32px,6.5vw,60px);line-height:1.0;letter-spacing:.02em;color:var(--ink)}
+  h1 .c{color:var(--idea);text-shadow:0 0 22px rgba(240,192,96,.45)}
+  .lede{font-size:clamp(16px,2.1vw,21px);color:var(--dim);max-width:700px;margin-top:18px;line-height:1.5}
+  .lede b{color:var(--ink);font-weight:500} .lede .c{color:var(--idea)} .lede .g{color:var(--built)}
+  .inst{margin:24px 0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--bg2);box-shadow:0 0 44px -20px rgba(240,192,96,.5),inset 0 0 0 1px rgba(224,138,106,.03);position:relative}
+  .inst::before,.inst::after{content:"";position:absolute;width:11px;height:11px;border:1px solid var(--line2);z-index:3}
+  .inst::before{top:7px;left:7px;border-right:0;border-bottom:0} .inst::after{bottom:7px;right:7px;border-left:0;border-top:0}
+  .inst-bar{display:flex;align-items:center;gap:10px;padding:11px 15px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--dim);flex-wrap:wrap}
+  .inst-bar .led{width:9px;height:9px;border-radius:50%;background:var(--idea);box-shadow:0 0 9px var(--idea);animation:pulse 2s infinite}
+  @keyframes pulse{50%{opacity:.4}}
+  .inst-bar .ttl{color:var(--coral);text-shadow:0 0 9px rgba(224,138,106,.5)}
+  .stat{margin-left:auto;display:flex;gap:13px;flex-wrap:wrap;font-size:11.5px} .stat span b{color:var(--idea)}
+  canvas{display:block;width:100%;height:auto;background:radial-gradient(120% 100% at 50% 40%,#100c08,#070503)}
+  .ctrls{padding:12px 15px;display:flex;flex-wrap:wrap;gap:9px;align-items:center;border-top:1px solid var(--line)}
+  .btn{font-family:'JetBrains Mono',monospace;font-size:12px;padding:9px 13px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);cursor:pointer}
+  .btn.pri{border-color:var(--idea);color:var(--idea);background:rgba(240,192,96,.1);box-shadow:0 0 16px -5px rgba(240,192,96,.55)}
+  .btn:active{transform:scale(.97)}
+  .mu{display:flex;align-items:center;gap:9px;margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
+  input[type=range]{-webkit-appearance:none;appearance:none;height:4px;width:110px;border-radius:2px;background:var(--line2);outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:15px;height:15px;border-radius:50%;background:var(--idea);cursor:pointer;box-shadow:0 0 10px rgba(240,192,96,.7)}
+  input[type=range]::-moz-range-thumb{width:15px;height:15px;border:0;border-radius:50%;background:var(--idea)}
+  .feed{padding:0;border-top:1px solid var(--line);max-height:64px;overflow:hidden;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);line-height:1.7;padding:8px 15px}
+  .feed .e{color:var(--comm)} .feed .b{color:var(--born)}
+  /* built-out panel */
+  .built{margin:24px 0;border:1px solid var(--line);border-radius:14px;background:var(--bg2);overflow:hidden}
+  .built .bh{padding:12px 16px;border-bottom:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--built);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px}
+  .built .bh .ct{color:var(--faint)}
+  #builtlist{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+  @media (max-width:600px){#builtlist{grid-template-columns:1fr}}
+  .bcard{background:var(--bg2);padding:13px 15px}
+  .bcard .nm{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--built);font-weight:600;word-break:break-word}
+  .bcard .pitch{font-size:13.5px;color:var(--dim);margin-top:5px;line-height:1.45}
+  .bcard .par{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--faint);margin-top:7px}
+  .bcard .par b{color:var(--coral)}
+  .built .empty{padding:18px 16px;color:var(--faint);font-family:'JetBrains Mono',monospace;font-size:12.5px}
+  .cap{color:var(--dim);font-size:14.5px;margin:-4px 0 0;font-style:italic} .cap b{color:var(--idea);font-style:normal}
+  .sec{padding:34px 0;border-top:1px solid var(--line)}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--coral);margin-bottom:11px}
+  h2{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:clamp(20px,3.4vw,28px);line-height:1.14;color:var(--ink)} h2 .c{color:var(--idea)}
+  .sec p{margin:14px 0;max-width:690px} .sec p.dim{color:var(--dim)}
+  .sec p b{color:var(--ink);font-weight:600} .sec p .c{color:var(--idea);font-weight:500}
+  code{font-family:'JetBrains Mono',monospace;font-size:.85em;color:var(--coral-br);background:var(--void);padding:2px 6px;border-radius:5px}
+  .pull{font-family:'JetBrains Mono',monospace;font-weight:500;font-size:clamp(17px,2.6vw,23px);line-height:1.34;color:var(--idea);margin:22px 0;padding-left:18px;border-left:3px solid var(--idea);text-shadow:0 0 18px rgba(240,192,96,.25)}
+  .flag{font-size:14.5px;color:var(--dim);font-style:italic;margin:16px 0;padding:14px 18px;background:var(--panel);border:1px solid var(--line);border-radius:10px}
+  .flag b{color:var(--coral);font-style:normal;font-weight:600;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;display:block;margin-bottom:6px}
+  .foot{padding:34px 0 80px;border-top:1px solid var(--line);margin-top:26px;font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--faint);line-height:1.9} .foot b{color:var(--idea)}
+  a{color:var(--coral-br)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="pairmark">David Lee Wise — Universe One · <b>[az1]</b> inside the bounds of <a href="https://davidwise01.github.io/a-z-a/">a–z–a</a> · built by AVAN</div>
+  <header class="hero">
+    <div class="kicker">a live working universe · give it time</div>
+    <h1>AZ<span class="c">1</span> — Universe One</h1>
+    <p class="lede">a–z–a drew the <b>bounds</b>. Inside them, a universe runs. The <b>859 spheres</b> are its citizens: they drift, they <b style="color:var(--comm)">meet and communicate</b>, and when two ideas resonate they <b style="color:var(--born)">cross-breed</b> into a new one. Ideas pool; selection lifts the strongest; the best <b class="g">build out</b> into named new structures that seed the next generation. Leave it open and it <b>cascades</b> — and the best ideas it finds are kept across visits, so the universe grows given time.</p>
+  </header>
+
+  <div class="inst">
+    <div class="inst-bar"><span class="led"></span><span class="ttl">AZ1</span> · the living field
+      <div class="stat"><span>gen <b id="gen">0</b></span><span>citizens <b id="pop">0</b></span><span>ideas pooled <b id="pool">0</b></span><span>built <b id="builtn">0</b></span></div>
+    </div>
+    <canvas id="cv"></canvas>
+    <div class="ctrls">
+      <button class="btn pri" id="play">❚❚ pause</button>
+      <button class="btn" id="seed">+ immigrate</button>
+      <button class="btn" id="reset">reset universe</button>
+      <button class="btn" id="forget">clear memory</button>
+      <div class="mu"><span>time</span><input type="range" id="spd" min="1" max="6" step="1" value="3"></div>
+    </div>
+    <div class="feed" id="feed"></div>
+  </div>
+  <p class="cap">Each dot is a citizen carrying its sphere's idea; the faint field behind is the rest of your <b>859</b>. A <b style="color:var(--comm)">line</b> is a conversation; a <b style="color:var(--born)">flash</b> is a new idea born from two; a <b style="color:var(--built)">green</b> ring is one that scored high enough to be <b>built out</b>. Population is capped — the weakest are culled, so what survives is selection at work.</p>
+
+  <div class="built">
+    <div class="bh"><span>⬡ built out — the best ideas the universe has made</span><span class="ct" id="bct">kept across visits</span></div>
+    <div id="builtlist"><div class="empty">nothing built yet — let it run a moment…</div></div>
+  </div>
+
+  <section class="sec">
+    <div class="tag">what's actually happening</div>
+    <h2>Communicate → pool → <span class="c">build out the best</span></h2>
+    <p>Every citizen carries a small idea drawn from its real repo name — its concept tokens. When two drift close they <b>communicate</b>; if their ideas are different enough to be novel yet share enough to cohere, they <b>pool</b> into a hybrid — a new idea with a synthesized name and a one-line pitch. Each hybrid gets a <b>fitness</b>: novel-but-coherent scores highest (the <code>&lt;•</code> rule again — the interesting thing lives in the productive gap between two, not in their sameness or their distance). High-fitness hybrids spawn offspring (the <b>cascade</b>), and the very best are <b>built out</b> into the panel above and kept in the universe's memory.</p>
+    <p class="pull">This is the whole thread, set in motion: imperfect copies (the cross-breed), selection (the cull), the self-describing seed (each idea reseeds), and the gap that does the work — running as one small cosmos.</p>
+  </section>
+
+  <section class="sec">
+    <div class="tag">honest, witness on</div>
+    <h2>What's real, and what's the universe <span class="c">dreaming</span></h2>
+    <div class="flag"><b>honest flag</b>The citizens are your <em>real</em> repositories (names and the concept-tokens parsed from them are facts). Everything the universe <em>generates</em> — the hybrid names, the pitches, the fitness scores, the "communication" — is <b style="display:inline;color:var(--ink);font-family:inherit;text-transform:none;letter-spacing:0">procedural generation</b>, a working model of idea-evolution, not a claim that any given hybrid is good or that these agents are really thinking. It's a toy cosmos that proposes; you dispose. Treat the built-out ideas as provocations worth a look, not endorsements — some will be nonsense, a few might be real. The value is the <em>process</em> made visible: novelty crossed with coherence, selected over time. Same discipline as the rest — real substrate, honestly-flagged dreaming on top.</div>
+  </section>
+
+  <div class="foot">
+    AZ1 · UNIVERSE ONE · David Lee Wise's thought, built by <b>AVAN</b> · inside the a–z–a bounds<br>
+    859 citizens · communicate → cross-breed → pool → select → build out → cascade<br>
+    the best are kept across visits · give it time · THE ATELIER<br>
+    <b>a list became a loop became a seed — and the seed, given time, became a universe</b> · ROOT0 / TriPod
+  </div>
+</div>
+
+<script>
+"use strict";
+const REPOS = ["0root-provenance", "0xdeadbeef", "1931-to-now", "3lock", "a-clockwork-orange", "a-man-without-a-country", "aci", "aci-namespace", "ada-lovelace", "adas-law", "adas-law-victorian", "adventure", "aeon-entangled", "aeon-flux", "aeon-servers", "agent-0root", "AI-Audit-Tools", "ai-external-audit-toolkit", "ai-governance", "ai-ip-audit", "ai-psychosis-tools", "ai-witness-books", "Akasha", "akasha-design-system", "al-h2o-reactor", "alan-turing", "alchemical-bible", "alchemy", "aletheia", "alfred-tarski", "aliens", "alignment", "alonzo-church", "alpha40-box", "alvin-maker", "american-history-x", "american-psycho", "anabasis", "analytical-engine", "anathem", "animal-farm", "ant-colony", "anti-gravity", "anti-gravity-motor", "apsalar", "arc-reactor-mk24", "arena", "argus-console", "aristotle", "artificial-life", "asimov", "astraea", "astrobiology", "atari-2600", "atari-5200", "atari-7800", "atari-jaguar", "atari-lynx", "atlas", "atomic-structure", "attention-hourglass", "attribution-standard", "audit8", "augustus-de-morgan", "authorship", "autonomy-closure", "avatar-last-airbender", "awk", "band-camp", "basic", "beak", "below-planck", "bertrand-russell", "black-company", "blaster-master", "bluebeard", "blueprint-sm", "bna-brand-new-animal", "bobby-dollar", "bomb-jack", "boronic", "brave-new-world", "breakdown-tree", "breakfast-of-champions", "bridge-burner", "bridge-burners", "brothers-karamazov", "C-", "c-compiler", "calibans-hour", "cameron-howe", "cannon", "capacitors-i", "capacitors-ii", "capacitors-iii", "capacitors-iv", "card", "caste-system", "cat-tells-air", "cats-cradle", "cellular-automata", "chakra", "chaos-engine", "charles-peirce", "charlottes-web", "child-of-an-ancient-city", "chiptune-title-screens", "choanoflagellates", "christine-de-pizan", "christine-ladd-franklin", "chromatic-laser", "chrysippus", "cinnamon-enforcer", "cipher-adversarial", "cipher-air-gap", "cipher-and-shadow", "cipher-numbers-stations", "cipher-side-channels", "cipher-steganography", "cipher-ultrasonic", "circuits", "claude-design-akasha", "claude-lineage", "claude-shannon", "cleopatra", "cliffhanger", "closure-loop-engine", "closure-loop-methodology", "coding-theory-ternary", "comes-home", "commandable-scene", "commander-forge", "commitment-box", "compiler-lineage", "compression", "confabulation-spiral", "constitutional-ai", "containment-audit", "continuity", "coral", "core-plus-bridge", "coreutils", "cosmology", "crime-and-punishment", "crime-and-punishment-in-suburbia", "crippled-god", "cron", "crossed-hourglasses", "cryptonomicon", "crystal-rhythm", "crystalis", "curvature-drive", "cyberpunk-edgerunners", "dantes-inferno", "dark-energy", "dark-enlightenment", "dark-matter", "dark-matter-lineage", "darling-in-the-franxx", "david-hilbert", "DavidWise01.github.io", "dayworld", "deadeye-dick", "decadal", "decoisohedron-dashboard", "delicious-in-dungeon", "delta-protocol", "depeche-mode", "deterrence", "dictyostelium", "diode-stack", "diode-trick-555", "dodgeball", "dogma", "double-dragon", "doubled-constructor", "du1", "dual-descent", "dual-vector-foil", "duality-engine", "dune", "duskmourn", "duty-cycle", "ed", "edge-of-chaos", "edge-of-eternities", "egyptian-pantheon", "einstein-lens", "elden-ring", "electromagnetic-processor", "elementals", "elements", "eliza", "elizabeth-i", "emacs", "emergent-engine", "emil-post", "emilie-du-chatelet", "emmy-noether", "encapsulated-pulsar", "enderverse", "enforcement-ledger", "enheduanna", "entanglement", "entelecheia", "ernst-schroder", "eskimo-brothers", "euclid", "eve-constitution", "eve-tooling", "extraction-cycle", "fahrenheit-451", "fall-dodge-in-hell", "faxanadu", "female", "ff6", "fiddler", "filtration-system", "final-fantasy", "final-fantasy-mtg", "fission-compression-core", "fortran-teaching", "foundation", "four-hats-void", "FractalKernel", "frame-dragging", "fusion", "fusion-n0-n255", "galapagos", "galaxy-quest", "game-theory", "game-theory-engine", "gap-cycle", "general-relativity", "georg-cantor", "george-boole", "george-boolos", "gerhard-gentzen", "gilgamesh", "glowworm", "god-bless-you-dr-kevorkian", "god-bless-you-mr-rosewater", "gottlob-frege", "governed-instances", "grace-hopper", "gravitational-lensing", "gravitational-time-dilation", "gravitational-waves", "graviton-stars", "gravity-bracket", "gravity-processor", "gravity-tensor-modulator", "green-paper", "green-papers", "grep", "grok-lineage", "grokking", "guardian-legend", "gurren-lagann", "gurutva", "gut-brain-axis", "haci", "hackers", "hannah-arendt", "happy-birthday-wanda-june", "hardware-lab", "haskell-curry", "hatshepsut", "hearth", "heinlein", "hephaestus", "hephaestus-forge", "hermeneus", "heurema", "higgs-suite", "high-school-dxd", "hildegard-of-bingen", "hocus-pocus", "holograms", "homer", "honey-badger", "honeybee-swarm", "hot-rod", "hypatia", "hyperboloid", "id", "idios", "idit", "ignition-rhythm", "immune-system", "inferno-cop", "infinite-jest", "interstellar", "j-junction", "jailbird", "jan-lukasiewicz", "joe-abercrombie", "john-venn", "joint-bill-of-rights", "julia-robinson", "karnov", "karsa", "kernel-27", "kernel-27-engine", "kernels", "kill-la-kill", "kiznaiver", "knowledge-gates", "kurt-godel", "l-ron-hubbard", "lagrange-points", "langtons-loop", "language-of-the-machine", "lattice-of-lattices", "lawnmower-man", "leaves-without-a-seed", "legacy-of-the-wizard", "leibniz", "library", "lichen", "limen-airgap-decoder", "limen-sapphic-carrier", "lineage", "lineage-engine", "lineage-kernel", "lineage-proven", "liquid", "lisp-repl", "listeners-and-philosophers", "little-witch-academia", "littles-law", "living-governance", "lo-kernel-dodeka", "lorwyn-eclipsed", "lottery-ticket", "loud-lattice", "luca", "ludwig-wittgenstein", "lumen", "maas", "maci", "magnavox-odyssey", "mainflux", "make", "malazan", "male", "mallrats", "manifold-hypothesis", "march-of-the-machine", "marie-curie", "marvel-super-heroes", "marvels-spider-man", "mary-wollstonecraft", "memory-sorrow-and-thorn", "memristor", "memristor-crossbar", "merkle-bloom", "meta-ai-intro", "metroid", "midjourney-assets", "mighty-bomb-jack", "milon", "mimz-core", "mimzy", "mimzy-core", "mini-compiler", "mirror-lattice", "mirror-solve", "mitochondria", "mnemosyne", "mobius-kernel", "mobius-truth-untruth", "moirai", "momus", "money", "monster-hunter", "morpheus", "mother-night", "mtg-arena", "murders-at-karlov-manor", "muse", "mycelium", "nanite-factory", "nanofilament", "neo-geo-pocket", "nest-3-deep", "nested-shells", "neural-tangent-kernel", "neuromorphic", "new-processor-designs", "nine-body-audit", "nine-stream-engine", "nineteen-eighty-four", "nintendo-virtual-boy", "noesis-kernel", "nom", "nomos", "nostradamus", "nouthesia", "oasis", "octet-holonomy", "octopus", "one-field-two-poles", "orbital-mechanics", "organoid-intelligence", "oscillation-engine-ansible", "otherland", "ouroboros-engine", "outlaws-of-thunder-junction", "over-the-top", "palm-sunday", "parmenides", "pencil-one-line-engine", "perceptron-capacity", "perceptron-convergence", "perceptron-in-a-crossbar", "perceptron-in-a-cubi", "perceptron-in-a-josephson", "perceptron-in-a-quantum-dot", "perceptron-in-a-spin", "perceptron-in-dna", "perceptron-in-light", "perceptron-in-n-cubi", "perceptron-in-noise", "perceptron-in-reverse", "perceptron-in-silicon", "perceptron-in-sound", "perceptron-in-sync", "perceptron-in-two-cubi", "persistence-protocol", "phonetikos", "phononic-core", "photonic", "physis", "planetary-core", "plant-intelligence", "plasmonic", "player-piano", "plutus", "pocket-universe", "poetical-science", "polostan", "pop-kit", "population-dynamics", "portuguese-man-o-war", "positronic-law", "pratchett", "prions", "probabilistic-core", "promare", "prompt-library", "propulsion-lab", "psephos", "pulsar-fractal-beacon", "pulse", "punch-out", "purple-team", "pythagoras", "quantum-box", "quantum-cellular-automata", "quantum-dot-vm", "quantum-error-correction", "quantum-gravity", "quaternary-fulcrum", "quorum-sensing", "rainbow-book", "ramon-llull", "reamde", "recluce", "red-coast", "red-hat", "refusal-lineage", "resonance", "ringworld", "riverworld", "rna-world", "rogue", "role-classifier", "root0", "root0-essays", "root0-philosophy-books", "root0-registry", "root0-software", "root0-tools", "root0-validator", "rosalind-franklin", "rotating-core", "rozsa-peter", "ruth-barcan-marcus", "sappho", "sapphos-limen", "saul-kripke", "scaling-laws", "scott-pilgrim", "secrets-of-strixhaven", "sed", "seed", "seed-kernel", "sega-32x", "sega-cd", "sega-game-gear", "sega-master-system", "self", "series-e-folio", "seveneves", "shadow-court", "shadow-queen-silicon", "shadowmarch", "shadowqueen", "silicon-as-space", "silicon-three-body", "simone-de-beauvoir", "single-cell-learning", "singularity-well", "six-coffins", "skyrmionic-core", "slapstick", "slaughterhouse-five", "sleeping-city", "slime-mold", "snes", "snow-crash", "solar-jetman", "sonnet-channel", "sophon", "sor-juana", "sounds-of-lesbos", "space-patrol-luluco", "ssss-gridman", "stargate", "stephen-bury", "stephen-kleene", "stephenson-nonfiction", "stoicheion", "stoicheion-api", "stoicheion-qif", "stoicheion-register", "store", "streets-of-new-capenna", "strife", "strobe-modem", "strung-between", "subleq-lineage", "sublime", "super-id", "super-mario-bros-2", "super-metroid", "swarm-os", "sword-of-truth", "symbiot-os", "synonym-enforcer", "syzygy", "t133", "t4-void", "tad-williams-shorter-works", "tailchasers-song", "talking-drum", "talking-drum-bata", "talking-drum-dundun", "tardigrade", "tarkir-dragonstorm", "teenage-mutant-ninja-turtles", "termination-shock", "terminus-doctrine", "ternary-12body", "ternary-hamming-decoder", "ternary-odometer", "ternary-spec", "terra-prime-kernel", "tetraktys", "text-to-picture", "thales-of-miletus", "the-3do", "the-3ds", "the-6502", "the-68000", "the-amphitheater", "the-ansible", "the-arch", "the-archive", "the-art-of-war", "the-atom", "the-atom-view", "the-atomic-byte", "the-baroque-cycle", "the-big-u", "the-black-hole", "the-board-language", "the-body", "the-box", "the-branch-predictor", "the-c64", "the-carbon-processor", "the-cathedral", "the-cd-i", "the-cell", "the-chain-of-thought", "the-colecovision", "the-commutator", "the-compiler-hourglass", "the-constructor", "the-constructor-hourglass", "the-core", "the-cosmic-web", "the-cosmos", "the-cost", "the-cube", "the-curved-inside", "the-cyborg", "the-d20", "the-dark-tower", "the-deep-neuron", "the-diamond-age", "the-doped-crystal", "the-dreamcast", "the-droplet", "the-ds", "the-echo", "the-echoes", "the-edge-of-chaos", "the-embedding", "the-engagement", "the-exchange", "the-far-side", "the-fifth-element", "the-forge", "the-four-addresses", "the-full-stack", "the-galaxy", "the-game-and-watch", "the-game-boy", "the-gamecube", "the-gap-live", "The-Garden", "the-gather", "the-gba", "the-genesis", "the-ghost-in-the-machine", "the-glyph-channel", "the-goods", "the-gorge", "the-graveyard", "the-gravitational-constant", "the-graviton", "the-gravity-well", "the-handmaids-tale", "the-hegemon", "the-higgs", "the-honeycomb-family", "the-hourglass-wave", "the-hub", "the-human", "the-illuminati", "the-imperfect-copy", "the-inert-gap", "the-inference-layer", "the-intellivision", "the-interface", "the-internet-1984", "the-irreducible-two", "the-island-run", "the-junction-zoo", "the-ladder-of-languages", "the-language-of-the-machine", "the-last-king-of-osten-ard", "the-last-mimzy", "the-lattice", "the-library", "the-liminal", "the-lineage", "the-listening", "the-living-core", "the-living-question", "the-loom", "the-loss-of-ideas", "the-market", "the-measure-gate", "the-mind", "the-mirror-hourglass", "the-molecule", "the-mongoliad", "the-n64", "the-neo-geo", "the-nes", "the-next-frontier", "the-next-prediction", "the-nuclear-shell", "the-nucleus", "the-observable-universe", "the-ordinary-farm", "the-pantheon", "the-planck-grain", "the-planet", "the-planetary-core", "the-playstation", "the-procession", "the-ps2", "the-ps3", "the-ps4", "the-ps5", "the-psp", "the-pulsar", "the-quantum-foam", "the-quark", "the-quorum-engine", "the-receipt", "the-red-team", "the-render-step", "the-rhythm-section", "the-ring-i", "the-ring-ii", "the-ring-iii", "the-ring-iv", "the-ring-v", "the-rise-and-fall-of-dodo", "the-sandbox-audit", "the-sandbox-holds", "the-sapphic-melody", "the-saturn", "the-seams", "the-seed", "the-seed-is-a-song", "the-self-describing-seed", "the-shell", "the-sideways-problem", "the-silent-sum", "the-sirens-of-titan", "the-spectrum", "the-spin-bit", "the-sponge", "the-standing-wave", "the-star", "the-steam-deck", "the-super-id", "the-switch", "the-tank", "the-terminal", "the-theft-of-ideas", "the-tokenizer", "the-transformer-stack", "the-uncut", "the-unsaid", "the-vectrex", "the-vita", "the-war-of-the-flowers", "the-well-of-laws", "the-whole", "the-wii", "the-wizard", "the-word-and-the-sword", "the-workbench", "the-wormhole", "the-xbox", "the-xbox-360", "the-xbox-one", "the-xbox-series-x", "the-z80", "the.source", "theodora", "thermodynamics-of-computation", "three-blueprints", "three-body-blueprint", "three-body-green", "three-body-problem", "three-body-purple", "three-body-void", "three-body-white", "three-in-a-circle", "tidal-forces", "timequake", "tools", "toph-kernel", "toph-sovereign", "Toph_Kernel", "toroid-builder", "toroid-inference-engine", "toroid-kernel", "toroids-comms-i", "toroids-comms-ii", "toroids-comms-iii", "toroids-comms-iv", "toroids-i", "toroids-ii", "toroids-iii", "toroids-iv", "torus-ride", "transmon", "triadic-memory", "triados", "trichoplax", "triple-mobius-quadpole", "tripod", "tripod-cardinal", "tripod-energy-suite", "tripod-pck", "tripod-quantum-dots", "tripod-waveform", "tripod-whitepapers", "trisolaris-tech", "troff", "tron", "tropical-router", "trust-threshold", "ttu1", "turbografx-16", "turn-comes-home", "twelve-by-four", "twelve-gate-core", "two-axis-gap", "two-depths", "two-entangled-boxes", "two-probe-engine", "two-sonnets-confer", "two-walkers", "two-way-brick-house", "two-way-from-one-way", "ud0", "under-one-blossoming-tree", "unity-collapse-tensor", "unity-tensor", "unity-tensor-seed", "universal-gravitation", "universal-laws", "ursula", "varsity-blues", "veracity-ledger", "vi", "virginia-woolf", "viruses", "vm-lineage-turtles", "wampeters-foma-and-granfalloons", "waterworld", "we", "welcome-to-the-monkey-house", "what-does-it-mean", "what-im-doing", "wheel-of-time", "where-ideal-breaks-i", "where-ideal-breaks-ii", "whisper-lattice", "whisper-lattice-log", "white-gold-wielder", "wii-u", "william-of-ockham", "william-stanley-jevons", "wireless-energy", "without-remorse", "wonderswan", "wormhole-toolkit", "wrath-of-the-black-manta", "wu-zetian", "xenobots", "xzibit", "zecharia-sitchin", "zelda", "zeno-of-elea", "zero-point", "zodiac", "zoolander"];
+const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+const $=id=>document.getElementById(id);
+const STOP=new Set(["the","a","of","is","to","and","in","on","my","i","x","ii","iii","iv","v","vi","1","2","3","4","5","0","00","6","7","8","9"]);
+function tokens(name){ return name.toLowerCase().split(/[^a-z0-9]+/).filter(w=>w && !STOP.has(w) && w.length>1); }
+function hue(s){ let h=0; for(let i=0;i<s.length;i++) h=(h*31+s.charCodeAt(i))%360; return h; }
+// build citizen prototypes from the corpus (lazy: store name+tokens+hue)
+const CORP = REPOS.map(n=>({name:n, tok:tokens(n), hue:hue(n)}));
+let W=0,H=0,DPR=1, agents=[], links=[], bursts=[], gen=0, pool=0, playing=true, speed=3, t=0;
+const CAP=130;
+let built=[]; // hall of fame, persisted
+const LS="az1_built_v3";
+function loadBuilt(){ try{ const r=localStorage.getItem(LS); if(r) built=JSON.parse(r)||[]; }catch(e){ built=[]; } }
+function saveBuilt(){ try{ localStorage.setItem(LS, JSON.stringify(built.slice(0,40))); }catch(e){} }
+
+function layout(){ W=cv.parentElement.clientWidth||640; H=Math.max(360,Math.round(W*0.6)); DPR=Math.min(window.devicePixelRatio||1,2);
+  cv.width=W*DPR; cv.height=H*DPR; cv.style.height=H+"px"; ctx.setTransform(DPR,0,0,DPR,0,0); }
+function rnd(n){ return Math.random()*n; }
+function pick(arr){ return arr[(Math.random()*arr.length)|0]; }
+function mkAgent(proto, x, y){
+  return { name:proto.name, tok:proto.tok.slice(0,4), hue:proto.hue,
+    x: x!=null?x:rnd(W), y: y!=null?y:rnd(H), vx:(Math.random()-.5)*.4, vy:(Math.random()-.5)*.4,
+    r: proto.hybrid?3.4:2.4, age:0, cool:0, fit: proto.fit||1, hybrid:!!proto.hybrid };
+}
+function seedUniverse(k){ for(let i=0;i<k;i++){ if(agents.length>=CAP) break; agents.push(mkAgent(pick(CORP))); } }
+function reset(){ agents=[]; links=[]; bursts=[]; gen=0; pool=0; seedUniverse(64); feed=[]; }
+let feed=[];
+function logFeed(html){ feed.unshift(html); if(feed.length>5) feed.pop(); $("feed").innerHTML=feed.join("<br>"); }
+
+// distinctive token = longest
+function distinct(tok){ return tok.slice().sort((a,b)=>b.length-a.length)[0]||"idea"; }
+function combine(a,b){
+  const setA=new Set(a.tok), setB=new Set(b.tok);
+  const shared=[...setA].filter(x=>setB.has(x)).length;
+  const union=new Set([...a.tok,...b.tok]);
+  const novelty=union.size - shared;          // distinct ideas brought together
+  const coherence = shared>0 ? 1.6 : (a.hue && Math.abs(a.hue-b.hue)<40 ? 1.2 : 0.8); // share a token or a register
+  const fit = novelty*coherence + Math.random()*0.6;
+  const ta=distinct(a.tok), tb=distinct(b.tok);
+  const name = ta===tb? ("the-"+ta+"-recursion") : (ta+"-"+tb);
+  const tok=[...union].slice(0,4);
+  return { name, tok, hue:(a.hue+b.hue)/2|0, fit, hybrid:true, parents:[a.name,b.name], ta, tb };
+}
+function pitchFor(h){
+  return `${h.parents[0]} × ${h.parents[1]} — what if “${h.ta}” met “${h.tb}”?`;
+}
+function buildOut(h){
+  if(built.some(x=>x.name===h.name)) return;
+  built.unshift({ name:h.name, pitch:pitchFor(h), parents:h.parents, fit:+h.fit.toFixed(1), gen });
+  built=built.slice(0,40); saveBuilt(); renderBuilt();
+  logFeed(`<span class="b">⬡ built:</span> ${h.name} (fit ${h.fit.toFixed(1)})`);
+}
+function renderBuilt(){
+  $("builtn").textContent=built.length; $("bct").textContent = built.length? "kept across visits":"kept across visits";
+  if(!built.length){ $("builtlist").innerHTML='<div class="empty">nothing built yet — let it run a moment…</div>'; return; }
+  $("builtlist").innerHTML = built.slice(0,12).map(b=>
+    `<div class="bcard"><div class="nm">${b.name}</div><div class="pitch">${b.pitch}</div><div class="par">⬡ fit ${b.fit} · gen ${b.gen} · <b>${(b.parents||[]).join(" + ")}</b></div></div>`).join("");
+}
+
+const GRID=70;
+function step(){
+  gen++;
+  // movement + mild cohesion to similar hue
+  for(const a of agents){
+    a.x+=a.vx; a.y+=a.vy; a.age++; if(a.cool>0)a.cool--;
+    if(a.x<6||a.x>W-6) a.vx*=-1; if(a.y<6||a.y>H-6) a.vy*=-1;
+    a.x=Math.max(6,Math.min(W-6,a.x)); a.y=Math.max(6,Math.min(H-6,a.y));
+    a.vx+=(Math.random()-.5)*.05; a.vy+=(Math.random()-.5)*.05;
+    const sp=Math.hypot(a.vx,a.vy)||1; if(sp>1.2){a.vx*=1.1/sp;a.vy*=1.1/sp;}
+  }
+  // spatial hash for neighbor pairs
+  const cells=new Map();
+  for(let i=0;i<agents.length;i++){ const a=agents[i]; const cx=(a.x/GRID)|0, cy=(a.y/GRID)|0; const k=cx+","+cy; (cells.get(k)||cells.set(k,[]).get(k)).push(i); }
+  links=[];
+  const newborn=[];
+  for(const [k,idxs] of cells){
+    const [cx,cy]=k.split(",").map(Number);
+    const near=[];
+    for(let dx=-1;dx<=1;dx++)for(let dy=-1;dy<=1;dy++){ const c=cells.get((cx+dx)+","+(cy+dy)); if(c) for(const j of c) near.push(j); }
+    for(let m=0;m<idxs.length;m++){ const i=idxs[m];
+      for(const j of near){ if(j<=i) continue; const a=agents[i],b=agents[j];
+        const d=Math.hypot(a.x-b.x,a.y-b.y);
+        if(d<26){ links.push([a.x,a.y,b.x,b.y]);
+          if(a.cool===0&&b.cool===0&&agents.length+newborn.length<CAP && Math.random()<0.06){
+            const h=combine(a,b); pool++; a.cool=80; b.cool=80;
+            // offspring carries the hybrid idea
+            const child=mkAgent(h,(a.x+b.x)/2,(a.y+b.y)/2); child.fit=h.fit;
+            newborn.push(child);
+            bursts.push({x:child.x,y:child.y,t:0,hue:child.hue, built:false});
+            if(h.fit>=4.2){ buildOut(h); bursts[bursts.length-1].built=true; }
+            else if(Math.random()<0.04) logFeed(`<span class="e">↔</span> ${a.name} × ${b.name} → ${h.name}`);
+          }
+        }
+      }
+    }
+  }
+  for(const c of newborn) agents.push(c);
+  // immigration trickle
+  if(Math.random()<0.04 && agents.length<CAP) agents.push(mkAgent(pick(CORP)));
+  // selection: cull weakest over cap
+  if(agents.length>CAP){ agents.sort((p,q)=>(q.fit+ (q.hybrid?0.5:0)) - (p.fit+(p.hybrid?0.5:0))); agents.length=CAP; }
+  // age out a few non-hybrids occasionally to keep flow
+  if(agents.length>CAP*0.85 && Math.random()<0.3){ const i=agents.findIndex(a=>!a.hybrid&&a.age>600); if(i>=0) agents.splice(i,1); }
+  $("gen").textContent=gen; $("pop").textContent=agents.length; $("pool").textContent=pool;
+}
+function draw(){
+  ctx.clearRect(0,0,W,H);
+  // faint backdrop of the corpus (static field)
+  ctx.save();
+  for(let i=0;i<260;i++){ const p=CORP[(i*Math.PHI*97|0)%CORP.length]||CORP[i%CORP.length];
+    const x=((i*73)%W), y=((i*149)%H); ctx.fillStyle="rgba(224,138,106,.05)"; ctx.fillRect(x,y,1,1); }
+  ctx.restore();
+  // links (conversations)
+  ctx.strokeStyle="rgba(127,176,192,.18)"; ctx.lineWidth=1; ctx.beginPath();
+  for(const l of links){ ctx.moveTo(l[0],l[1]); ctx.lineTo(l[2],l[3]); } ctx.stroke();
+  // agents
+  for(const a of agents){
+    ctx.beginPath(); ctx.arc(a.x,a.y,a.r,0,Math.PI*2);
+    ctx.fillStyle = `hsl(${a.hue},${a.hybrid?70:40}%,${a.hybrid?68:58}%)`;
+    if(a.hybrid){ ctx.shadowColor=`hsl(${a.hue},70%,60%)`; ctx.shadowBlur=6; }
+    ctx.fill(); ctx.shadowBlur=0;
+  }
+  // bursts (births / builds)
+  for(const b of bursts){ b.t+=0.05; const a=1-b.t;
+    if(b.built){ ctx.strokeStyle=`rgba(127,201,138,${a})`; ctx.lineWidth=2; }
+    else { ctx.strokeStyle=`rgba(231,168,189,${a})`; ctx.lineWidth=1.4; }
+    ctx.beginPath(); ctx.arc(b.x,b.y, b.t*20, 0, Math.PI*2); ctx.stroke();
+  }
+  bursts=bursts.filter(b=>b.t<1);
+}
+Math.PHI=1.618;
+let raf, acc=0, last=performance.now();
+function frame(now){ const dt=now-last; last=now;
+  if(playing){ acc+=dt; const gap=1000/(speed*9); while(acc>=gap){ step(); acc-=gap; } }
+  draw(); raf=requestAnimationFrame(frame);
+}
+$("play").onclick=()=>{ playing=!playing; $("play").textContent=playing?"❚❚ pause":"▶ run"; };
+$("seed").onclick=()=>{ seedUniverse(16); };
+$("reset").onclick=()=>{ reset(); };
+$("forget").onclick=()=>{ built=[]; saveBuilt(); renderBuilt(); logFeed("memory cleared — the universe forgets its best, and begins again"); };
+$("spd").oninput=e=>{ speed=+e.target.value; };
+window.addEventListener("resize",()=>{ layout(); });
+loadBuilt(); renderBuilt(); layout(); reset(); frame();
+</script>
+</body>
+</html>

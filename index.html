@@ -101,6 +101,11 @@
     <div id="builtlist"><div class="empty">nothing built yet — let it run a moment…</div></div>
   </div>
 
+  <div class="built" id="chronicle" style="margin-top:14px">
+    <div class="bh"><span>◷ the universe's diary — one epoch a day</span><span class="ct" id="chrtot">the daily tick writes here</span></div>
+    <div id="chrlog" style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)"><div class="empty">the daily tick hasn't run yet — check back tomorrow…</div></div>
+  </div>
+
   <section class="sec">
     <div class="tag">what's actually happening</div>
     <h2>Communicate → pool → <span class="c">build out the best</span></h2>
@@ -267,6 +272,20 @@ $("forget").onclick=()=>{ built=[]; saveBuilt(); renderBuilt(); logFeed("memory 
 $("spd").oninput=e=>{ speed=+e.target.value; };
 window.addEventListener("resize",()=>{ layout(); });
 loadBuilt(); renderBuilt(); layout(); reset(); frame();
+</script>
+<script>
+(function(){
+  fetch("./az1-chronicle.json?"+Date.now()).then(function(r){return r.ok?r.json():null;}).then(function(d){
+    if(!d||!d.log||!d.log.length) return;
+    var t=d.totals||{built:0,lost:0};
+    document.getElementById("chrtot").textContent="epoch "+d.epoch+" · "+t.built+" built · "+t.lost+" lost · pop "+d.pop;
+    var COL={build:"#7fc98a",birth:"#e7a8bd",mutate:"#f0c060",prune:"#e08a6a",merge:"#7fb0c0",dormancy:"#7a6a55",catastrophe:"#e0603a"};
+    document.getElementById("chrlog").innerHTML=d.log.map(function(e){
+      var c=COL[e.kind]||"#b9a890";
+      return '<div class="bcard"><div class="nm" style="color:'+c+'">'+e.date+' · '+e.kind+'</div><div class="pitch">'+e.text+'</div><div class="par">epoch '+e.epoch+' · pop '+e.pop+' · built '+e.built+' · lost '+e.lost+'</div></div>';
+    }).join("");
+  }).catch(function(){});
+})();
 </script>
 </body>
 </html>

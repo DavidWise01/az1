@@ -1,21 +1,20 @@
 {
- "updated": "2026-06-27",
- "epoch": 1,
- "totals": {
-  "built": 0,
-  "lost": 0
- },
- "pop": 64,
- "ideas": [],
+ "updated": "2026-06-28",
+ "day": 1,
+ "level": 0,
+ "research": 0.033,
+ "knowledge": 0.03,
+ "era": "the First Tools",
  "log": [
   {
-   "date": "2026-06-27",
-   "epoch": 1,
-   "kind": "dormancy",
-   "text": "the universe rested; nothing crossed today.",
-   "pop": 64,
-   "built": 0,
-   "lost": 0
+   "date": "2026-06-28",
+   "day": 1,
+   "kind": "research",
+   "text": "the shared frontier works toward “the wheel” (3%).",
+   "level": 0,
+   "frontier": "the wheel",
+   "era": "the First Tools",
+   "knowledge": 0.03
   }
  ]
 }

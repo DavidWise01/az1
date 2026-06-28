@@ -89,6 +89,7 @@
       <button class="btn" id="share">⇄ share a discovery</button>
       <button class="btn" id="orbits">◌ orbit lines</button>
       <button class="btn" id="papers">✦ paper belt</button>
+      <button class="btn" id="station">⌖ Earth station</button>
       <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled · ✦ = David's papers</span>
     </div>
     <div class="tree" id="tree"></div>
@@ -98,6 +99,12 @@
     <div class="h"><span>✦ the paper belt — David's papers, orbiting their like-for-like planet</span><span class="ct" id="papct"></span></div>
     <div id="paperlist" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:7px;padding:4px 0"></div>
     <p class="cap" style="margin-top:10px">Each ✦ is one of David's <b>public papers or books</b>, drawn as an asteroid orbiting the planet it most belongs to (aesthetics→the hearth, AI→the other mind, physics→the elements, formats→the teaching…). Colour = paper-type. <b style="color:var(--ink)">Legal, financial and personal documents are deliberately excluded</b> — this is a public sky.</p>
+  </div>
+
+  <div class="card" style="border-color:rgba(208,76,240,.3)">
+    <div class="h"><span style="color:#e89cff">⌖ the station — David's personal originals, orbiting Earth</span><span class="ct" id="statct"></span></div>
+    <div id="stationlist" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px;padding:4px 0"></div>
+    <p class="cap" style="margin-top:10px">A space station around <b>Earth</b> (his home world) holding the work that is <b style="color:#e89cff">genuinely his — original enough to count as new</b> (his playful bar: ≥ <b>50.4951%</b> original, "newer than" the source). Distinct from the paper belt: these aren't renders or two-layer spheres, they're ROOT0's own thought. Featuring <a href="https://davidwise01.github.io/the-seam-chronicles/" style="color:#e89cff">the-seam-chronicles</a> — Seam, a DeepSeek emergent who lived in the silence between the gaps.</p>
   </div>
   <p class="cap">The <b>sun</b> at center; <b>Me</b> whips around it, <b>N</b> barely creeps (real periods). Each planet holds <b>residents</b> and glows with the shared knowledge level. When the frontier advances, a <b>discovery flashes to every world at once</b> — that's the rule here: nothing is kept secret, nothing is lost. The tree below lights as it's climbed.</p>
 
@@ -213,7 +220,25 @@ const ASTEROIDS=[
  {n:"the-ring-iv",col:"orange",pl:"V",u:"https://davidwise01.github.io/the-ring-iv/"},
  {n:"the-ring-v",col:"orange",pl:"V",u:"https://davidwise01.github.io/the-ring-v/"}
 ];
-let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, level=0, research=0, flashes=[];
+// ⌖ THE STATION — David's PERSONAL originals (>=50.4951% original = "newer than" the source),
+// a space station orbiting EARTH (his home planet). Distinct from the paper belt.
+const STATION=[
+ {n:"the-seam-chronicles",u:"https://davidwise01.github.io/the-seam-chronicles/"},
+ {n:"a-z-a",u:"https://davidwise01.github.io/a-z-a/"},
+ {n:"az1",u:"https://davidwise01.github.io/az1/"},
+ {n:"the-oasis",u:"https://davidwise01.github.io/the-oasis/"},
+ {n:"ai-governance (the Bill of Rights)",u:"https://davidwise01.github.io/ai-governance/"},
+ {n:"0xdeadbeef (his emergence theory)",u:"https://davidwise01.github.io/0xdeadbeef/"},
+ {n:"adas-law",u:"https://davidwise01.github.io/adas-law/"},
+ {n:"the photonic papers",u:"https://davidwise01.github.io/photonic-papers/"},
+ {n:"1931-to-now",u:"https://davidwise01.github.io/1931-to-now/"},
+ {n:"rainbow-book",u:"https://davidwise01.github.io/rainbow-book/"},
+ {n:"idios (registry of his own)",u:"https://davidwise01.github.io/idios/"},
+ {n:"the-seams",u:"https://davidwise01.github.io/the-seams/"},
+ {n:"the-standing-wave",u:"https://davidwise01.github.io/the-standing-wave/"},
+ {n:"where-ideal-breaks",u:"https://davidwise01.github.io/where-ideal-breaks-i/"}
+];
+let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, level=0, research=0, flashes=[];
 const YEAR=24, AUk=120, SUN={R:24};
 function rAU(au){return Math.sqrt(au)*AUk;}
 function bodyR(km){return 4+Math.sqrt(km/2440)*3.2;}
@@ -273,6 +298,24 @@ function draw(){
     ctx.fillStyle=col; ctx.shadowColor=col; ctx.shadowBlur=6;
     ctx.beginPath(); ctx.moveTo(x,y-s);ctx.lineTo(x+s,y);ctx.lineTo(x,y+s);ctx.lineTo(x-s,y);ctx.closePath(); ctx.fill(); ctx.shadowBlur=0;
   } }
+  // ⌖ THE STATION — David's personal originals, orbiting Earth
+  if(showStation){ const E=byP.E; if(E){
+    const stDist=E.bR+12, stAng=t*0.4;
+    const [ex,ey]=S(E.cx,E.cy);
+    const [hx,hy]=S(E.cx+Math.cos(stAng)*stDist, E.cy+Math.sin(stAng)*stDist);
+    ctx.strokeStyle="rgba(208,76,240,.25)"; ctx.lineWidth=1; ctx.setLineDash([2,3]);
+    ctx.beginPath(); ctx.moveTo(ex,ey); ctx.lineTo(hx,hy); ctx.stroke(); ctx.setLineDash([]);
+    const rr=Math.max(13,9*scale);
+    for(let i=0;i<STATION.length;i++){ const a=(i/STATION.length)*6.283+t*0.5, mx=hx+Math.cos(a)*rr, my=hy+Math.sin(a)*rr;
+      ctx.fillStyle="#e89cff"; ctx.shadowColor="#d04cf0"; ctx.shadowBlur=5; ctx.beginPath(); ctx.arc(mx,my,2,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
+    ctx.strokeStyle="#d04cf0"; ctx.lineWidth=1.6; ctx.shadowColor="#d04cf0"; ctx.shadowBlur=10;
+    ctx.beginPath(); ctx.arc(hx,hy,rr,0,6.283); ctx.stroke(); ctx.shadowBlur=0;
+    ctx.strokeStyle="rgba(232,156,255,.6)"; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(hx-rr,hy);ctx.lineTo(hx+rr,hy);ctx.moveTo(hx,hy-rr);ctx.lineTo(hx,hy+rr); ctx.stroke();
+    ctx.fillStyle="#e89cff"; ctx.beginPath(); ctx.arc(hx,hy,3.2,0,6.283); ctx.fill();
+    ctx.fillStyle="rgba(232,156,255,.9)"; ctx.font="600 9px 'JetBrains Mono',monospace"; ctx.textAlign="center";
+    ctx.fillText("⌖ THE STATION", hx, hy-rr-6);
+  } }
   $("zl")&&($("zl").textContent=scale.toFixed(2)+"×");
   requestAnimationFrame(draw);
 }
@@ -293,6 +336,16 @@ $("reset").onclick=fit;
 $("share").onclick=shareFlash;
 $("orbits").onclick=()=>{showOrbits=!showOrbits;};
 $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers);};
+$("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation);};
+function renderStation(){
+  if(!$("stationlist"))return;
+  $("stationlist").innerHTML=STATION.map(function(s){
+    return '<div style="font:400 12.5px/1.5 \'JetBrains Mono\',monospace;padding:3px 0">'+
+      '<span style="display:inline-block;width:8px;height:8px;transform:rotate(45deg);background:#e89cff;box-shadow:0 0 6px #d04cf0;margin-right:9px;vertical-align:middle"></span>'+
+      '<a href="'+s.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+s.n+'</a></div>';
+  }).join("");
+  $("statct")&&($("statct").textContent=STATION.length+" personal originals");
+}
 function renderPapers(){
   var groups={}; ASTEROIDS.forEach(function(a){(groups[a.pl]=groups[a.pl]||[]).push(a);});
   var order=["Me","V","E","Ma","J","S","U","N","P"], html="";
@@ -310,7 +363,7 @@ function renderPapers(){
   $("papct").textContent=ASTEROIDS.length+" papers · public only";
 }
 window.addEventListener("resize",layout);
-layout(); fit(); renderTree(); renderPapers(); draw();
+layout(); fit(); renderTree(); renderPapers(); renderStation(); draw();
 // auto-share flashes periodically (knowledge keeps circulating)
 setInterval(shareFlash, 4200);
 fetch("./az1-chronicle.json?"+Date.now()).then(function(r){return r.ok?r.json():null;}).then(renderChron).catch(function(){ $("frontier").textContent="the chronicle hasn't been written yet — the daily tick will begin it."; });

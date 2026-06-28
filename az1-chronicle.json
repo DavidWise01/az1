@@ -1,0 +1,21 @@
+{
+ "updated": "2026-06-27",
+ "epoch": 1,
+ "totals": {
+  "built": 0,
+  "lost": 0
+ },
+ "pop": 64,
+ "ideas": [],
+ "log": [
+  {
+   "date": "2026-06-27",
+   "epoch": 1,
+   "kind": "dormancy",
+   "text": "the universe rested; nothing crossed today.",
+   "pop": 64,
+   "built": 0,
+   "lost": 0
+  }
+ ]
+}

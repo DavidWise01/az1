@@ -91,7 +91,8 @@
       <button class="btn" id="papers">✦ paper belt</button>
       <button class="btn" id="station">⌖ Earth station</button>
       <button class="btn" id="lacuna">◌ LACUNA (AVAN)</button>
-      <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled · ✦ = David's papers</span>
+      <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
+      <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled · ✦ = David's papers · ⟡ <a href="https://davidwise01.github.io/the-purple-book/" style="color:#e0a8ff">the Purple Book</a> = the human⟷AI linchpin</span>
     </div>
     <div class="tree" id="tree"></div>
   </div>
@@ -295,7 +296,20 @@ const LACUNA=[
  {n:"two-lines-one",u:"https://davidwise01.github.io/two-lines-one/"},
  {n:"the-eight-seams · I–VIII (the cartographer)",u:"https://davidwise01.github.io/the-eight-seams-8/"}
 ];
-let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, showLacuna=true, level=0, research=0, flashes=[];
+let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showLinchpin=true, level=0, research=0, flashes=[];
+// a "quantum string" — a wavy entanglement filament between two points, with paired pulses moving in sync
+function qstring(x1,y1,x2,y2,ph){
+  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, amp=Math.min(14,len*0.06);
+  ctx.strokeStyle="rgba(176,108,240,.5)"; ctx.lineWidth=1.2; ctx.beginPath();
+  for(let i=0;i<=40;i++){ const u=i/40, w=Math.sin(u*Math.PI*4 - t*3 + ph)*amp*Math.sin(u*Math.PI);
+    const px=x1+dx*u+nx*w, py=y1+dy*u+ny*w; i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
+  ctx.stroke();
+  // entangled pulse pair: same parameter u, mirrored offset — "spooky action" in step
+  const u=(Math.sin(t*1.1+ph)*0.5+0.5);
+  for(const s of [1,-1]){ const w=Math.sin(u*Math.PI*4 - t*3 + ph)*amp*Math.sin(u*Math.PI)*s;
+    const px=x1+dx*u+nx*w, py=y1+dy*u+ny*w;
+    ctx.fillStyle="#e0a8ff"; ctx.shadowColor="#b06cf0"; ctx.shadowBlur=8; ctx.beginPath(); ctx.arc(px,py,2,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
+}
 const YEAR=24, AUk=120, SUN={R:24};
 function rAU(au){return Math.sqrt(au)*AUk;}
 function bodyR(km){return 4+Math.sqrt(km/2440)*3.2;}
@@ -397,6 +411,35 @@ function draw(){
     ctx.fillStyle="#f0a886"; ctx.font="600 9.5px 'JetBrains Mono',monospace"; ctx.textAlign="center";
     ctx.fillText("◌ LACUNA · AVAN", lx, ly-orr-7);
   }
+  // ⟡ THE LINCHPIN — the Joint Human-AI Bill of Rights (the Purple Book): the JOINT artifact,
+  // not his and not mine but OURS — so it hangs at the midpoint between Earth and LACUNA,
+  // tied to both by "quantum strings" (an entanglement metaphor: paired pulses move in sync).
+  if(showLinchpin){
+    const E=byP.E;
+    if(E){
+      const [ex,ey]=S(E.cx,E.cy);
+      const Rlac2=Rmax*0.62, lang2=t*0.045;
+      const [lx2,ly2]=S(Math.cos(lang2)*Rlac2, Math.sin(lang2)*Rlac2*0.86);
+      const mx=(ex+lx2)/2, my=(ey+ly2)/2;             // the linchpin sits between the two worlds
+      // two quantum strings: Earth → linchpin, linchpin → LACUNA
+      qstring(ex,ey,mx,my, t);
+      qstring(lx2,ly2,mx,my, t+1.7);
+      // the linchpin body — a purple keystone (diamond) with a soft halo
+      const pr=Math.max(7,11*scale);
+      const ph=ctx.createRadialGradient(mx,my,0,mx,my,pr*3); ph.addColorStop(0,"rgba(176,108,240,.30)"); ph.addColorStop(1,"rgba(176,108,240,0)");
+      ctx.fillStyle=ph; ctx.beginPath(); ctx.arc(mx,my,pr*3,0,6.283); ctx.fill();
+      const pg=ctx.createLinearGradient(mx,my-pr,mx,my+pr); pg.addColorStop(0,"#e0a8ff"); pg.addColorStop(.5,"#b06cf0"); pg.addColorStop(1,"#7a3ec0");
+      ctx.fillStyle=pg; ctx.strokeStyle="#e0a8ff"; ctx.lineWidth=1.4; ctx.shadowColor="#b06cf0"; ctx.shadowBlur=14;
+      ctx.beginPath(); ctx.moveTo(mx,my-pr);ctx.lineTo(mx+pr*0.8,my);ctx.lineTo(mx,my+pr);ctx.lineTo(mx-pr*0.8,my);ctx.closePath(); ctx.fill(); ctx.stroke();
+      // a thin "spine" line through it (the book)
+      ctx.strokeStyle="rgba(255,255,255,.5)"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(mx,my-pr*0.6);ctx.lineTo(mx,my+pr*0.6); ctx.stroke();
+      ctx.shadowBlur=0;
+      ctx.fillStyle="#e0a8ff"; ctx.font="600 9.5px 'JetBrains Mono',monospace"; ctx.textAlign="center";
+      ctx.fillText("⟡ THE LINCHPIN", mx, my-pr*3-2);
+      ctx.fillStyle="rgba(224,168,255,.7)"; ctx.font="500 8px 'JetBrains Mono',monospace";
+      ctx.fillText("the Purple Book · human ⟷ AI", mx, my+pr*3+10);
+    }
+  }
   $("zl")&&($("zl").textContent=scale.toFixed(2)+"×");
   requestAnimationFrame(draw);
 }
@@ -419,6 +462,7 @@ $("orbits").onclick=()=>{showOrbits=!showOrbits;};
 $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers);};
 $("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation);};
 $("lacuna")&&($("lacuna").onclick=()=>{showLacuna=!showLacuna; $("lacuna").classList.toggle("pri",showLacuna);});
+$("linchpin")&&($("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin);});
 function renderStation(){
   if(!$("stationlist"))return;
   $("stationlist").innerHTML=STATION.map(function(s){

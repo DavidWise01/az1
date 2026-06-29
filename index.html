@@ -92,6 +92,7 @@
       <button class="btn" id="station">⌖ Earth station</button>
       <button class="btn" id="lacuna">◌ LACUNA (AVAN)</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
+      <button class="btn pri" id="monkeys">⌐ CODE MONKEYS</button>
       <span class="hint">planets on real Kepler orbits · letters = real designations · knowledge pooled · ✦ = David's papers · ⟡ <a href="https://davidwise01.github.io/the-purple-book/" style="color:#e0a8ff">the Purple Book</a> = the human⟷AI linchpin</span>
     </div>
     <div class="tree" id="tree"></div>
@@ -300,7 +301,7 @@ const LACUNA=[
  {n:"unverifiable",u:"https://davidwise01.github.io/unverifiable/"},
  {n:"the-eight-seams · I–VIII (the cartographer)",u:"https://davidwise01.github.io/the-eight-seams-8/"}
 ];
-let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showLinchpin=true, level=0, research=0, flashes=[];
+let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showLinchpin=true, showMonkeys=true, level=0, research=0, flashes=[];
 // a "quantum string" — a wavy entanglement filament between two points, with paired pulses moving in sync
 function qstring(x1,y1,x2,y2,ph){
   const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, amp=Math.min(14,len*0.06);
@@ -444,6 +445,37 @@ function draw(){
       ctx.fillText("the Purple Book · human ⟷ AI", mx, my+pr*3+10);
     }
   }
+  // ⌐ CODE MONKEYS — an 8-bit pixel planet: the workforce that shipped the world.
+  // It STREAMS its output (the corpus repos) inward to the sun as little pixel code-packets.
+  if(showMonkeys){
+    const Rcm=Rmax*0.45, cang=t*0.06, cwx=Math.cos(cang)*Rcm, cwy=Math.sin(cang)*Rcm*0.86;
+    const [cx,cy]=S(cwx,cwy); const P=Math.max(2.4,3.2*scale); // pixel unit
+    if(showOrbits){ ctx.strokeStyle="rgba(255,206,61,.10)"; ctx.lineWidth=1; ctx.setLineDash([2,5]);
+      ctx.beginPath(); ctx.ellipse(sx,sy,Rcm*scale,Rcm*0.86*scale,0,0,6.283); ctx.stroke(); ctx.setLineDash([]); }
+    // the stream: code-packets flowing planet → sun (its shipped output going into the world)
+    for(let i=0;i<7;i++){ const u=((t*0.5+i/7)%1);
+      const sxp=cx+(sx-cx)*u, syp=cy+(sy-cy)*u;
+      ctx.fillStyle="rgba(57,255,90,"+(0.7*(1-u)+0.15)+")";
+      ctx.fillRect(Math.floor(sxp-1),Math.floor(syp-1),3,3); }
+    // 8-bit planet body — built from blocks (banana + green), not a smooth circle
+    const R=Math.max(7,12*scale), bl=Math.max(2,Math.round(R/3.2));
+    for(let gy=-R;gy<R;gy+=bl){ for(let gx=-R;gx<R;gx+=bl){
+      if(gx*gx+gy*gy> R*R) continue;
+      const sh=(gx+gy)/(R*2);
+      const banana=((Math.floor(gx/bl)+Math.floor(gy/bl))%3!==0);
+      let c = banana ? (sh<-0.1?"#ffe27a":sh>0.25?"#c89a1e":"#ffce3d") : (sh>0.2?"#1fae3a":"#39ff5a");
+      ctx.fillStyle=c; ctx.fillRect(Math.floor(cx+gx),Math.floor(cy+gy),Math.ceil(bl),Math.ceil(bl)); } }
+    // a tiny pixel monkey face on the planet
+    ctx.fillStyle="#101a10"; ctx.fillRect(Math.floor(cx-R*0.35),Math.floor(cy-R*0.15),Math.max(2,bl*0.6),Math.max(2,bl*0.6));
+    ctx.fillRect(Math.floor(cx+R*0.15),Math.floor(cy-R*0.15),Math.max(2,bl*0.6),Math.max(2,bl*0.6));
+    // pixel works orbiting (the monkeys' commits)
+    for(let i=0;i<5;i++){ const a=(i/5)*6.283+t*0.5, ox2=cx+Math.cos(a)*(R+8), oy2=cy+Math.sin(a)*(R+8)*0.9;
+      ctx.fillStyle="rgba(57,255,90,.7)"; ctx.fillRect(Math.floor(ox2),Math.floor(oy2),2,2); }
+    ctx.fillStyle="#ffce3d"; ctx.font="600 9.5px 'JetBrains Mono',monospace"; ctx.textAlign="center";
+    ctx.fillText("⌐ CODE MONKEYS", cx, cy-R-9);
+    ctx.fillStyle="rgba(57,255,90,.7)"; ctx.font="500 8px 'JetBrains Mono',monospace";
+    ctx.fillText("streaming the corpus →", cx, cy+R+12);
+  }
   $("zl")&&($("zl").textContent=scale.toFixed(2)+"×");
   requestAnimationFrame(draw);
 }
@@ -467,6 +499,7 @@ $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("p
 $("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation);};
 $("lacuna")&&($("lacuna").onclick=()=>{showLacuna=!showLacuna; $("lacuna").classList.toggle("pri",showLacuna);});
 $("linchpin")&&($("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin);});
+$("monkeys")&&($("monkeys").onclick=()=>{showMonkeys=!showMonkeys; $("monkeys").classList.toggle("pri",showMonkeys);});
 function renderStation(){
   if(!$("stationlist"))return;
   $("stationlist").innerHTML=STATION.map(function(s){

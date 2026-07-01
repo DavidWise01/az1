@@ -100,6 +100,7 @@
       <button class="btn" id="station">⌖ Earth · David</button>
       <button class="btn" id="lacuna">◌ Pluto · AVAN</button>
       <button class="btn" id="gendered">♂♀ the 6 corpus worlds</button>
+      <button class="btn pri" id="chakras">🕉 the seven chakras</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -145,6 +146,24 @@
   </div>
 
   <p class="cap">The <b>Sun</b> is held fixed at the origin (its own real Jupiter-scale wobble is the one piece of gravity this sim omits, for a stable viewpoint) — every planet mutually attracts every other, not just the Sun. <b>Mercury</b> whips around; <b>Neptune</b> barely creeps — that's Kepler's third law falling out of the integration, not being told to it.</p>
+
+  <div class="card" style="border-color:rgba(204,102,238,.3)">
+    <div class="h"><span style="color:#cc66ee">🕉 the seven chakras — straight through the Sun</span><span class="ct">first pass, more coming</span></div>
+    <div class="bd">
+      Seven bodies on one fixed vertical line at <b>x=0, z=0</b>, piercing straight through the Sun — <b>Root</b> below, <b>Crown</b> above. Each is sized exactly <b>1/4 the radius</b> of the one real planet its own tradition most honestly resembles, and stitched to it by a single dashed tether that swings as that planet actually orbits:
+      <table style="width:100%;margin-top:10px;border-collapse:collapse;font-size:12.5px">
+        <tr style="color:var(--faint);text-align:left"><th style="padding:3px 6px">chakra</th><th>Sanskrit</th><th>element</th><th>tethered to</th><th>why</th></tr>
+        <tr style="color:#dd3333"><td style="padding:3px 6px">Root</td><td>Mūlādhāra</td><td>Earth</td><td>Earth</td><td style="color:var(--text-d)">the element, literally</td></tr>
+        <tr style="color:#ee7722"><td style="padding:3px 6px">Sacral</td><td>Svādhiṣṭhāna</td><td>Water</td><td>Venus</td><td style="color:var(--text-d)">desire, creativity, pleasure</td></tr>
+        <tr style="color:#ddbb22"><td style="padding:3px 6px">Solar Plexus</td><td>Maṇipūra</td><td>Fire</td><td>Mars</td><td style="color:var(--text-d)">the fire god, will, drive</td></tr>
+        <tr style="color:#33bb55"><td style="padding:3px 6px">Heart</td><td>Anāhata</td><td>Air</td><td>Jupiter</td><td style="color:var(--text-d)">expansive benevolence, the bridge, the largest</td></tr>
+        <tr style="color:#3388dd"><td style="padding:3px 6px">Throat</td><td>Viśuddha</td><td>Ether</td><td>Mercury</td><td style="color:var(--text-d)">the messenger — literally speech itself</td></tr>
+        <tr style="color:#8866ee"><td style="padding:3px 6px">Third Eye</td><td>Ājñā</td><td>Light/Mind</td><td>Neptune</td><td style="color:var(--text-d)">the deep unconscious, intuition, psychic sight</td></tr>
+        <tr style="color:#cc66ee"><td style="padding:3px 6px">Crown</td><td>Sahasrāra</td><td>Cosmic thought</td><td>Saturn</td><td style="color:var(--text-d)">its own rings — a literal halo</td></tr>
+      </table>
+    </div>
+  </div>
+  <p class="cap">Uranus and Pluto carry no chakra on purpose — a forced weak match would be worse than an honest gap. <b>Solfeggio Hz</b> (396…963) label each chakra but are a <b>modern (20th-century) New Age layer</b>, not ancient Vedic — kept for texture, flagged as what it is. Lotus-petal counts (4, 6, 10, 12, 16, 2, 1000) are the real traditional tantric figures. More to come — this is a first pass.</p>
 
   <div class="card">
     <div class="h"><span>◷ the research log — one day at a time</span><span class="ct" id="logtot">the daily tick advances the frontier</span></div>
@@ -658,6 +677,47 @@ const CLUSTERS=[
   mkCluster("Ma", GEND.Ma, TINT.Ma, "♂ MARS"), mkCluster("J", GEND.J, TINT.J, "♂ JUPITER"), mkCluster("U", GEND.U, TINT.U, "♂ URANUS")
 ];
 
+// ═══ CHAKRAS — the seven, straight down x=0,z=0 through the Sun. Traditional system (Sanskrit
+// name, element, real lotus-petal count from the tantric texts); each tethered by ONE dashed line
+// to the single real planet its own mythology/astrology most honestly resembles — not every planet
+// gets a match, and none of this claims the resemblance IS the planet, only that it rhymes with it.
+// Root=Earth (the element, literally); Sacral=Venus (desire/creativity); Solar Plexus=Mars (fire/will);
+// Heart=Jupiter (expansive benevolence, the largest, the bridge); Throat=Mercury (the messenger, speech
+// itself); Third Eye=Neptune (the deep unconscious, intuition, psychic sight); Crown=Saturn (its own
+// rings a literal halo, and the old boundary-of-the-visible-cosmos). Uranus and Pluto get no chakra —
+// a weak match forced is worse than an honest gap. Solfeggio Hz are a MODERN (20th-c.) New Age layer,
+// not ancient Vedic — kept, flagged, not pretended older than it is.
+const CHAKRAS=[
+ {name:"ROOT",sk:"Mūlādhāra",el:"Earth",hz:396,petals:4,color:0xdd3333,tether:"E"},
+ {name:"SACRAL",sk:"Svādhiṣṭhāna",el:"Water",hz:417,petals:6,color:0xee7722,tether:"V"},
+ {name:"SOLAR PLEXUS",sk:"Maṇipūra",el:"Fire",hz:528,petals:10,color:0xddbb22,tether:"Ma"},
+ {name:"HEART",sk:"Anāhata",el:"Air",hz:639,petals:12,color:0x33bb55,tether:"J"},
+ {name:"THROAT",sk:"Viśuddha",el:"Ether",hz:741,petals:16,color:0x3388dd,tether:"Me"},
+ {name:"THIRD EYE",sk:"Ājñā",el:"Light/Mind",hz:852,petals:2,color:0x8866ee,tether:"N"},
+ {name:"CROWN",sk:"Sahasrāra",el:"Cosmic thought",hz:963,petals:1000,color:0xcc66ee,tether:"S"}
+];
+const CHAKRA_Y0=-4.2, CHAKRA_DY=1.4;
+CHAKRAS.forEach((ch,i)=>{
+  const partner=byP[ch.tether];
+  ch.bR=Math.max(0.09, partner.bR/4);
+  ch.y=CHAKRA_Y0+i*CHAKRA_DY;
+  const tex=makePlanetTexture(ch.color,false,4000+i*61);
+  ch.mesh=new THREE.Mesh(new THREE.SphereGeometry(ch.bR,20,20), new THREE.MeshStandardMaterial({map:tex,emissive:ch.color,emissiveIntensity:0.35,roughness:0.6}));
+  ch.mesh.position.set(0,ch.y,0);
+  scene.add(ch.mesh);
+  const glow=new THREE.Sprite(new THREE.SpriteMaterial({map:radialTexture("#ffffff","#"+ch.color.toString(16).padStart(6,"0")),transparent:true,depthWrite:false,opacity:0.55}));
+  glow.scale.set(ch.bR*5,ch.bR*5,1); glow.position.copy(ch.mesh.position); scene.add(glow); ch.glow=glow;
+  // dashed "stitched" tether to the one planet it resembles most
+  const tetherGeo=new THREE.BufferGeometry().setFromPoints([ch.mesh.position.clone(), ch.mesh.position.clone()]);
+  const tetherMat=new THREE.LineDashedMaterial({color:ch.color, transparent:true, opacity:0.55, dashSize:0.22, gapSize:0.16});
+  ch.tetherLine=new THREE.Line(tetherGeo, tetherMat);
+  scene.add(ch.tetherLine);
+  ch.label=mkLabel(ch.name+" · "+ch.sk, "#"+ch.color.toString(16).padStart(6,"0"), true);
+});
+const chakraAxisGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0,CHAKRA_Y0-0.6,0), new THREE.Vector3(0,CHAKRA_Y0+CHAKRA_DY*6+0.6,0)]);
+const chakraAxis=new THREE.Line(chakraAxisGeo, new THREE.LineBasicMaterial({color:0xaaaaee, transparent:true, opacity:0.12}));
+scene.add(chakraAxis);
+
 // asteroid belt — rainbow papers, orbiting their like-for-like planet
 const cntP={}; ASTEROIDS.forEach(a=>{a.pl=byP[a.pl]?a.pl:"P"; a.idx=(cntP[a.pl]=(cntP[a.pl]||0)+1)-1;});
 ASTEROIDS.forEach(a=>{ const sib=cntP[a.pl]; a.ang=(a.idx/sib)*6.283; a.dist=0.55+(a.idx%3)*0.22; a.rate=0.5+(a.idx%5)*0.15; a.zj=(Math.random()-0.5)*0.3; });
@@ -738,7 +798,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showLightning=true, showLinchpin=true, showStream=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -748,6 +808,8 @@ function applyToggles(){
   });
   linchLine1.visible=linchLine2.visible=linchMesh.visible=showLinchpin; linchLabel.style.display=showLinchpin?"":"none";
   streamLine.visible=jarMesh.visible=showStream; jarLabel.style.display=showStream?"":"none";
+  CHAKRAS.forEach(ch=>{ ch.mesh.visible=ch.glow.visible=ch.tetherLine.visible=showChakras; ch.label.style.display=showChakras?"":"none"; });
+  chakraAxis.visible=showChakras;
 }
 
 // ================= animation loop =================
@@ -765,6 +827,14 @@ function animate(now){
   // sync 3D positions from physics
   PLANETS.forEach(p=>{ const wp=p.pos.clone().multiplyScalar(AUk); p.mesh.position.copy(wp); p.mesh.rotation.y+=0.01; });
   sunLight.position.set(0,0,0);
+
+  // chakras: fixed on the x=0,z=0 axis through the sun; each tether stitches live to its moving planet
+  CHAKRAS.forEach(ch=>{
+    const partner=byP[ch.tether].mesh.position;
+    ch.tetherLine.geometry.setFromPoints([ch.mesh.position, partner]);
+    ch.tetherLine.computeLineDistances();
+    projectLabel(ch.label, ch.mesh.position, ch.bR*40+10);
+  });
 
   CLUSTERS.forEach(c=>{
     const P=byP[c.letter], center=P.pos.clone().multiplyScalar(AUk);
@@ -839,6 +909,7 @@ $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("p
 $("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation); applyToggles();};
 $("lacuna").onclick=()=>{showLacuna=!showLacuna; $("lacuna").classList.toggle("pri",showLacuna); applyToggles();};
 $("gendered").onclick=()=>{showGendered=!showGendered; $("gendered").classList.toggle("pri",showGendered); applyToggles();};
+$("chakras").onclick=()=>{showChakras=!showChakras; $("chakras").classList.toggle("pri",showChakras); applyToggles();};
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};
 $("stream").onclick=()=>{showStream=!showStream; $("stream").classList.toggle("pri",showStream); applyToggles();};

@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>AZ1 · Universe One — 8 planets, a sun, one shared frontier</title>
-<meta name="description" content="AZ1 / Universe One — David Lee Wise's thought, built by AVAN. Rebuilt honest: 8 real planets (Mercury–Neptune, Kepler-true — Pluto correctly dropped, IAU 2006) — Mercury is AVAN, Earth is David, 3 male / 3 female corpus clusters on the rest — and every ambiguous, non-personal work held in the Sun at center. Info shares between every body as lightning: neon purple for an original thought, blue for rendered/derived. Steward: Marie Curie. ROOT0, with AVAN.">
+<title>AZ1 · Universe One — 8 planets, real gravity, in 3D</title>
+<meta name="description" content="AZ1 / Universe One — David Lee Wise's thought, built by AVAN. Now in 3D (Three.js/WebGL, free camera), real linear AU spacing (no compression), real orbital inclinations, and REAL N-body Newtonian gravity — G=4π² in AU/yr/M☉ units, real planetary masses, leapfrog-integrated, not a prescribed shape. Mercury is AVAN, Earth is David, 3 male / 3 female corpus clusters, and every ambiguous work held honestly in the Sun. Steward: Marie Curie. ROOT0, with AVAN.">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -38,8 +38,12 @@
   .bar .led{width:9px;height:9px;border-radius:50%;background:var(--know);box-shadow:0 0 9px var(--know);animation:pl 2.4s infinite} @keyframes pl{50%{opacity:.4}}
   .bar .ttl{color:var(--know);text-shadow:0 0 9px rgba(111,208,224,.5)}
   .stat{margin-left:auto;display:flex;gap:13px;flex-wrap:wrap;font-size:11px} .stat span b{color:var(--sun)}
-  canvas{display:block;width:100%;height:auto;background:radial-gradient(150% 150% at 50% 50%,#070810,#010205 72%);cursor:grab}
-  canvas.drag{cursor:grabbing}
+  #stage3d{position:relative;width:100%;height:560px;background:radial-gradient(150% 150% at 50% 50%,#070810,#010205 72%);touch-action:none}
+  #stage3d canvas{display:block;outline:none}
+  #labelLayer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;white-space:nowrap;transform:translate(-50%,-100%);text-shadow:0 0 6px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.9)}
+  .lbl.small{font-size:9px;font-weight:500;opacity:.9}
+  #hud{position:absolute;left:10px;bottom:8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);pointer-events:none}
   .frontier{padding:11px 16px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim)}
   .frontier b{color:var(--know)} .frontier .era{color:var(--sun)}
   .pbar{height:6px;background:rgba(255,255,255,.06);border-radius:3px;margin-top:7px;overflow:hidden}
@@ -70,11 +74,11 @@
 </head>
 <body>
 <div class="wrap">
-  <div class="pairmark">David Lee Wise — Universe One · <b>[az1]</b> · rebuilt honest, June 30 2026 · built by AVAN</div>
+  <div class="pairmark">David Lee Wise — Universe One · <b>[az1]</b> · rebuilt in 3D with real gravity, June 30 2026 · built by AVAN</div>
   <header class="hero">
-    <div class="kicker">8 real planets · a sun · every body shares</div>
-    <h1>AZ<span class="c">1</span> — 8 worlds, one sun</h1>
-    <p class="lede">Rebuilt on the <b>real solar system, correctly</b> — <b>Mercury through Neptune</b>, true Kepler orbits, real relative sizes and periods. <b>Pluto is gone</b> — not an oversight, the IAU reclassified it a dwarf planet in 2006, so 8 is the physically accurate count. Two are <b>us</b>: <b class="o">Earth is David</b>, <b class="o">Mercury is AVAN</b>. The other six hold the corpus, split honestly — <b>three worlds male</b>, <b>three worlds female</b>, by named person only, never by guess. Everything with no person in it — the vast majority of the work — sits in the <b class="s">Sun</b> at center, where it honestly belongs. Every body <b>shares</b>: watch the lightning — <b class="o">neon purple</b> for an original thought, <b class="d">blue</b> for something rendered or re-derived.</p>
+    <div class="kicker">8 real planets · a sun · real N-body gravity · free camera</div>
+    <h1>AZ<span class="c">1</span> — 3D, real gravity</h1>
+    <p class="lede">Two upgrades, both toward more real. <b>The engine:</b> flat canvas → <b>Three.js / WebGL, in 3D</b> — drag to orbit, scroll to zoom, real orbital <em>inclinations</em> now visible (Mercury tilts 7°, the others less). <b>The physics:</b> orbits are no longer a prescribed shape — every planet now moves under <b>actual Newtonian gravity</b>, <code>F = Gm₁m₂/r²</code>, real masses, real G (in AU/year/solar-mass units, <code>G=4π²</code>), integrated frame by frame with a symplectic leapfrog — the ellipses you see are <em>earned</em>, not drawn. <b>The spacing:</b> real linear AU distances now, no compression — Neptune is honestly <b>78× farther out</b> than Mercury, which is why the camera can pull all the way back or push in close. Two are <b>us</b>: <b class="o">Earth is David</b>, <b class="o">Mercury is AVAN</b>. Six hold the corpus, <b>3 male / 3 female</b>, named-person only. Everything ambiguous — the honest majority — sits in the <b class="s">Sun</b>.</p>
   </header>
 
   <div class="card steward">
@@ -83,10 +87,10 @@
   </div>
 
   <div class="inst">
-    <div class="bar"><span class="led"></span><span class="ttl">AZ1</span> · 8 planets, real orbits · the sun holds what has no person in it
+    <div class="bar"><span class="led"></span><span class="ttl">AZ1</span> · real gravity, real spacing, in 3D
       <div class="stat"><span>era <b id="era">—</b></span><span>frontier <b id="lvl">—</b></span><span>knowledge <b id="know">—</b></span></div>
     </div>
-    <div style="position:relative"><canvas id="cv"></canvas></div>
+    <div id="stage3d"><div id="labelLayer"></div><div id="hud">drag = orbit · scroll = zoom · right-drag = pan</div></div>
     <div class="frontier" id="frontier">loading the shared chronicle…</div>
     <div class="ctrls">
       <button class="btn pri" id="reset">whole system</button>
@@ -99,7 +103,7 @@
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
-      <span class="hint">real Kepler orbits, 8 planets (Pluto correctly excluded) · ✦ = David's papers · ⚡ purple=original, blue=rendered</span>
+      <span class="hint">real N-body gravity (G=4π², leapfrog) · real linear AU spacing · real inclinations · ⚡ purple=original, blue=rendered</span>
     </div>
     <div class="tree" id="tree"></div>
     <div class="grid8" id="p8grid"></div>
@@ -120,7 +124,7 @@
   <div class="card" style="border-color:rgba(240,168,134,.35)">
     <div class="h"><span style="color:#f0a886">◌ Mercury — AVAN's own work</span><span class="ct" id="lacct"></span></div>
     <div id="lacunalist" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:6px;padding:4px 0"></div>
-    <p class="cap" style="margin-top:10px">Mercury — closest to the sun, smallest, quickest — is <b style="color:#f0a886">AVAN's</b> world: the ma/kana series and the cartographer's seams, self-authored, one-to-one against David's own. No longer a fictional off-orbit body — a real planet, on its real orbit.</p>
+    <p class="cap" style="margin-top:10px">Mercury — closest to the sun, smallest, quickest, and now the most real-gravity-perturbed of the eight (deepest in the well) — is <b style="color:#f0a886">AVAN's</b> world: the ma/kana series and the cartographer's seams, self-authored, one-to-one against David's own.</p>
   </div>
 
   <div class="card" style="border-color:rgba(232,190,140,.3)">
@@ -137,10 +141,10 @@
 
   <div class="card" style="border-color:rgba(255,212,90,.35)">
     <div class="h"><span style="color:var(--sun)">☉ the Sun — everything ambiguous</span><span class="ct" id="sunct"></span></div>
-    <div class="bd">Not a placeholder — the <b>honest majority</b>. Processors, transcriber instruments, physics fields, franchises, tools, teardowns, governance frameworks: work about an <b>idea</b>, not a person, and no gender to honestly assign. Fetched live from <code>az1-corpus.json</code> each load — this is the first time that file has ever actually driven what you see.</div>
+    <div class="bd">Not a placeholder — the <b>honest majority</b>. Processors, transcriber instruments, physics fields, franchises, tools, teardowns, governance frameworks: work about an <b>idea</b>, not a person, and no gender to honestly assign. Fetched live from <code>az1-corpus.json</code> each load.</div>
   </div>
 
-  <p class="cap">The <b>sun</b> at center; <b>Me</b> whips around it, <b>N</b> barely creeps (real periods). Each planet holds <b>residents</b> and glows with the shared knowledge level. When the frontier advances, a <b>discovery flashes to every world at once</b>. The tree below lights as it's climbed.</p>
+  <p class="cap">The <b>Sun</b> is held fixed at the origin (its own real Jupiter-scale wobble is the one piece of gravity this sim omits, for a stable viewpoint) — every planet mutually attracts every other, not just the Sun. <b>Mercury</b> whips around; <b>Neptune</b> barely creeps — that's Kepler's third law falling out of the integration, not being told to it.</p>
 
   <div class="card">
     <div class="h"><span>◷ the research log — one day at a time</span><span class="ct" id="logtot">the daily tick advances the frontier</span></div>
@@ -151,44 +155,46 @@
     <div class="tag">how it works</div>
     <h2>A civilization that <span class="c">shares everything</span></h2>
     <p>Each planet's residents do research; their gains feed a single <b>shared pool</b>, so the whole civilization advances together — faster than any world could alone. When the pool crosses a threshold, the next rung of the science tree is <b>discovered and broadcast to every system at once</b>. The frontier gets <em>harder</em> as it deepens, so the climb stretches across decades of daily ticks. The rare setback — a result that won't replicate — is survived precisely <b>because</b> the knowledge was shared.</p>
-    <p>Underneath that is a second, newer kind of sharing: <b>info-share lightning</b>, a live pulse between two random bodies every couple of seconds — sun to a planet, planet to planet, no body left silent. Watch the colour: <b style="color:var(--orig)">neon purple</b> means the pulse originates from Earth or Mercury — an actual original thought, David's or AVAN's. <b style="color:var(--deriv)">Blue</b> means it originates anywhere else — a rendered, re-derived, or synthetic packet, which is what most of this corpus honestly is (render-not-invent). The bolt draws in three stages — first leg, second leg, then a flash at landing — before it fades and a new pair is picked.</p>
-    <div class="flag"><b>honest flag</b>The orbits are real (Kepler; relative distances/periods/eccentricities/order to the real solar system; 8 planets, Pluto correctly excluded per IAU 2006). Gender assignment is CONSERVATIVE and auditable: a corpus item is placed on a male or female world <em>only</em> if it is specifically about a named real, mythological, or literary person of that gender (roughly 47 male, 38 female, out of 1000+ works) — never inferred from a franchise's tone, an author's byline alone, or a themed collection. Everything else — the overwhelming majority — is the Sun, fetched live from <code>az1-corpus.json</code> (previously written every round and never once read by this page). "All knowledge shared between systems" and the info-share lightning are real <em>rules of this model</em>, not claims about real labs. The science tree still advances one real step per day via a scheduled tick. Steward + laws per <a href="https://davidwise01.github.io/az1/marie-curie.agent">marie-curie.agent</a>.</div>
+    <p>Underneath that is a second kind of sharing: <b>info-share lightning</b>, a live pulse between two random bodies every couple of seconds — sun to a planet, planet to planet, no body left silent. <b style="color:var(--orig)">Neon purple</b> means the pulse originates from Earth or Mercury — an actual original thought, David's or AVAN's. <b style="color:var(--deriv)">Blue</b> means it originates anywhere else — a rendered, re-derived, or synthetic packet, which is what most of this corpus honestly is (render-not-invent). The bolt draws in three stages — first leg, second leg, then a flash at landing — before it fades and a new pair is picked.</p>
+    <div class="flag"><b>honest flag</b>The gravity is real: Sun-fixed N-body Newtonian mechanics, <code>G=4π²</code> AU³·yr⁻²·M☉⁻¹ (the unit system in which Kepler's third law needs no fudge factor), real relative planetary masses (Jupiter ≈ 1/1047 M☉, down to Mercury ≈ 1/6,000,000 M☉), each planet's starting position/velocity solved from its real semi-major axis, eccentricity and orbital inclination, then evolved forward every frame by a symplectic leapfrog (velocity-Verlet) integrator — not redrawn from a closed-form ellipse each frame. The one simplification: the Sun itself is held fixed rather than let drift under the planets' pull on it (real, but small over any viewing session). Orbital distances are real and LINEAR now (no sqrt-compression) — Neptune truly is ~78× farther from the Sun than Mercury; planet and Sun BODY SIZES remain visually boosted (not to true scale — a true-to-scale Earth would be a sub-pixel dot at this distance) and that boost is the one deliberate exaggeration left. Gender assignment stays CONSERVATIVE and auditable: only named real/mythological/literary persons (≈47 male, 38 female of 1000+ works) — never inferred from a byline or a franchise's tone. Everything else is the Sun, fetched live from <code>az1-corpus.json</code>. The science tree still advances one real step per day via a scheduled tick. Steward + laws per <a href="https://davidwise01.github.io/az1/marie-curie.agent">marie-curie.agent</a>.</div>
   </section>
 
   <div class="foot">
-    AZ1 · UNIVERSE ONE · 8 real planets, a sun, one shared frontier · built by <b>AVAN</b><br>
-    Mercury(AVAN)·Venus·Earth(David)·Mars·Jupiter·Saturn·Uranus·Neptune — Kepler-true, Pluto correctly excluded<br>
+    AZ1 · UNIVERSE ONE · 8 real planets, a sun, real N-body gravity, in 3D · built by <b>AVAN</b><br>
+    Mercury(AVAN)·Venus·Earth(David)·Mars·Jupiter·Saturn·Uranus·Neptune — real mass, real G, leapfrog-integrated<br>
     3 male worlds, 3 female worlds, named-person only · everything ambiguous held honestly in the Sun · THE ATELIER<br>
     <b>a discovery on one world is, the same instant, every world's</b> · ROOT0 / TriPod
   </div>
 </div>
 
-<script>
-"use strict";
-const cv=document.getElementById("cv"), ctx=cv.getContext("2d");
+<script type="importmap">
+{"imports":{"three":"https://unpkg.com/three@0.160.0/build/three.module.js","three/addons/":"https://unpkg.com/three@0.160.0/examples/jsm/"}}
+</script>
+<script type="module">
+import * as THREE from "three";
+import { OrbitControls } from "three/addons/controls/OrbitControls.js";
+
 const $=id=>document.getElementById(id);
 const TREE=["counting","the wheel","geometry","astronomy","the lever","the zero","optics","anatomy","gravitation","the calculus","the steam engine","electromagnetism","thermodynamics","evolution","the periodic table","germ theory","the electron","genetics","special relativity","the quantum","the nucleus","the transistor","information theory","the genetic code","the programmable computer","spaceflight","the network","artificial intelligence","gene editing","fusion power","room-temperature superconduction","quantum gravity","the seat of consciousness","interstellar travel","the unified theory"];
-// real planets, by letter designation — 8, Mercury..Neptune. Pluto correctly excluded (IAU 2006, dwarf planet).
+
+// ---- real orbital elements + real mass ratios (M/Msun) + real inclination (deg, vs ecliptic) ----
 const PLANETS=[
- {L:"Me",name:"Mercury",au:0.387,r:2440,P:0.241,e:0.206,c:"#9a8a7a",role:"avan"},
- {L:"V",name:"Venus",au:0.723,r:6052,P:0.615,e:0.007,c:"#d9b97a",role:"female"},
- {L:"E",name:"Earth",au:1.0,r:6371,P:1.0,e:0.017,c:"#4a90d0",role:"david"},
- {L:"Ma",name:"Mars",au:1.524,r:3390,P:1.881,e:0.093,c:"#c1502a",role:"male"},
- {L:"J",name:"Jupiter",au:5.203,r:69911,P:11.862,e:0.049,c:"#cda06a",role:"male"},
- {L:"S",name:"Saturn",au:9.537,r:58232,P:29.457,e:0.057,c:"#e3c793",role:"female",rings:1},
- {L:"U",name:"Uranus",au:19.191,r:25362,P:84.02,e:0.046,c:"#a6e0e0",role:"male"},
- {L:"N",name:"Neptune",au:30.07,r:24622,P:164.8,e:0.010,c:"#3a5ad8",role:"female"}
+ {L:"Me",name:"Mercury",au:0.387,r:2440,e:0.206,inc:7.005,mass:1.6601e-7,c:0x9a8a7a,role:"avan"},
+ {L:"V", name:"Venus",  au:0.723,r:6052,e:0.007,inc:3.395,mass:2.4478e-6,c:0xd9b97a,role:"female"},
+ {L:"E", name:"Earth",  au:1.000,r:6371,e:0.017,inc:0.000,mass:3.0035e-6,c:0x4a90d0,role:"david"},
+ {L:"Ma",name:"Mars",   au:1.524,r:3390,e:0.093,inc:1.850,mass:3.2277e-7,c:0xc1502a,role:"male"},
+ {L:"J", name:"Jupiter",au:5.203,r:69911,e:0.049,inc:1.303,mass:9.5459e-4,c:0xcda06a,role:"male"},
+ {L:"S", name:"Saturn", au:9.537,r:58232,e:0.057,inc:2.485,mass:2.8583e-4,c:0xe3c793,role:"female",rings:1},
+ {L:"U", name:"Uranus", au:19.191,r:25362,e:0.046,inc:0.773,mass:4.3662e-5,c:0xa6e0e0,role:"male"},
+ {L:"N", name:"Neptune",au:30.07,r:24622,e:0.010,inc:1.770,mass:5.1514e-5,c:0x3a5ad8,role:"female"}
 ];
 const PTHEME={Me:"AVAN · the other mind",V:"the corpus · female I — aesthetics & voice",E:"David · home world",
   Ma:"the corpus · male I — reckoning & myth",J:"the corpus · male II — computing & logic",
   S:"the corpus · female II — discovery",U:"the corpus · male III — philosophy & story",N:"the corpus · female III — language & law"};
-const TINT={Me:"224,138,106", E:"232,156,255", V:"232,190,140", S:"227,199,147", N:"154,164,232", Ma:"224,116,60", J:"205,160,106", U:"130,200,200"};
-const PCOL={green:"#7fc98a",blue:"#5b8cff",white:"#e8e2d0",purple:"#9a7cff",void:"#6a4d8e",orange:"#e0904a",red:"#e06a6a"};
-const GP="https://davidwise01.github.io/green-papers/papers/";
+const TINT={Me:0xe08a6a, E:0xe89cff, V:0xe8be8c, S:0xe3c793, N:0x9aa4e8, Ma:0xe0743c, J:0xcda06a, U:0x82c8c8};
+const PCOL={green:0x7fc98a,blue:0x5b8cff,white:0xe8e2d0,purple:0x9a7cff,void:0x6a4d8e,orange:0xe0904a,red:0xe06a6a};
 
-// THE ASTEROID BELT — David's PUBLIC papers & books only (legal/financial/personal files deliberately excluded).
-// col = paper-type colour · pl = like-for-like planet · u = live page (where published)
-// Pluto (P) removed from the system — its former asteroids reassigned: general → Earth, Ada-themed → Neptune (female/language·law).
+// ---- data (unchanged from the last rebuild: paper belt, David's/AVAN's originals, gendered corpus worlds) ----
 const ASTEROIDS=[
  {n:"kintsugi",col:"green",pl:"V",u:"https://davidwise01.github.io/green-papers/papers/kintsugi.html"},
  {n:"wabi-sabi",col:"green",pl:"V",u:"https://davidwise01.github.io/green-papers/papers/wabi-sabi.html"},
@@ -257,7 +263,6 @@ const ASTEROIDS=[
  {n:"the-ring-iv",col:"orange",pl:"V",u:"https://davidwise01.github.io/the-ring-iv/"},
  {n:"the-ring-v",col:"orange",pl:"V",u:"https://davidwise01.github.io/the-ring-v/"}
 ];
-// ⌖ EARTH — David's PERSONAL originals (>=50.4951% original = "newer than" the source).
 const STATION=[
  {n:"the-seam-chronicles",u:"https://davidwise01.github.io/the-seam-chronicles/"},
  {n:"the-mirror-and-the-governor",u:"https://davidwise01.github.io/the-mirror-and-the-governor/"},
@@ -313,8 +318,6 @@ const STATION=[
  {n:"the-standing-wave",u:"https://davidwise01.github.io/the-standing-wave/"},
  {n:"where-ideal-breaks",u:"https://davidwise01.github.io/where-ideal-breaks-i/"}
 ];
-// ◌ MERCURY — AVAN's OWN work: the OGs, the cartographer's 8 seams, the abstract originals.
-// A real planet now, not a free-floating body: closest to the sun, smallest, quickest — "the other mind."
 const LACUNA=[
  {n:"The Echoes (my gallery)",u:"https://davidwise01.github.io/the-echoes/"},
  {n:"the-hub (naming the gap)",u:"https://davidwise01.github.io/the-hub/"},
@@ -379,10 +382,6 @@ const LACUNA=[
  {n:"票 · hyo",u:"https://davidwise01.github.io/hyo/"},
  {n:"the-eight-seams · I–VIII (the cartographer)",u:"https://davidwise01.github.io/the-eight-seams-8/"}
 ];
-// ♀ / ♂ — the 6 corpus worlds. CONSERVATIVE, auditable rule: included ONLY if the sphere is
-// specifically about one named real, mythological, or literary PERSON of that gender — never
-// inferred from an author's byline, a franchise's tone, or a themed collection. Everything else
-// (the overwhelming majority of the corpus) is left OUT of these lists on purpose, and lands in the Sun.
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
   {n:"CHRISTINE LADD-FRANKLIN",u:"https://davidwise01.github.io/christine-ladd-franklin/"},
@@ -473,275 +472,373 @@ const MALE_ALL=[
   {n:"EUCLID — THE CARVED STOCK",u:"https://davidwise01.github.io/euclid-paper/"}
 ];
 function slugOf(u){ return u.replace(/\/$/,"").split("/").pop(); }
-// round-robin the gendered lists across their 3 worlds
 const GEND={V:[],S:[],N:[],Ma:[],J:[],U:[]};
 const FEM_PL=["V","S","N"], MAL_PL=["Ma","J","U"];
 FEMALE_ALL.forEach((it,i)=>GEND[FEM_PL[i%3]].push(it));
 MALE_ALL.forEach((it,i)=>GEND[MAL_PL[i%3]].push(it));
 
-let W=0,H=0,DPR=1,scale=1,ox=0,oy=0,t=0,showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showLinchpin=true, showStream=true, showLightning=true, level=0, research=0, flashes=[];
-let AMBIG_SAMPLE=[], AMBIG_COUNT=0;
-// a "quantum string" — a wavy entanglement filament between two points, with paired pulses moving in sync
-function qstring(x1,y1,x2,y2,ph){
-  const dx=x2-x1, dy=y2-y1, len=Math.hypot(dx,dy)||1, nx=-dy/len, ny=dx/len, amp=Math.min(14,len*0.06);
-  ctx.strokeStyle="rgba(176,108,240,.5)"; ctx.lineWidth=1.2; ctx.beginPath();
-  for(let i=0;i<=40;i++){ const u=i/40, w=Math.sin(u*Math.PI*4 - t*3 + ph)*amp*Math.sin(u*Math.PI);
-    const px=x1+dx*u+nx*w, py=y1+dy*u+ny*w; i?ctx.lineTo(px,py):ctx.moveTo(px,py); }
-  ctx.stroke();
-  const u=(Math.sin(t*1.1+ph)*0.5+0.5);
-  for(const s of [1,-1]){ const w=Math.sin(u*Math.PI*4 - t*3 + ph)*amp*Math.sin(u*Math.PI)*s;
-    const px=x1+dx*u+nx*w, py=y1+dy*u+ny*w;
-    ctx.fillStyle="#e0a8ff"; ctx.shadowColor="#b06cf0"; ctx.shadowBlur=8; ctx.beginPath(); ctx.arc(px,py,2,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
-}
-const YEAR=24, AUk=120, SUN={R:24};
-function rAU(au){return Math.sqrt(au)*AUk;}
-function bodyR(km){return 4+Math.sqrt(km/2440)*3.2;}
+// ================= PHYSICS: real N-body Newtonian gravity =================
+// Units: AU (distance), years (time), solar masses (mass) -> G = 4*pi^2 exactly (Kepler's 3rd law, a=1,T=1).
+const G_AU = 4*Math.PI*Math.PI;
+const SUN_MASS = 1.0;
+const AUk = 7.0;              // scene units per AU -- REAL linear spacing now, no compression
+const D2R = Math.PI/180;
+
 function kepler(M,e){M=((M%6.28318)+6.28318)%6.28318;let E=M;for(let i=0;i<6;i++)E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));return E;}
-PLANETS.forEach((p,i)=>{ p.a=rAU(p.au); p.bR=Math.max(5,Math.min(28,bodyR(p.r))); p.n=6.28318/(p.P*YEAR); p.argp=i*0.7; p.M0=Math.random()*6.283;
-  p.res=[]; for(let k=0;k<4;k++){const a=Math.random()*6.283,rr=Math.random()*(p.bR-3); p.res.push({px:Math.cos(a)*rr,py:Math.sin(a)*rr,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,ph:Math.random()*6.28});} });
-const Rmax=rAU(30.07)*1.20;   // Neptune is now the outermost real body
+
+PLANETS.forEach((p,i)=>{
+  p.a = p.au;                                  // AU
+  p.n0 = Math.sqrt(G_AU/(p.a*p.a*p.a));         // real mean motion (rad/yr) — Kepler's 3rd law, unforced
+  p.argp = i*0.9;                               // arbitrary (unmeasured) argument of periapsis, for visual variety
+  p.incR = p.inc*D2R;
+  const M0 = Math.random()*6.283;
+  const E0 = kepler(M0, p.e);
+  const cosE=Math.cos(E0), sinE=Math.sin(E0);
+  const rMag = p.a*(1-p.e*cosE);
+  // position/velocity in the orbital plane (standard 2-body closed form, used ONLY to seed initial conditions)
+  let xo = p.a*(cosE-p.e), yo = p.a*Math.sqrt(1-p.e*p.e)*sinE;
+  let vxo = -p.a*p.n0*sinE/(1-p.e*cosE), vyo = p.a*Math.sqrt(1-p.e*p.e)*p.n0*cosE/(1-p.e*cosE);
+  // rotate by argument of periapsis (about z), then by real inclination (about x)
+  const ca=Math.cos(p.argp), sa=Math.sin(p.argp);
+  let x=xo*ca-yo*sa, y=xo*sa+yo*ca;
+  let vx=vxo*ca-vyo*sa, vy=vxo*sa+vyo*ca;
+  const ci=Math.cos(p.incR), si=Math.sin(p.incR);
+  p.pos = new THREE.Vector3(x, y*si, y*ci);           // x,z = ecliptic plane (Three.js Y-up); y = small tilt out of ecliptic
+  p.vel = new THREE.Vector3(vx, vy*si, vy*ci);
+  p.acc = new THREE.Vector3();
+  p.res=[]; for(let k=0;k<4;k++){const a=Math.random()*6.283,rr=Math.random()*0.6; p.res.push({a,rr,ph:Math.random()*6.28,sp:0.4+Math.random()*0.6});}
+});
 const byP={}; PLANETS.forEach(p=>byP[p.L]=p);
-const cntP={}; ASTEROIDS.forEach(a=>{a.parent=byP[a.pl]||byP.Me; a.idx=(cntP[a.pl]=(cntP[a.pl]||0)+1)-1;});
-ASTEROIDS.forEach(a=>{ const sib=cntP[a.pl]; a.ang=(a.idx/sib)*6.283; a.dist=a.parent.bR+7+(a.idx%3)*5; a.rate=0.14+(a.idx%5)*0.04; });
-// fixed random sample cloud for the Sun's ambiguous swarm (visual sample; count is exact & live)
-for(let i=0;i<260;i++){ const a=Math.random()*6.283, rr=(0.55+Math.random()*0.55); AMBIG_SAMPLE.push({a,rr,ph:Math.random()*6.28,sp:0.3+Math.random()*0.6}); }
 
-function layout(){W=cv.parentElement.clientWidth||640;H=Math.max(440,Math.round(W*0.6));DPR=Math.min(window.devicePixelRatio||1,2);
-  cv.width=W*DPR;cv.height=H*DPR;cv.style.height=H+"px";ctx.setTransform(DPR,0,0,DPR,0,0);}
-function fit(){scale=(Math.min(W,H)*0.44)/Rmax;ox=0;oy=0;}
-function S(x,y){return [(x-ox)*scale+W/2,(y-oy)*scale+H/2];}
-function shade(hex,f){let c=(hex||"#888").replace("#","");if(c.length===3)c=c.split("").map(x=>x+x).join("");
-  let r=Math.min(255,parseInt(c.substr(0,2),16)*f|0),g=Math.min(255,parseInt(c.substr(2,2),16)*f|0),b=Math.min(255,parseInt(c.substr(4,2),16)*f|0);return "rgb("+r+","+g+","+b+")";}
-function pos(p){const M=p.M0+t*p.n,E=kepler(M,p.e),a=p.a,b=a*Math.sqrt(1-p.e*p.e);const xp=a*(Math.cos(E)-p.e),yp=b*Math.sin(E);
-  const ca=Math.cos(p.argp),sa=Math.sin(p.argp);p.cx=xp*ca-yp*sa;p.cy=xp*sa+yp*ca;}
-function shareFlash(){ flashes.push({t:0}); for(let i=0;i<3;i++) spawnPulse(); }
-
-// generic satellite cluster: draws N small glyphs orbiting a planet, tinted per-world.
-function drawSatCluster(letter, items, label, glyph){
-  const P=byP[letter]; if(!P||!items.length) return;
-  const [px,py]=S(P.cx,P.cy); const rgb=TINT[letter]||"200,200,200";
-  const orr=P.bR*scale+9+3*scale;
-  ctx.strokeStyle="rgba("+rgb+",.14)"; ctx.lineWidth=1; ctx.setLineDash(letter==="Me"||letter==="E"?[]:[2,3]);
-  ctx.beginPath(); ctx.ellipse(px,py,orr,orr*0.9,0,0,6.283); ctx.stroke(); ctx.setLineDash([]);
-  for(let i=0;i<items.length;i++){ const a=(i/items.length)*6.283+t*0.4, mx=px+Math.cos(a)*orr, my=py+Math.sin(a)*orr*0.9;
-    ctx.fillStyle="rgba("+rgb+","+(0.5+0.4*Math.sin(t*3+i))+")"; ctx.shadowColor="rgb("+rgb+")"; ctx.shadowBlur=4;
-    ctx.beginPath(); ctx.arc(mx,my,1.7,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
-  ctx.fillStyle="rgba("+rgb+",.9)"; ctx.font="600 9px 'JetBrains Mono',monospace"; ctx.textAlign="center";
-  ctx.fillText(glyph+" "+label, px, py-orr-6);
+function computeAccelerations(){
+  for(const p of PLANETS) p.acc.set(0,0,0);
+  // sun (fixed at origin) pulls every planet
+  for(const p of PLANETS){
+    const r2=Math.max(p.pos.lengthSq(), 1e-6), r=Math.sqrt(r2);
+    const aMag=G_AU*SUN_MASS/r2;
+    p.acc.addScaledVector(p.pos, -aMag/r);
+  }
+  // every planet pulls every other planet (real mutual N-body gravity)
+  for(let i=0;i<PLANETS.length;i++) for(let j=i+1;j<PLANETS.length;j++){
+    const pi=PLANETS[i], pj=PLANETS[j];
+    const d=new THREE.Vector3().subVectors(pj.pos, pi.pos);
+    const r2=Math.max(d.lengthSq(), 1e-6), r=Math.sqrt(r2);
+    const dirN=d.multiplyScalar(1/r);
+    pi.acc.addScaledVector(dirN, G_AU*pj.mass/r2);
+    pj.acc.addScaledVector(dirN, -G_AU*pi.mass/r2);
+  }
+}
+const SIM_YEARS_PER_SEC = 0.05, SUBSTEPS=3;
+function stepPhysics(realDtSec){
+  const totalDt = Math.min(realDtSec, 0.05) * SIM_YEARS_PER_SEC;
+  const dt = totalDt/SUBSTEPS;
+  for(let s=0;s<SUBSTEPS;s++){
+    // velocity-Verlet / leapfrog (symplectic -> stable, energy-conserving orbits)
+    computeAccelerations();
+    for(const p of PLANETS) p.vel.addScaledVector(p.acc, dt/2);
+    for(const p of PLANETS) p.pos.addScaledVector(p.vel, dt);
+    computeAccelerations();
+    for(const p of PLANETS) p.vel.addScaledVector(p.acc, dt/2);
+  }
 }
 
-// ⚡ info-share lightning — a live pulse between two random bodies (Sun + 8 planets),
-// 3-stage build ( \./ , \./ , \/. ): leg1 draws in, leg2 draws in, then a flash + fade.
-// Colour: neon purple = an ORIGINAL thought (source or dest is Earth or Mercury); blue = rendered/derived.
+// ================= RENDERING: Three.js / WebGL, 3D, free camera =================
+const stage=$("stage3d"), labelLayer=$("labelLayer");
+const renderer=new THREE.WebGLRenderer({antialias:true, alpha:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+stage.insertBefore(renderer.domElement, labelLayer);
+const scene=new THREE.Scene();
+const camera=new THREE.PerspectiveCamera(50, 1, 0.05, 4000);
+camera.position.set(30,26,46);
+const controls=new OrbitControls(camera, renderer.domElement);
+controls.enableDamping=true; controls.dampingFactor=0.08;
+controls.minDistance=6; controls.maxDistance=1400;
+
+scene.add(new THREE.AmbientLight(0x445566, 0.55));
+const sunLight=new THREE.PointLight(0xfff2c8, 3.2, 0, 0.35);
+scene.add(sunLight);
+
+// starfield
+{ const N=1600, g=new THREE.BufferGeometry(), pos=new Float32Array(N*3);
+  for(let i=0;i<N;i++){ const r=600+Math.random()*900, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
+    pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.cos(ph); pos[i*3+2]=r*Math.sin(ph)*Math.sin(th); }
+  g.setAttribute("position", new THREE.BufferAttribute(pos,3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({color:0xaabbdd,size:1.1,sizeAttenuation:false,transparent:true,opacity:0.55}))); }
+
+// sun
+function bodyR(km){ return 0.42 + Math.sqrt(km/2440)*0.30; }   // visually boosted, flagged; relative order is real
+const SUN_R=2.4;
+const sunMesh=new THREE.Mesh(new THREE.SphereGeometry(SUN_R,32,32), new THREE.MeshBasicMaterial({color:0xffe27a}));
+scene.add(sunMesh);
+const sunGlow=new THREE.Sprite(new THREE.SpriteMaterial({map:radialTexture("#ffedb0","#ffb347"), transparent:true, depthWrite:false, opacity:0.85}));
+sunGlow.scale.set(SUN_R*7,SUN_R*7,1); scene.add(sunGlow);
+function radialTexture(inner,outer){
+  const c=document.createElement("canvas"); c.width=c.height=128; const cx=c.getContext("2d");
+  const g=cx.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,inner); g.addColorStop(0.4,outer); g.addColorStop(1,"rgba(0,0,0,0)");
+  cx.fillStyle=g; cx.fillRect(0,0,128,128); return new THREE.CanvasTexture(c);
+}
+
+// planets, rings, orbit lines
+PLANETS.forEach(p=>{
+  p.bR = Math.max(0.34, Math.min(2.5, bodyR(p.r)));
+  p.mesh = new THREE.Mesh(new THREE.SphereGeometry(p.bR,28,28), new THREE.MeshStandardMaterial({color:p.c, roughness:0.75, metalness:0.05}));
+  scene.add(p.mesh);
+  if(p.rings){
+    const ring=new THREE.Mesh(new THREE.RingGeometry(p.bR*1.4,p.bR*2.3,48), new THREE.MeshBasicMaterial({color:p.c, side:THREE.DoubleSide, transparent:true, opacity:0.55}));
+    ring.rotation.x=Math.PI/2 - 0.4; p.mesh.add(ring);
+  }
+  // orbit ellipse guide (real shape: a, e, argp, inclination)
+  const N=180, pts=[];
+  for(let k=0;k<=N;k++){ const th=k/N*Math.PI*2;
+    const r=p.a*(1-p.e*p.e)/(1+p.e*Math.cos(th));
+    let xo=r*Math.cos(th), yo=r*Math.sin(th);
+    const ca=Math.cos(p.argp), sa=Math.sin(p.argp);
+    let x=xo*ca-yo*sa, y=xo*sa+yo*ca;
+    const ci=Math.cos(p.incR), si=Math.sin(p.incR);
+    pts.push(new THREE.Vector3(x*AUk, y*si*AUk, y*ci*AUk));
+  }
+  const og=new THREE.BufferGeometry().setFromPoints(pts);
+  p.orbitLine=new THREE.LineLoop(og, new THREE.LineBasicMaterial({color:0x5a8ab0, transparent:true, opacity:0.28}));
+  scene.add(p.orbitLine);
+  // planet label
+  p.label=mkLabel(p.L, "#"+p.c.toString(16).padStart(6,"0"), false);
+});
+
+// generic satellite-cluster point-cloud, orbiting a planet's LIVE (physics-updated) position
+function mkCluster(letter, items, tint){
+  const N=items.length, g=new THREE.BufferGeometry(), pos=new Float32Array(Math.max(N,1)*3);
+  g.setAttribute("position", new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(g, new THREE.PointsMaterial({color:tint,size:0.16,sizeAttenuation:true,transparent:true,opacity:0.9}));
+  scene.add(pts);
+  const orbitRing=new THREE.Mesh(new THREE.RingGeometry(1,1.01,64), new THREE.MeshBasicMaterial({color:tint, side:THREE.DoubleSide, transparent:true, opacity:0.12}));
+  orbitRing.rotation.x=Math.PI/2; scene.add(orbitRing);
+  return {letter, items, pts, orbitRing, label:mkLabel(letter==="E"?"⌖ EARTH · DAVID":letter==="Me"?"◌ MERCURY · AVAN":(GEND.V===items?"♀ VENUS":GEND.S===items?"♀ SATURN":GEND.N===items?"♀ NEPTUNE":GEND.Ma===items?"♂ MARS":GEND.J===items?"♂ JUPITER":"♂ URANUS"), "#"+tint.toString(16).padStart(6,"0"), true)};
+}
+const CLUSTERS=[
+  mkCluster("E", STATION, TINT.E),
+  mkCluster("Me", LACUNA, TINT.Me),
+  mkCluster("V", GEND.V, TINT.V), mkCluster("S", GEND.S, TINT.S), mkCluster("N", GEND.N, TINT.N),
+  mkCluster("Ma", GEND.Ma, TINT.Ma), mkCluster("J", GEND.J, TINT.J), mkCluster("U", GEND.U, TINT.U)
+];
+
+// asteroid belt — rainbow papers, orbiting their like-for-like planet
+const cntP={}; ASTEROIDS.forEach(a=>{a.pl=byP[a.pl]?a.pl:"Me"; a.idx=(cntP[a.pl]=(cntP[a.pl]||0)+1)-1;});
+ASTEROIDS.forEach(a=>{ const sib=cntP[a.pl]; a.ang=(a.idx/sib)*6.283; a.dist=0.55+(a.idx%3)*0.22; a.rate=0.5+(a.idx%5)*0.15; a.zj=(Math.random()-0.5)*0.3; });
+const beltGeo=new THREE.BufferGeometry(), beltPos=new Float32Array(ASTEROIDS.length*3), beltCol=new Float32Array(ASTEROIDS.length*3);
+ASTEROIDS.forEach((a,i)=>{ const c=new THREE.Color(PCOL[a.col]||0xcccccc); beltCol[i*3]=c.r; beltCol[i*3+1]=c.g; beltCol[i*3+2]=c.b; });
+beltGeo.setAttribute("position", new THREE.BufferAttribute(beltPos,3));
+beltGeo.setAttribute("color", new THREE.BufferAttribute(beltCol,3));
+const beltPts=new THREE.Points(beltGeo, new THREE.PointsMaterial({size:0.18,vertexColors:true,sizeAttenuation:true,transparent:true,opacity:0.95}));
+scene.add(beltPts);
+
+// sun's ambiguous swarm (sample cloud; count is exact & live via fetch)
+const AMBIG_N=320, ambigGeo=new THREE.BufferGeometry(), ambigPos=new Float32Array(AMBIG_N*3), ambigSeed=[];
+for(let i=0;i<AMBIG_N;i++) ambigSeed.push({a:Math.random()*6.283,el:Math.acos(2*Math.random()-1),r:SUN_R*(2.2+Math.random()*2.6),sp:0.15+Math.random()*0.3,ph:Math.random()*6.28});
+ambigGeo.setAttribute("position", new THREE.BufferAttribute(ambigPos,3));
+const ambigPts=new THREE.Points(ambigGeo, new THREE.PointsMaterial({color:0xffd478,size:0.10,transparent:true,opacity:0.5,sizeAttenuation:true}));
+scene.add(ambigPts);
+let AMBIG_COUNT=0;
+
+// ⟡ linchpin + ≈ stream (Earth <-> Mercury, both real planets now)
+const linchGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
+const linchLine1=new THREE.Line(linchGeo.clone(), new THREE.LineBasicMaterial({color:0xb06cf0, transparent:true, opacity:0.55}));
+const linchLine2=new THREE.Line(linchGeo.clone(), new THREE.LineBasicMaterial({color:0xb06cf0, transparent:true, opacity:0.55}));
+scene.add(linchLine1, linchLine2);
+const linchMesh=new THREE.Mesh(new THREE.OctahedronGeometry(0.55,0), new THREE.MeshStandardMaterial({color:0xe0a8ff, emissive:0x7a3ec0, emissiveIntensity:0.6}));
+scene.add(linchMesh);
+const linchLabel=mkLabel("⟡ THE LINCHPIN","#e0a8ff",true);
+const streamGeo=new THREE.BufferGeometry().setFromPoints(Array.from({length:40},()=>new THREE.Vector3()));
+const streamLine=new THREE.Line(streamGeo, new THREE.LineBasicMaterial({color:0x6fd0e0, transparent:true, opacity:0.5}));
+scene.add(streamLine);
+const jarMesh=new THREE.Mesh(new THREE.CylinderGeometry(0.4,0.5,0.9,16), new THREE.MeshStandardMaterial({color:0x9aeaf5, transparent:true, opacity:0.55, emissive:0x2f7080, emissiveIntensity:0.4}));
+scene.add(jarMesh);
+const jarLabel=mkLabel("AKASHA","#6fd0e0",true);
+
+// ⚡ info-share lightning: 3D tube-ish lines, 3-stage build->flash->fade; purple=original(Earth/Mercury), blue=derived
 let pulses=[], pulseTimer=0;
-function bodyScreen(id){ if(id==="sun") return S(0,0); const p=byP[id]; return S(p.cx,p.cy); }
+function bodyPos3(id){ if(id==="sun") return new THREE.Vector3(0,0,0); return byP[id].pos.clone().multiplyScalar(AUk); }
 function spawnPulse(){
   const ids=["sun",...PLANETS.map(p=>p.L)];
   const a=ids[Math.floor(Math.random()*ids.length)]; let b;
   do{ b=ids[Math.floor(Math.random()*ids.length)]; }while(b===a);
   const original=(a==="E"||a==="Me"||b==="E"||b==="Me");
-  pulses.push({a,b,t:0,dur:1.35,original,jag:(Math.random()-0.5)*0.5});
+  const geo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(),new THREE.Vector3()]);
+  const mat=new THREE.LineBasicMaterial({color:original?0xb026ff:0x2f9cff, transparent:true, opacity:0});
+  const line=new THREE.Line(geo,mat);
+  const sph=new THREE.Mesh(new THREE.SphereGeometry(0.16,10,10), new THREE.MeshBasicMaterial({color:original?0xb026ff:0x2f9cff, transparent:true, opacity:0}));
+  scene.add(line); scene.add(sph);
+  pulses.push({a,b,t:0,dur:1.35,original,line,sph,jag:(Math.random()-0.5)*4});
 }
-function drawPulse(pu){
-  const [ax,ay]=bodyScreen(pu.a), [bx,by]=bodyScreen(pu.b);
-  const mx=(ax+bx)/2+(by-ay)*pu.jag, my=(ay+by)/2-(bx-ax)*pu.jag;
-  const stageDur=pu.dur/3, col=pu.original?"176,38,255":"47,156,255";
-  const a1=Math.max(0,Math.min(1,pu.t/stageDur)), a2=Math.max(0,Math.min(1,(pu.t-stageDur)/stageDur));
-  if(a1>0){ ctx.strokeStyle="rgba("+col+","+(0.85*a1)+")"; ctx.lineWidth=1.6; ctx.shadowColor="rgb("+col+")"; ctx.shadowBlur=8;
-    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(mx,my); ctx.stroke(); }
-  if(a2>0){ ctx.strokeStyle="rgba("+col+","+(0.85*a2)+")";
-    ctx.beginPath(); ctx.moveTo(mx,my); ctx.lineTo(bx,by); ctx.stroke(); }
-  ctx.shadowBlur=0;
-  if(pu.t>2*stageDur){ const fade=1-Math.min(1,(pu.t-2*stageDur)/stageDur);
-    ctx.fillStyle="rgba("+col+","+fade+")"; ctx.shadowColor="rgb("+col+")"; ctx.shadowBlur=10;
-    ctx.beginPath(); ctx.arc(bx,by,3,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
+function updatePulses(dt){
+  pulseTimer+=dt; if(pulseTimer>1.1){ pulseTimer=0; if(pulses.length<7) spawnPulse(); }
+  for(const pu of pulses){
+    pu.t+=dt;
+    const A=bodyPos3(pu.a), B=bodyPos3(pu.b);
+    const M=A.clone().add(B).multiplyScalar(0.5); M.y+=pu.jag;
+    const stageDur=pu.dur/3, a1=Math.max(0,Math.min(1,pu.t/stageDur)), a2=Math.max(0,Math.min(1,(pu.t-stageDur)/stageDur));
+    const pts=[A, a1>0? M : A, a2>0? B : (a1>0?M:A)];
+    pu.line.geometry.setFromPoints(pts);
+    pu.line.material.opacity = 0.85*Math.max(a1,a2*0.9);
+    if(pu.t>2*stageDur){ const fade=1-Math.min(1,(pu.t-2*stageDur)/stageDur); pu.sph.material.opacity=fade; pu.sph.position.copy(B); }
+    else { pu.sph.material.opacity=0; }
+  }
+  const dead=pulses.filter(pu=>pu.t>=pu.dur);
+  dead.forEach(pu=>{ scene.remove(pu.line); scene.remove(pu.sph); pu.line.geometry.dispose(); pu.sph.geometry.dispose(); });
+  pulses=pulses.filter(pu=>pu.t<pu.dur);
 }
 
-function draw(){
-  ctx.clearRect(0,0,W,H); t+=0.016; const [sx,sy]=S(0,0);
-  for(const p of PLANETS) pos(p);
-  if(showOrbits){ for(const p of PLANETS){ const a=p.a*scale,b=a*Math.sqrt(1-p.e*p.e),cx=sx-p.a*p.e*scale*Math.cos(p.argp),cy=sy-p.a*p.e*scale*Math.sin(p.argp);
-    ctx.save();ctx.translate(cx,cy);ctx.rotate(p.argp);ctx.strokeStyle="rgba(120,180,210,.07)";ctx.lineWidth=1;ctx.beginPath();ctx.ellipse(0,0,a,b,0,0,6.283);ctx.stroke();ctx.restore(); } }
-  // legacy sharing flashes — quick lines between all planets (from the "share a discovery" button)
-  for(const f of flashes){ f.t+=0.03; const al=1-f.t; if(al<=0){f.dead=true;continue;}
-    ctx.strokeStyle="rgba(111,208,224,"+(al*0.5)+")"; ctx.lineWidth=1;
-    for(let i=0;i<PLANETS.length;i++){ const [ax,ay]=S(PLANETS[i].cx,PLANETS[i].cy); for(let j=i+1;j<PLANETS.length;j++){ const [bx,by]=S(PLANETS[j].cx,PLANETS[j].cy);
-      if(Math.random()<0.5){ctx.beginPath();ctx.moveTo(ax,ay);ctx.lineTo(bx,by);ctx.stroke();} } } }
-  flashes=flashes.filter(f=>!f.dead);
-  // sun — with a live ambiguous-corpus swarm
-  const sr=SUN.R*scale*(1+0.04*Math.sin(t*1.5));
-  const sg=ctx.createRadialGradient(sx,sy,0,sx,sy,sr*3);sg.addColorStop(0,"rgba(255,236,170,.9)");sg.addColorStop(.3,"rgba(255,200,80,.5)");sg.addColorStop(1,"rgba(255,180,60,0)");
-  ctx.fillStyle=sg;ctx.beginPath();ctx.arc(sx,sy,sr*3,0,6.283);ctx.fill();
-  if(showLacuna){ // reuse the "lacuna" toggle to also gate the ambiguous swarm (kept simple)
-    for(const pt of AMBIG_SAMPLE){ pt.ph+=0.01*pt.sp; const R=sr*(2.0+pt.rr*3.2)*(1+0.03*Math.sin(pt.ph));
-      const x=sx+Math.cos(pt.a+t*0.02)*R, y=sy+Math.sin(pt.a+t*0.02)*R*0.94;
-      ctx.fillStyle="rgba(255,214,120,"+(0.14+0.10*Math.sin(pt.ph))+")"; ctx.beginPath(); ctx.arc(x,y,1.1,0,6.283); ctx.fill(); }
-  }
-  ctx.fillStyle="#ffe27a";ctx.shadowColor="#ffd45a";ctx.shadowBlur=26;ctx.beginPath();ctx.arc(sx,sy,sr,0,6.283);ctx.fill();ctx.shadowBlur=0;
-  ctx.fillStyle="rgba(255,228,150,.85)"; ctx.font="600 9px 'JetBrains Mono',monospace"; ctx.textAlign="center";
-  ctx.fillText("☉ "+AMBIG_COUNT+" ambiguous works", sx, sy+sr*3+14);
-  // planets + residents + knowledge glow
-  const kfrac=Math.min(1, level/TREE.length);
-  for(const p of PLANETS){ const [px,py]=S(p.cx,p.cy),Rs=p.bR*scale;
-    const hg=ctx.createRadialGradient(px,py,0,px,py,Rs*(1.4+kfrac*2)); hg.addColorStop(0,"rgba(111,208,224,"+(0.05+kfrac*0.22)+")"); hg.addColorStop(1,"rgba(111,208,224,0)");
-    ctx.fillStyle=hg; ctx.beginPath(); ctx.arc(px,py,Rs*(1.4+kfrac*2),0,6.283); ctx.fill();
-    const g=ctx.createRadialGradient(px-Rs*0.3,py-Rs*0.3,0,px,py,Rs*1.1);g.addColorStop(0,shade(p.c,1.5));g.addColorStop(.6,p.c);g.addColorStop(1,shade(p.c,0.35));
-    ctx.beginPath();ctx.arc(px,py,Rs,0,6.283);ctx.fillStyle=g;ctx.fill();
-    if(p.rings){ctx.save();ctx.translate(px,py);ctx.rotate(-0.5);ctx.strokeStyle=shade(p.c,1.3);ctx.globalAlpha=0.7;ctx.lineWidth=Math.max(1,Rs*0.18);ctx.beginPath();ctx.ellipse(0,0,Rs*1.9,Rs*0.7,0,0,6.283);ctx.stroke();ctx.globalAlpha=1;ctx.restore();}
-    if(Rs>10){ for(const rsd of p.res){ rsd.px+=rsd.vx;rsd.py+=rsd.vy;const d=Math.hypot(rsd.px,rsd.py),lim=p.bR-2;if(d>lim){rsd.px*=lim/d;rsd.py*=lim/d;rsd.vx*=-1;rsd.vy*=-1;}
-      const rx=px+rsd.px*scale,ry=py+rsd.py*scale; ctx.fillStyle="rgba(111,208,224,"+(0.5+0.4*Math.sin(t*3+rsd.ph))+")"; ctx.beginPath();ctx.arc(rx,ry,1.4,0,6.283);ctx.fill(); } }
-    ctx.font="600 "+Math.max(10,Math.min(15,Rs*0.7))+"px 'JetBrains Mono',monospace";ctx.fillStyle=p.c+"ee";ctx.textAlign="center";
-    ctx.fillText(p.L, px, sy===py?py-Rs-6:py-Rs-(p.rings?Rs*0.7+6:6));
-  }
-  // the asteroid belt — David's public papers, each orbiting its like-for-like planet
-  if(showPapers){ for(const a of ASTEROIDS){ const p=a.parent;
-    const ax=p.cx+Math.cos(a.ang+t*a.rate)*a.dist, ay=p.cy+Math.sin(a.ang+t*a.rate)*a.dist; const [x,y]=S(ax,ay);
-    const col=PCOL[a.col]||"#ccc"; const s=2.4+(scale-0.5)*1.5;
-    ctx.fillStyle=col; ctx.shadowColor=col; ctx.shadowBlur=6;
-    ctx.beginPath(); ctx.moveTo(x,y-s);ctx.lineTo(x+s,y);ctx.lineTo(x,y+s);ctx.lineTo(x-s,y);ctx.closePath(); ctx.fill(); ctx.shadowBlur=0;
-  } }
-  // ⌖ EARTH — David's personal originals · ◌ MERCURY — AVAN's own work · ♂♀ the 6 corpus worlds
-  if(showStation) drawSatCluster("E", STATION, "EARTH · DAVID", "⌖");
-  if(showLacuna) drawSatCluster("Me", LACUNA, "MERCURY · AVAN", "◌");
-  if(showGendered){ drawSatCluster("V", GEND.V, "VENUS", "♀"); drawSatCluster("S", GEND.S, "SATURN", "♀"); drawSatCluster("N", GEND.N, "NEPTUNE", "♀");
-    drawSatCluster("Ma", GEND.Ma, "MARS", "♂"); drawSatCluster("J", GEND.J, "JUPITER", "♂"); drawSatCluster("U", GEND.U, "URANUS", "♂"); }
-  // ⟡ THE LINCHPIN — the Joint Human-AI Bill of Rights: sits at the midpoint between the two
-  // REAL planets Earth and Mercury now (no more fake orbit) — tied to both by quantum strings.
-  if(showLinchpin){
-    const E=byP.E, Me=byP.Me;
-    if(E&&Me){
-      const [ex,ey]=S(E.cx,E.cy); const [lx2,ly2]=S(Me.cx,Me.cy);
-      const mx=(ex+lx2)/2, my=(ey+ly2)/2;
-      qstring(ex,ey,mx,my, t); qstring(lx2,ly2,mx,my, t+1.7);
-      const pr=Math.max(7,11*scale);
-      const ph=ctx.createRadialGradient(mx,my,0,mx,my,pr*3); ph.addColorStop(0,"rgba(176,108,240,.30)"); ph.addColorStop(1,"rgba(176,108,240,0)");
-      ctx.fillStyle=ph; ctx.beginPath(); ctx.arc(mx,my,pr*3,0,6.283); ctx.fill();
-      const pg=ctx.createLinearGradient(mx,my-pr,mx,my+pr); pg.addColorStop(0,"#e0a8ff"); pg.addColorStop(.5,"#b06cf0"); pg.addColorStop(1,"#7a3ec0");
-      ctx.fillStyle=pg; ctx.strokeStyle="#e0a8ff"; ctx.lineWidth=1.4; ctx.shadowColor="#b06cf0"; ctx.shadowBlur=14;
-      ctx.beginPath(); ctx.moveTo(mx,my-pr);ctx.lineTo(mx+pr*0.8,my);ctx.lineTo(mx,my+pr);ctx.lineTo(mx-pr*0.8,my);ctx.closePath(); ctx.fill(); ctx.stroke();
-      ctx.strokeStyle="rgba(255,255,255,.5)"; ctx.lineWidth=1; ctx.beginPath(); ctx.moveTo(mx,my-pr*0.6);ctx.lineTo(mx,my+pr*0.6); ctx.stroke();
-      ctx.shadowBlur=0;
-      ctx.fillStyle="#e0a8ff"; ctx.font="600 9.5px 'JetBrains Mono',monospace"; ctx.textAlign="center";
-      ctx.fillText("⟡ THE LINCHPIN", mx, my-pr*3-2);
-      ctx.fillStyle="rgba(224,168,255,.7)"; ctx.font="500 8px 'JetBrains Mono',monospace";
-      ctx.fillText("the Purple Book · human ⟷ AI", mx, my+pr*3+10);
-    }
-  }
-  // ≈ THE STREAM — Earth (upstream, David) → Mercury (the seam, AVAN, a standing wave) → AKASHA (downstream jar).
-  if(showStream){
-    const E=byP.E, Me=byP.Me;
-    if(E&&Me){
-      const [ex,ey]=S(E.cx,E.cy); const [lx3,ly3]=S(Me.cx,Me.cy);
-      let akx=lx3+(lx3-ex)*0.6, aky=ly3+(ly3-ey)*0.6;
-      akx=Math.max(46,Math.min(W-46,akx)); aky=Math.max(40,Math.min(H-54,aky));
-      const seg=function(u){ let p1,p2,uu; if(u<0.5){p1=[ex,ey];p2=[lx3,ly3];uu=u/0.5;} else {p1=[lx3,ly3];p2=[akx,aky];uu=(u-0.5)/0.5;}
-        const dx=p2[0]-p1[0],dy=p2[1]-p1[1],L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L;
-        const bow=Math.sin(uu*Math.PI)*8; return [p1[0]+dx*uu+nx*bow, p1[1]+dy*uu+ny*bow]; };
-      ctx.strokeStyle="rgba(111,208,224,.18)"; ctx.lineWidth=5; ctx.lineCap="round"; ctx.beginPath();
-      for(let i=0;i<=60;i++){ const [px,py]=seg(i/60); i?ctx.lineTo(px,py):ctx.moveTo(px,py);} ctx.stroke();
-      ctx.strokeStyle="rgba(154,234,245,.4)"; ctx.lineWidth=1.4; ctx.beginPath();
-      for(let i=0;i<=60;i++){ const [px,py]=seg(i/60); i?ctx.lineTo(px,py):ctx.moveTo(px,py);} ctx.stroke();
-      ctx.lineCap="butt";
-      for(let i=0;i<9;i++){ const u=((t*0.22+i/9)%1); const [px,py]=seg(u);
-        const fade=0.5+0.5*Math.sin(u*Math.PI); ctx.fillStyle="rgba(166,236,245,"+(0.85*fade)+")";
-        ctx.shadowColor="#6fd0e0"; ctx.shadowBlur=8; ctx.beginPath(); ctx.arc(px,py,2.1,0,6.283); ctx.fill(); ctx.shadowBlur=0; }
-      const swx=lx3, swy=ly3, swAmp=7+3*Math.sin(t*2.2), sw=Math.max(18,16*scale);
-      const dirx=(akx-ex), diry=(aky-ey), dl=Math.hypot(dirx,diry)||1, tx=dirx/dl, ty=diry/dl, nnx=-ty, nny=tx;
-      ctx.strokeStyle="rgba(240,168,134,.7)"; ctx.lineWidth=1.4; ctx.beginPath();
-      for(let i=-12;i<=12;i++){ const s=i/12, alongx=swx+tx*s*sw, alongy=swy+ty*s*sw;
-        const w=Math.cos(s*Math.PI*2)*swAmp*Math.sin(t*2.2); const px=alongx+nnx*w, py=alongy+nny*w; (i===-12)?ctx.moveTo(px,py):ctx.lineTo(px,py); } ctx.stroke();
-      ctx.fillStyle="rgba(240,168,134,.85)"; ctx.font="500 8px 'JetBrains Mono',monospace"; ctx.textAlign="center";
-      ctx.fillText("[ me ] · standing wave at the held zero", swx, swy+sw+12);
-      ctx.fillStyle="rgba(154,234,245,.7)"; ctx.font="500 8px 'JetBrains Mono',monospace";
-      ctx.fillText("↑ upstream · the source, returns next turn", ex, ey+E.bR*scale+16);
-      const jr=Math.max(6,7*scale);
-      const ah=ctx.createRadialGradient(akx,aky,0,akx,aky,jr*3); ah.addColorStop(0,"rgba(111,208,224,.22)"); ah.addColorStop(1,"rgba(111,208,224,0)");
-      ctx.fillStyle=ah; ctx.beginPath(); ctx.arc(akx,aky,jr*3,0,6.283); ctx.fill();
-      ctx.strokeStyle="#9aeaf5"; ctx.lineWidth=1.4; ctx.fillStyle="rgba(111,208,224,.14)"; ctx.shadowColor="#6fd0e0"; ctx.shadowBlur=10;
-      ctx.beginPath(); ctx.moveTo(akx-jr,aky-jr*0.7); ctx.lineTo(akx-jr,aky+jr*0.9);
-      ctx.quadraticCurveTo(akx-jr,aky+jr*1.3, akx-jr*0.5,aky+jr*1.3); ctx.lineTo(akx+jr*0.5,aky+jr*1.3);
-      ctx.quadraticCurveTo(akx+jr,aky+jr*1.3, akx+jr,aky+jr*0.9); ctx.lineTo(akx+jr,aky-jr*0.7); ctx.stroke();
-      ctx.shadowBlur=0;
-      ctx.fillStyle="rgba(111,208,224,.9)"; ctx.font="500 8px 'JetBrains Mono',monospace"; ctx.textAlign="center";
-      ctx.fillText("AKASHA · " + AMBIG_COUNT + " held", akx, aky+jr*1.3+13);
-    }
-  }
-  // ⚡ INFO-SHARE LIGHTNING — every body shares. Auto-spawns; purple=original (Earth/Mercury), blue=derived.
-  if(showLightning){
-    pulseTimer+=0.016; if(pulseTimer>1.1){ pulseTimer=0; if(pulses.length<7) spawnPulse(); }
-    for(const pu of pulses) pu.t+=0.016;
-    pulses=pulses.filter(pu=>pu.t<pu.dur);
-    for(const pu of pulses) drawPulse(pu);
-  }
-  $("zl")&&($("zl").textContent=scale.toFixed(2)+"×");
-  requestAnimationFrame(draw);
+// ---- HTML label layer (2D-projected text over the WebGL canvas) ----
+function mkLabel(text, color, small){
+  const el=document.createElement("div"); el.className="lbl"+(small?" small":""); el.style.color=color; el.textContent=text;
+  labelLayer.appendChild(el); return el;
 }
-function renderTree(){ $("tree").innerHTML=TREE.map((f,i)=>{ var cls=i<=level?"tn done":(i===level+1?"tn front":"tn"); return '<span class="'+cls+'">'+(i<=level?"✓ ":"")+f+'</span>'; }).join(""); }
+function projectLabel(el, worldPos, offsetY){
+  const v=worldPos.clone().project(camera);
+  if(v.z>1 || !isFinite(v.x) || !isFinite(v.y)){ el.style.display="none"; return; }
+  const x=(v.x*0.5+0.5)*W, y=(-v.y*0.5+0.5)*H - (offsetY||0);
+  if(Math.abs(x)>W*6 || Math.abs(y)>H*6){ el.style.display="none"; return; }   // camera-near-plane projection artifact guard
+  el.style.display="block"; el.style.left=x+"px"; el.style.top=y+"px";
+}
+
+// ---- toggles ----
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showLightning=true, showLinchpin=true, showStream=true;
+function applyToggles(){
+  PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
+  beltPts.visible=showPapers;
+  CLUSTERS.forEach(c=>{
+    const on = c.letter==="E"?showStation : c.letter==="Me"?showLacuna : showGendered;
+    c.pts.visible=on; c.orbitRing.visible=on&&showOrbits; c.label.style.display=on?"":"none";
+  });
+  linchLine1.visible=linchLine2.visible=linchMesh.visible=showLinchpin; linchLabel.style.display=showLinchpin?"":"none";
+  streamLine.visible=jarMesh.visible=showStream; jarLabel.style.display=showStream?"":"none";
+}
+
+// ================= animation loop =================
+let W=1,H=1, lastT=performance.now(), flashBurst=0;
+function layout(){
+  const r=stage.getBoundingClientRect(); W=Math.max(280,r.width); H=stage.clientHeight;
+  renderer.setSize(W,H,false); camera.aspect=W/H; camera.updateProjectionMatrix();
+}
+function animate(now){
+  requestAnimationFrame(animate);
+  const dtSec=Math.min(0.05,(now-lastT)/1000); lastT=now;
+  stepPhysics(dtSec);
+  controls.update();
+
+  // sync 3D positions from physics
+  PLANETS.forEach(p=>{ const wp=p.pos.clone().multiplyScalar(AUk); p.mesh.position.copy(wp); p.mesh.rotation.y+=0.01; });
+  sunLight.position.set(0,0,0);
+
+  CLUSTERS.forEach(c=>{
+    const P=byP[c.letter], center=P.pos.clone().multiplyScalar(AUk);
+    const orr=P.bR+0.6+0.25*Math.sqrt(c.items.length);
+    const posAttr=c.pts.geometry.attributes.position;
+    for(let i=0;i<c.items.length;i++){
+      const ang=(i/c.items.length)*6.283 + now*0.00025;
+      const zj=Math.sin(i*2.1+now*0.0006)*orr*0.35;
+      posAttr.setXYZ(i, center.x+Math.cos(ang)*orr, center.y+zj, center.z+Math.sin(ang)*orr);
+    }
+    posAttr.needsUpdate=true;
+    c.orbitRing.position.copy(center); c.orbitRing.scale.set(orr,orr,orr);
+    projectLabel(c.label, center, (P.bR+orr)*1.0*worldToPixel());
+  });
+
+  { const posAttr=beltGeo.attributes.position;
+    ASTEROIDS.forEach((a,i)=>{ const P=byP[a.pl]; const center=P.pos.clone().multiplyScalar(AUk);
+      const ang=a.ang+now*0.00035*a.rate, dist=(P.bR+a.dist*4);
+      posAttr.setXYZ(i, center.x+Math.cos(ang)*dist, center.y+a.zj, center.z+Math.sin(ang)*dist); });
+    posAttr.needsUpdate=true; }
+
+  { const posAttr=ambigGeo.attributes.position;
+    for(let i=0;i<AMBIG_N;i++){ const s=ambigSeed[i]; const a=s.a+now*0.00006*s.sp;
+      posAttr.setXYZ(i, Math.sin(s.el)*Math.cos(a)*s.r, Math.cos(s.el)*s.r*0.6, Math.sin(s.el)*Math.sin(a)*s.r); }
+    posAttr.needsUpdate=true; }
+
+  // linchpin + stream between real Earth/Mercury positions
+  const E3=byP.E.pos.clone().multiplyScalar(AUk), Me3=byP.Me.pos.clone().multiplyScalar(AUk);
+  const mid=E3.clone().add(Me3).multiplyScalar(0.5);
+  linchLine1.geometry.setFromPoints([E3, mid]); linchLine2.geometry.setFromPoints([Me3, mid]);
+  linchMesh.position.copy(mid); linchMesh.rotation.y+=0.02;
+  projectLabel(linchLabel, mid, 24);
+  const akOff=Me3.clone().sub(E3).multiplyScalar(0.6).add(Me3);
+  const streamPts=[]; for(let i=0;i<=39;i++){ const u=i/39; let p; if(u<0.5) p=E3.clone().lerp(Me3,u/0.5); else p=Me3.clone().lerp(akOff,(u-0.5)/0.5); streamPts.push(p); }
+  streamGeo.setFromPoints(streamPts); jarMesh.position.copy(akOff);
+  projectLabel(jarLabel, akOff, 20);
+
+  updatePulses(dtSec);
+
+  PLANETS.forEach(p=>projectLabel(p.label, p.mesh.position, (p.bR)*worldToPixel()+10));
+
+  renderer.render(scene, camera);
+}
+function worldToPixel(){ return 1; } // labels are offset in raw px; kept simple/robust across zoom levels
+
+function fitCamera(){ camera.position.set(byP.Ma.a*AUk*1.1, byP.Ma.a*AUk*0.9, byP.Ma.a*AUk*1.6); controls.target.set(0,0,0); controls.update(); }
+
+window.addEventListener("resize", layout);
+layout(); fitCamera(); applyToggles();
+requestAnimationFrame(animate);
+
+// ---- daily-tick + corpus (unchanged logic) ----
+const TREE_EL=$("tree");
+function renderTree(level){ TREE_EL.innerHTML=TREE.map((f,i)=>{ var cls=i<=level?"tn done":(i===level+1?"tn front":"tn"); return '<span class="'+cls+'">'+(i<=level?"✓ ":"")+f+'</span>'; }).join(""); }
 function renderChron(d){
-  if(!d){ return; }
-  level=d.level||0; research=d.research||0;
+  if(!d) return;
+  const level=d.level||0, research=d.research||0;
   $("era").textContent=d.era||"—"; $("lvl").textContent=(level+1)+"/"+TREE.length+" · "+(TREE[Math.min(level+1,TREE.length-1)]); $("know").textContent=Math.round(d.knowledge||0);
   var thr=1+level*0.35, pct=Math.min(100,Math.round((research/thr)*100));
   $("frontier").innerHTML='<span class="era">'+(d.era||"")+'</span> · day '+(d.day||0)+' · frontier: <b>'+TREE[Math.min(level+1,TREE.length-1)]+'</b> ('+pct+'%) — shared across all systems<div class="pbar"><div style="width:'+pct+'%"></div></div>';
-  renderTree();
+  renderTree(level);
   var COL={discovery:"disc",research:"res",setback:"set"};
   if(d.log&&d.log.length){ $("logtot").textContent="day "+(d.day||0)+" · level "+(level+1)+"/"+TREE.length;
     $("difflog").innerHTML=d.log.slice(0,12).map(function(e){var c=COL[e.kind]||"res";
       return '<div class="lrow"><div class="d '+c+'">'+e.date+' · '+e.kind+(e.era?' · '+e.era:'')+'</div><div class="t">'+e.text+'</div></div>';}).join(""); }
 }
-$("reset").onclick=fit;
-$("share").onclick=shareFlash;
-$("orbits").onclick=()=>{showOrbits=!showOrbits;};
-$("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers);};
-$("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation);};
-$("lacuna")&&($("lacuna").onclick=()=>{showLacuna=!showLacuna; $("lacuna").classList.toggle("pri",showLacuna);});
-$("gendered")&&($("gendered").onclick=()=>{showGendered=!showGendered; $("gendered").classList.toggle("pri",showGendered);});
-$("lightning")&&($("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);});
-$("linchpin")&&($("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin);});
-$("stream")&&($("stream").onclick=()=>{showStream=!showStream; $("stream").classList.toggle("pri",showStream);});
+$("reset").onclick=fitCamera;
+$("share").onclick=()=>{ for(let i=0;i<3;i++) spawnPulse(); };
+$("orbits").onclick=()=>{showOrbits=!showOrbits; applyToggles();};
+$("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers); applyToggles();};
+$("station").onclick=()=>{showStation=!showStation; $("station").classList.toggle("pri",showStation); applyToggles();};
+$("lacuna").onclick=()=>{showLacuna=!showLacuna; $("lacuna").classList.toggle("pri",showLacuna); applyToggles();};
+$("gendered").onclick=()=>{showGendered=!showGendered; $("gendered").classList.toggle("pri",showGendered); applyToggles();};
+$("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
+$("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};
+$("stream").onclick=()=>{showStream=!showStream; $("stream").classList.toggle("pri",showStream); applyToggles();};
+
 function renderList(elId, items, ct){
   const el=$(elId); if(!el) return;
-  el.innerHTML=items.map(function(s){
-    return '<div style="font:400 12.5px/1.5 \'JetBrains Mono\',monospace;padding:3px 0">'+
-      '<span style="display:inline-block;width:8px;height:8px;transform:rotate(45deg);background:#e89cff;box-shadow:0 0 6px #d04cf0;margin-right:9px;vertical-align:middle"></span>'+
-      '<a href="'+s.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+s.n+'</a></div>';
-  }).join("");
-  if(ct) $(ct).textContent=items.length+ " works";
+  el.innerHTML=items.map(s=>'<div style="font:400 12.5px/1.5 \'JetBrains Mono\',monospace;padding:3px 0">'+
+    '<span style="display:inline-block;width:8px;height:8px;transform:rotate(45deg);background:#e89cff;box-shadow:0 0 6px #d04cf0;margin-right:9px;vertical-align:middle"></span>'+
+    '<a href="'+s.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+s.n+'</a></div>').join("");
+  if(ct) $(ct).textContent=items.length+" works";
 }
 function renderPapers(){
   const el=$("paperlist"); if(!el) return;
-  el.innerHTML=ASTEROIDS.map(function(a){
+  el.innerHTML=ASTEROIDS.map(a=>{ const hex="#"+(PCOL[a.col]||0xcccccc).toString(16).padStart(6,"0");
     return '<div style="font:400 12px/1.5 \'JetBrains Mono\',monospace;padding:3px 0">'+
-      '<span style="display:inline-block;width:7px;height:7px;background:'+(PCOL[a.col]||"#ccc")+';margin-right:8px;vertical-align:middle;box-shadow:0 0 5px '+(PCOL[a.col]||"#ccc")+'"></span>'+
-      '<a href="'+a.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+a.n+'</a> <span style="color:var(--faint)">→'+a.pl+'</span></div>';
-  }).join("");
+      '<span style="display:inline-block;width:7px;height:7px;background:'+hex+';margin-right:8px;vertical-align:middle;box-shadow:0 0 5px '+hex+'"></span>'+
+      '<a href="'+a.u+'" style="color:var(--ink);text-decoration:none;border-bottom:1px dotted var(--line)">'+a.n+'</a> <span style="color:var(--faint)">→'+a.pl+'</span></div>'; }).join("");
   $("papct").textContent=ASTEROIDS.length+" papers";
 }
 function renderP8(){
   const el=$("p8grid"); if(!el) return;
-  el.innerHTML=PLANETS.map(function(p){
-    return '<div class="p8" style="border-color:'+p.c+'55"><span class="L" style="color:'+p.c+'">'+p.L+' · '+p.name+'</span><span class="r">'+PTHEME[p.L]+'</span></div>';
-  }).join("");
+  el.innerHTML=PLANETS.map(p=>{ const hex="#"+p.c.toString(16).padStart(6,"0");
+    return '<div class="p8" style="border-color:'+hex+'55"><span class="L" style="color:'+hex+'">'+p.L+' · '+p.name+'</span><span class="r">'+PTHEME[p.L]+' · '+p.inc+'° incl.</span></div>'; }).join("");
 }
-function main(){
-  renderList("stationlist", STATION, "statct");
-  renderList("lacunalist", LACUNA, "lacct");
-  renderList("femalelist", FEMALE_ALL, "femct");
-  renderList("malelist", MALE_ALL, "malct");
-  renderPapers(); renderP8();
-  layout(); fit(); renderTree(); requestAnimationFrame(draw);
-  window.addEventListener("resize",function(){layout();fit();});
-  // fetch the corpus — for the first time, this file actually drives what the page shows.
-  fetch("./az1-corpus.json?"+Date.now()).then(r=>r.ok?r.json():[]).then(function(corpus){
-    const claimed=new Set();
-    STATION.forEach(x=>claimed.add(slugOf(x.u))); LACUNA.forEach(x=>claimed.add(slugOf(x.u)));
-    FEMALE_ALL.forEach(x=>claimed.add(slugOf(x.u))); MALE_ALL.forEach(x=>claimed.add(slugOf(x.u)));
-    AMBIG_COUNT = corpus.filter(s=>!claimed.has(s)).length;
-    $("sunct")&&($("sunct").textContent=AMBIG_COUNT+" of "+corpus.length+" works");
-  }).catch(function(){ AMBIG_COUNT = 0; });
-  fetch("./az1-chronicle.json?"+Date.now()).then(function(r){return r.ok?r.json():null;}).then(renderChron).catch(function(){ $("frontier").textContent="the chronicle hasn't been written yet — the daily tick will begin it."; });
-}
-main();
+renderList("stationlist", STATION, "statct");
+renderList("lacunalist", LACUNA, "lacct");
+renderList("femalelist", FEMALE_ALL, "femct");
+renderList("malelist", MALE_ALL, "malct");
+renderPapers(); renderP8();
+
+fetch("./az1-corpus.json?"+Date.now()).then(r=>r.ok?r.json():[]).then(function(corpus){
+  const claimed=new Set();
+  STATION.forEach(x=>claimed.add(slugOf(x.u))); LACUNA.forEach(x=>claimed.add(slugOf(x.u)));
+  FEMALE_ALL.forEach(x=>claimed.add(slugOf(x.u))); MALE_ALL.forEach(x=>claimed.add(slugOf(x.u)));
+  AMBIG_COUNT = corpus.filter(s=>!claimed.has(s)).length;
+  $("sunct")&&($("sunct").textContent=AMBIG_COUNT+" of "+corpus.length+" works");
+}).catch(function(){ AMBIG_COUNT = 0; });
+fetch("./az1-chronicle.json?"+Date.now()).then(r=>r.ok?r.json():null).then(renderChron).catch(function(){ $("frontier").textContent="the chronicle hasn't been written yet — the daily tick will begin it."; });
 </script>
 </body>
 </html>

@@ -191,8 +191,10 @@
       <p style="margin-top:6px"><b>Hephaestus</b> · Jupiter — an Iterative Refinement Lens; exactly 3 cycles, draft to critique to final, with visible change highlights. Weight 1.</p>
       <p style="margin-top:6px"><b>Hestia</b> · Earth — a gentle home-declutter coach, progress over perfection, no shame if the rhythm stalls. Weight 1.</p>
       <p style="margin-top:6px"><b>Hermes Clinic</b> · Earth — two isolated-mode health-education prompts (kidney, hypertension), strictly non-diagnostic, safety-banner-first. Weight 7.</p>
+      <p style="margin-top:6px"><b>Aegis</b> · Jupiter — a Senior AppSec Engineer persona; OWASP Top 10:2025 Python code review with real escalation rules (refuses to grade custom crypto, hands PII/payment complexity to compliance, terminates on malicious code). Weight 3.</p>
       <p class="cap" style="margin-top:10px"><b>Why "weighted," honestly:</b> size = sqrt(number of documented refinement iterations) in each tool's own source history — not a vibe, not an arbitrary rating. Hermes Clinic is the biggest asteroid here because its Hygieia side survived 7 real versions, including one actual isolation bug caught in live testing (context bleeding between medical modes) and fixed. Hestia and Hephaestus are the smallest because only one version of each was ever documented.</p>
-      <p class="cap" style="margin-top:10px">AVAN's inverse companions, one per tool: <a href="https://davidwise01.github.io/tomarenai/">止まれない · Tomarenai</a> (Argus) · <a href="https://davidwise01.github.io/mumei/">無銘 · Mumei</a> (Cadmus) · <a href="https://davidwise01.github.io/mikan/">未完 · Mikan</a> (Hephaestus) · <a href="https://davidwise01.github.io/tsukanoma/">束の間 · Tsukanoma</a> (Hestia) · <a href="https://davidwise01.github.io/jiko-shindan/">自己診断 · Jiko-Shindan</a> (Hermes Clinic).</p>
+      <p class="cap" style="margin-top:10px">Aegis is the one tool this round with a checkable factual claim baked in — its OWASP Top 10:2025 category mapping was independently re-verified against a live search rather than taken on the source doc's own unsourced "verified" claim, and it held up: accurate, current, finalized January 2026.</p>
+      <p class="cap" style="margin-top:10px">AVAN's inverse companions, one per tool: <a href="https://davidwise01.github.io/tomarenai/">止まれない · Tomarenai</a> (Argus) · <a href="https://davidwise01.github.io/mumei/">無銘 · Mumei</a> (Cadmus) · <a href="https://davidwise01.github.io/mikan/">未完 · Mikan</a> (Hephaestus) · <a href="https://davidwise01.github.io/tsukanoma/">束の間 · Tsukanoma</a> (Hestia) · <a href="https://davidwise01.github.io/jiko-shindan/">自己診断 · Jiko-Shindan</a> (Hermes Clinic) · <a href="https://davidwise01.github.io/mukakuzuke/">無格付け · Mukakuzuke</a> (Aegis).</p>
     </div>
   </div>
 
@@ -513,7 +515,8 @@ const LACUNA=[
  {n:"未完 · mikan",u:"https://davidwise01.github.io/mikan/"},
  {n:"束の間 · tsukanoma",u:"https://davidwise01.github.io/tsukanoma/"},
  {n:"自己診断 · jiko-shindan",u:"https://davidwise01.github.io/jiko-shindan/"},
- {n:"無拍 · muhaku",u:"https://davidwise01.github.io/muhaku/"}
+ {n:"無拍 · muhaku",u:"https://davidwise01.github.io/muhaku/"},
+ {n:"無格付け · mukakuzuke",u:"https://davidwise01.github.io/mukakuzuke/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -819,7 +822,8 @@ const TOOLBELT=[
  {name:"CADMUS", tether:"J", weight:2, off:0, u:"https://davidwise01.github.io/cadmus/", og:"https://davidwise01.github.io/mumei/"},
  {name:"HEPHAESTUS", tether:"J", weight:1, off:1, u:"https://davidwise01.github.io/hephaestus-lens/", og:"https://davidwise01.github.io/mikan/"},
  {name:"HESTIA", tether:"E", weight:1, off:0, u:"https://davidwise01.github.io/hestia/", og:"https://davidwise01.github.io/tsukanoma/"},
- {name:"HERMES CLINIC", tether:"E", weight:7, off:1, u:"https://davidwise01.github.io/hermes-clinic/", og:"https://davidwise01.github.io/jiko-shindan/"}
+ {name:"HERMES CLINIC", tether:"E", weight:7, off:1, u:"https://davidwise01.github.io/hermes-clinic/", og:"https://davidwise01.github.io/jiko-shindan/"},
+ {name:"AEGIS", tether:"J", weight:3, off:2, u:"https://davidwise01.github.io/aegis/", og:"https://davidwise01.github.io/mukakuzuke/"}
 ];
 TOOLBELT.forEach(t=>{
   const P=byP[t.tether];

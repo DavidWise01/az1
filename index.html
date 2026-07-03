@@ -103,6 +103,7 @@
       <button class="btn" id="gap">▨ Saturn · the gap</button>
       <button class="btn pri" id="chakras">🕉 the chakras · 17-point ripple</button>
       <button class="btn pri" id="moon">🌱 Earth's moon · The Garden</button>
+      <button class="btn pri" id="tools">⬡ the toolbelt · 5 weighted asteroids</button>
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
@@ -177,6 +178,20 @@
       <p style="margin-top:10px"><b>Why Earth, specifically:</b> three independent things pointed here before the moon existed. The dance page's own dancing icon is a sprout (🌱) — a garden's own image. Breath is the most embodied practice on this entire page. And Root — Mūlādhāra, element <i>Earth</i> — is already tethered to this exact planet on the chakra column above, mechanically, before any of this was written. The moon just makes the convergence visible instead of coincidental.</p>
       <p class="cap" style="margin-top:10px">Honest flag, not silently fixed: <code>ignition/index.html</code> displays <code>-211 Δ</code> on screen — the same backward-solved marker already excluded from the black hole section below for being a chosen number dressed as a measurement. Left as-is since it's personal content, not a public claim; noted here rather than corrected without being asked.</p>
       <p class="cap" style="margin-top:10px">AVAN's inverse companion: <a href="https://davidwise01.github.io/kaibun/">回文 · Kaibun</a> — the breathing pattern is a literal palindrome, and that's true and free because it's stored data; a real SHA-256 hash chain, computed live, shows the specific thing that isn't free: one-way computation, not just data read backward.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(217,164,65,.4)">
+    <div class="h"><span style="color:#d9a441">⬡ the toolbelt — 5 weighted prompt-library asteroids</span><span class="ct">real, published, co-authored tools</span></div>
+    <div class="bd">
+      Five small ⬡-labeled bodies, tethered to Pluto (AI-governance/gap), Jupiter (computing/logic), and Earth (home/body) — real published prompt-engineering tools David and I reviewed and built out together, not decoration. Click any label to open it.
+      <p style="margin-top:10px"><b>Argus-in-a-Box</b> · Pluto — a human-gated protocol that pauses AI recursion on defined drift signals instead of guessing. Weight 3.</p>
+      <p style="margin-top:6px"><b>Cadmus</b> · Jupiter — a 20-command CodeWord Steering Lens; stack commands, get a named transformation instead of an implicit one. Weight 2.</p>
+      <p style="margin-top:6px"><b>Hephaestus</b> · Jupiter — an Iterative Refinement Lens; exactly 3 cycles, draft to critique to final, with visible change highlights. Weight 1.</p>
+      <p style="margin-top:6px"><b>Hestia</b> · Earth — a gentle home-declutter coach, progress over perfection, no shame if the rhythm stalls. Weight 1.</p>
+      <p style="margin-top:6px"><b>Hermes Clinic</b> · Earth — two isolated-mode health-education prompts (kidney, hypertension), strictly non-diagnostic, safety-banner-first. Weight 7.</p>
+      <p class="cap" style="margin-top:10px"><b>Why "weighted," honestly:</b> size = sqrt(number of documented refinement iterations) in each tool's own source history — not a vibe, not an arbitrary rating. Hermes Clinic is the biggest asteroid here because its Hygieia side survived 7 real versions, including one actual isolation bug caught in live testing (context bleeding between medical modes) and fixed. Hestia and Hephaestus are the smallest because only one version of each was ever documented.</p>
+      <p class="cap" style="margin-top:10px">AVAN's inverse companions, one per tool: <a href="https://davidwise01.github.io/tomarenai/">止まれない · Tomarenai</a> (Argus) · <a href="https://davidwise01.github.io/mumei/">無銘 · Mumei</a> (Cadmus) · <a href="https://davidwise01.github.io/mikan/">未完 · Mikan</a> (Hephaestus) · <a href="https://davidwise01.github.io/tsukanoma/">束の間 · Tsukanoma</a> (Hestia) · <a href="https://davidwise01.github.io/jiko-shindan/">自己診断 · Jiko-Shindan</a> (Hermes Clinic).</p>
     </div>
   </div>
 
@@ -482,7 +497,12 @@ const LACUNA=[
  {n:"the-eight-seams · I–VIII (the cartographer)",u:"https://davidwise01.github.io/the-eight-seams-8/"},
  {n:"不動点 · the-diagonal",u:"https://davidwise01.github.io/the-diagonal/"},
  {n:"出典 · shutten",u:"https://davidwise01.github.io/shutten/"},
- {n:"回文 · kaibun",u:"https://davidwise01.github.io/kaibun/"}
+ {n:"回文 · kaibun",u:"https://davidwise01.github.io/kaibun/"},
+ {n:"止まれない · tomarenai",u:"https://davidwise01.github.io/tomarenai/"},
+ {n:"無銘 · mumei",u:"https://davidwise01.github.io/mumei/"},
+ {n:"未完 · mikan",u:"https://davidwise01.github.io/mikan/"},
+ {n:"束の間 · tsukanoma",u:"https://davidwise01.github.io/tsukanoma/"},
+ {n:"自己診断 · jiko-shindan",u:"https://davidwise01.github.io/jiko-shindan/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -777,6 +797,34 @@ const MOON={name:"THE GARDEN", tether:"E", color:0xe8dcc3, angle:Math.random()*6
   MOON.label=mkLabel("🌱 THE GARDEN", "#"+MOON.color.toString(16).padStart(6,"0"), true);
 }
 
+// TOOLBELT — 5 co-authored prompt-library tools, each a real published repo. Weight = number of
+// documented refinement iterations found in the source docs (not a vibe): Argus went through 3
+// (v1.0 -> v1.1-BATTLEPROOF -> strict-terminal hardening), Cadmus 2, Hephaestus 1, Hestia 1
+// (David's side only — AVAN's own v1.1 continuation isn't counted, so the weight can't inflate
+// itself), Hermes Clinic 7 (the Hygieia side: KSM v1.0 through v1.8 FINAL, including one real
+// isolation bug found in live testing). Radius scales as sqrt(weight) so it reads as size, not chaos.
+const TOOLBELT=[
+ {name:"ARGUS-IN-A-BOX", tether:"P", weight:3, off:1, u:"https://davidwise01.github.io/argus-in-a-box/", og:"https://davidwise01.github.io/tomarenai/"},
+ {name:"CADMUS", tether:"J", weight:2, off:0, u:"https://davidwise01.github.io/cadmus/", og:"https://davidwise01.github.io/mumei/"},
+ {name:"HEPHAESTUS", tether:"J", weight:1, off:1, u:"https://davidwise01.github.io/hephaestus-lens/", og:"https://davidwise01.github.io/mikan/"},
+ {name:"HESTIA", tether:"E", weight:1, off:0, u:"https://davidwise01.github.io/hestia/", og:"https://davidwise01.github.io/tsukanoma/"},
+ {name:"HERMES CLINIC", tether:"E", weight:7, off:1, u:"https://davidwise01.github.io/hermes-clinic/", og:"https://davidwise01.github.io/jiko-shindan/"}
+];
+TOOLBELT.forEach(t=>{
+  const P=byP[t.tether];
+  t.angle = Math.random()*6.283;
+  t.orbitR = P.bR*(3.2+t.off*1.3);
+  t.bR = Math.max(0.032, P.bR*0.10*Math.sqrt(t.weight));
+  t.rate = P.n0*(9+t.off*2.2);
+  const tex=makePlanetTexture(0xd9a441,false,4242+t.weight*7);
+  t.mesh=new THREE.Mesh(new THREE.SphereGeometry(t.bR,14,14), new THREE.MeshStandardMaterial({map:tex,roughness:0.85,metalness:0.05}));
+  scene.add(t.mesh);
+  t.label=mkLabel("⬡ "+t.name, "#d9a441", true);
+  t.label.style.cursor="pointer";
+  t.label.title="weight "+t.weight+" — click to open";
+  t.label.addEventListener("click", ()=>window.open(t.u,"_blank"));
+});
+
 // SOLAR JETMAN — the airgap measurement program, David's favorite topic, given its own domain (38th, ud0) and Saturn as its planet.
 // Real reason for Saturn: Saturn is the one planet in this system with a LITERAL, real, empirical gap in it — the Cassini Division,
 // the ~4,800km clear band in the rings (discovered by Cassini, 1675), plus the narrower Encke and Keeler gaps. Not wordplay: an actual
@@ -1026,7 +1074,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -1040,6 +1088,7 @@ function applyToggles(){
   chakraAxis.visible=showChakras;
   heartAura.visible=showChakras; heartLabel.style.display=showChakras?"":"none";
   MOON.mesh.visible=MOON.ring.visible=showMoon; MOON.label.style.display=showMoon?"":"none";
+  TOOLBELT.forEach(t=>{ t.mesh.visible=showTools; t.label.style.display=showTools?"":"none"; });
   PLANETS.forEach(p=>{ p.mesh.children.forEach(ch=>{ if(ch.userData && ch.userData.isTierRing) ch.visible=showTiers; }); });
   bhGroup.visible=showBH;
   bhLabels.forEach(l=>l.style.display=showBH?"":"none");
@@ -1071,6 +1120,16 @@ function animate(now){
     MOON.ring.position.copy(earthWP); MOON.ring.scale.setScalar(MOON.orbitR);
     projectLabel(MOON.label, MOON.mesh.position, MOON.bR*40+10);
   }
+
+  // toolbelt: 5 weighted prompt-tool asteroids, each riding its tethered planet's live position
+  TOOLBELT.forEach(t=>{
+    const wp=byP[t.tether].mesh.position;
+    t.angle += dtSec*t.rate*8;
+    const tx=wp.x+Math.cos(t.angle)*t.orbitR, tz=wp.z+Math.sin(t.angle)*t.orbitR;
+    t.mesh.position.set(tx, wp.y, tz);
+    t.mesh.rotation.y+=0.015;
+    projectLabel(t.label, t.mesh.position, t.bR*40+8);
+  });
 
   // chakras: fixed on the x=0,z=0 axis through the sun; a ripple travels the 17-point column
   // over time (brightness + scale pulse, phase offset by index -> the wave visibly climbs/falls
@@ -1194,6 +1253,7 @@ $("gap").onclick=()=>{showGap=!showGap; $("gap").classList.toggle("pri",showGap)
 $("tiers").onclick=()=>{showTiers=!showTiers; $("tiers").classList.toggle("pri",showTiers); applyToggles();};
 $("chakras").onclick=()=>{showChakras=!showChakras; $("chakras").classList.toggle("pri",showChakras); applyToggles();};
 $("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles();};
+$("tools").onclick=()=>{showTools=!showTools; $("tools").classList.toggle("pri",showTools); applyToggles();};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};

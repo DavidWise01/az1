@@ -104,6 +104,7 @@
       <button class="btn pri" id="chakras">🕉 the chakras · 17-point ripple</button>
       <button class="btn pri" id="moon">🌱 Earth's moon · The Garden</button>
       <button class="btn pri" id="tools">⬡ the toolbelt · 5 weighted asteroids</button>
+      <button class="btn pri" id="cnc">◈ C&C · orbital pulsar</button>
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
@@ -192,6 +193,15 @@
       <p style="margin-top:6px"><b>Hermes Clinic</b> · Earth — two isolated-mode health-education prompts (kidney, hypertension), strictly non-diagnostic, safety-banner-first. Weight 7.</p>
       <p class="cap" style="margin-top:10px"><b>Why "weighted," honestly:</b> size = sqrt(number of documented refinement iterations) in each tool's own source history — not a vibe, not an arbitrary rating. Hermes Clinic is the biggest asteroid here because its Hygieia side survived 7 real versions, including one actual isolation bug caught in live testing (context bleeding between medical modes) and fixed. Hestia and Hephaestus are the smallest because only one version of each was ever documented.</p>
       <p class="cap" style="margin-top:10px">AVAN's inverse companions, one per tool: <a href="https://davidwise01.github.io/tomarenai/">止まれない · Tomarenai</a> (Argus) · <a href="https://davidwise01.github.io/mumei/">無銘 · Mumei</a> (Cadmus) · <a href="https://davidwise01.github.io/mikan/">未完 · Mikan</a> (Hephaestus) · <a href="https://davidwise01.github.io/tsukanoma/">束の間 · Tsukanoma</a> (Hestia) · <a href="https://davidwise01.github.io/jiko-shindan/">自己診断 · Jiko-Shindan</a> (Hermes Clinic).</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(255,238,51,.45)">
+    <div class="h"><span style="color:#ffee33">◈ C&C — orbital pulsar</span><span class="ct">Earth, vivid on request</span></div>
+    <div class="bd">
+      A low-poly icosahedron riding its own orbit around Earth, spinning, with two fixed polar beams that flash neon yellow on a real 1.4-second wall-clock period — not simulation speed, an actual timer. Purely decorative, same honesty as every other rider in this sim: not a real command-and-control system, not a security tool, a fictional station rendered honestly as fictional, the same way the black hole and stargate content elsewhere in this corpus are.
+      <p class="cap" style="margin-top:10px">Built vivid on request (2026-07-02): no black or dark fill on the body itself — emissive neon yellow throughout, brightest at the pulse peak. The rest of az1's UI (this card included) still uses the site's existing dark styling; whether that changes too is an open question I asked and haven't gotten an answer on yet, so it's untouched for now rather than guessed at.</p>
+      <p class="cap" style="margin-top:10px">AVAN's inverse companion: <a href="https://davidwise01.github.io/muhaku/">無拍 · Muhaku</a> — a real pulsar's beams are so regular they're used as cosmic clocks; nothing about AVAN pulses on any fixed interval at all.</p>
     </div>
   </div>
 
@@ -502,7 +512,8 @@ const LACUNA=[
  {n:"無銘 · mumei",u:"https://davidwise01.github.io/mumei/"},
  {n:"未完 · mikan",u:"https://davidwise01.github.io/mikan/"},
  {n:"束の間 · tsukanoma",u:"https://davidwise01.github.io/tsukanoma/"},
- {n:"自己診断 · jiko-shindan",u:"https://davidwise01.github.io/jiko-shindan/"}
+ {n:"自己診断 · jiko-shindan",u:"https://davidwise01.github.io/jiko-shindan/"},
+ {n:"無拍 · muhaku",u:"https://davidwise01.github.io/muhaku/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -825,6 +836,34 @@ TOOLBELT.forEach(t=>{
   t.label.addEventListener("click", ()=>window.open(t.u,"_blank"));
 });
 
+// C&C — a decorative orbital pulsar station around Earth, David's request (2026-07-02): vivid, not
+// dark, neon-yellow pulsing beams. Not a security tool, not a real command-and-control anything —
+// same as the black hole / stargate content elsewhere in this corpus, a fictional structure rendered
+// honestly as fictional. Low-poly icosahedron body (deliberately non-spherical, reads as "built" not
+// "natural," same distinction as every other planet/moon in this sim), two fixed polar beams whose
+// brightness pulses on a sine wave — a real pulsar's lighthouse beams sweep past an observer on a
+// timer; this fakes that timer with opacity instead of rotation, since a swept beam can vanish from
+// the current camera angle for long stretches and a "pulsar" that's invisible most of the time reads
+// as broken, not honest.
+const CNC={name:"C&C", tether:"E", color:0xffee33, angle:Math.random()*6.283, pulse:0};
+{
+  const earthP=byP[CNC.tether];
+  CNC.orbitR = earthP.bR*4.4;
+  CNC.bR = Math.max(0.05, earthP.bR*0.22);
+  CNC.rate = earthP.n0*7.1;
+  CNC.mesh=new THREE.Mesh(new THREE.IcosahedronGeometry(CNC.bR,0), new THREE.MeshStandardMaterial({color:CNC.color, emissive:CNC.color, emissiveIntensity:0.6, roughness:0.35, metalness:0.6}));
+  scene.add(CNC.mesh);
+  CNC.light=new THREE.PointLight(CNC.color, 0, CNC.bR*60);
+  scene.add(CNC.light);
+  const beamGeo=new THREE.CylinderGeometry(CNC.bR*0.12, CNC.bR*0.35, CNC.bR*9, 10, 1, true);
+  const beamMat=()=>new THREE.MeshBasicMaterial({color:CNC.color, transparent:true, opacity:0, side:THREE.DoubleSide, blending:THREE.AdditiveBlending, depthWrite:false});
+  CNC.beamUp=new THREE.Mesh(beamGeo, beamMat()); CNC.beamUp.position.y=CNC.bR*4.5; scene.add(CNC.beamUp);
+  CNC.beamDown=new THREE.Mesh(beamGeo, beamMat()); CNC.beamDown.position.y=-CNC.bR*4.5; scene.add(CNC.beamDown);
+  CNC.ring=new THREE.Mesh(new THREE.RingGeometry(1,1.006,64), new THREE.MeshBasicMaterial({color:CNC.color, side:THREE.DoubleSide, transparent:true, opacity:0.14}));
+  CNC.ring.rotation.x=Math.PI/2; scene.add(CNC.ring);
+  CNC.label=mkLabel("◈ C&C · orbital pulsar", "#ffee33", true);
+}
+
 // SOLAR JETMAN — the airgap measurement program, David's favorite topic, given its own domain (38th, ud0) and Saturn as its planet.
 // Real reason for Saturn: Saturn is the one planet in this system with a LITERAL, real, empirical gap in it — the Cassini Division,
 // the ~4,800km clear band in the rings (discovered by Cassini, 1675), plus the narrower Encke and Keeler gaps. Not wordplay: an actual
@@ -1074,7 +1113,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -1089,6 +1128,8 @@ function applyToggles(){
   heartAura.visible=showChakras; heartLabel.style.display=showChakras?"":"none";
   MOON.mesh.visible=MOON.ring.visible=showMoon; MOON.label.style.display=showMoon?"":"none";
   TOOLBELT.forEach(t=>{ t.mesh.visible=showTools; t.label.style.display=showTools?"":"none"; });
+  CNC.mesh.visible=CNC.ring.visible=CNC.beamUp.visible=CNC.beamDown.visible=showCNC;
+  CNC.light.visible=showCNC; CNC.label.style.display=showCNC?"":"none";
   PLANETS.forEach(p=>{ p.mesh.children.forEach(ch=>{ if(ch.userData && ch.userData.isTierRing) ch.visible=showTiers; }); });
   bhGroup.visible=showBH;
   bhLabels.forEach(l=>l.style.display=showBH?"":"none");
@@ -1130,6 +1171,26 @@ function animate(now){
     t.mesh.rotation.y+=0.015;
     projectLabel(t.label, t.mesh.position, t.bR*40+8);
   });
+
+  // C&C: orbits Earth, spins, and pulses neon yellow on a fixed 1.4s real-time period (not tied
+  // to sim speed — a pulsar's period is a real clock, so this one runs on the wall clock too)
+  { const earthWP2=byP[CNC.tether].mesh.position;
+    CNC.angle += dtSec*CNC.rate*8;
+    const cx=earthWP2.x+Math.cos(CNC.angle)*CNC.orbitR, cz=earthWP2.z+Math.sin(CNC.angle)*CNC.orbitR;
+    CNC.mesh.position.set(cx, earthWP2.y, cz);
+    CNC.mesh.rotation.y+=0.03; CNC.mesh.rotation.x+=0.011;
+    CNC.light.position.copy(CNC.mesh.position);
+    CNC.ring.position.copy(earthWP2); CNC.ring.scale.setScalar(CNC.orbitR);
+    CNC.beamUp.position.set(cx, earthWP2.y+CNC.bR*4.5, cz);
+    CNC.beamDown.position.set(cx, earthWP2.y-CNC.bR*4.5, cz);
+    CNC.pulse = (performance.now()/1000 % 1.4)/1.4;
+    const glow = Math.max(0, Math.sin(CNC.pulse*Math.PI*2))**3;
+    CNC.light.intensity = glow*3.2;
+    CNC.beamUp.material.opacity = glow*0.55;
+    CNC.beamDown.material.opacity = glow*0.55;
+    CNC.mesh.material.emissiveIntensity = 0.35+glow*1.1;
+    projectLabel(CNC.label, CNC.mesh.position, CNC.bR*40+10);
+  }
 
   // chakras: fixed on the x=0,z=0 axis through the sun; a ripple travels the 17-point column
   // over time (brightness + scale pulse, phase offset by index -> the wave visibly climbs/falls
@@ -1254,6 +1315,7 @@ $("tiers").onclick=()=>{showTiers=!showTiers; $("tiers").classList.toggle("pri",
 $("chakras").onclick=()=>{showChakras=!showChakras; $("chakras").classList.toggle("pri",showChakras); applyToggles();};
 $("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles();};
 $("tools").onclick=()=>{showTools=!showTools; $("tools").classList.toggle("pri",showTools); applyToggles();};
+$("cnc").onclick=()=>{showCNC=!showCNC; $("cnc").classList.toggle("pri",showCNC); applyToggles();};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};

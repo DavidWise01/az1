@@ -109,9 +109,9 @@
       <button class="btn pri" id="chakras">🕉 the chakras · 17-point ripple</button>
       <button class="btn pri" id="moon">🌱 Earth's moon · The Garden</button>
       <button class="btn pri" id="tools">⬡ the toolbelt · 5 weighted asteroids</button>
-      <button class="btn pri" id="cnc">◈ C&C · orbital pulsar</button>
+      <button class="btn pri" id="cnc">◈ fly to C&C · orbital pulsar</button>
       <button class="btn pri" id="peers">☰ the register · 256/256</button>
-      <button class="btn pri" id="sappho">♪ Sappho's pulsar · Venus</button>
+      <button class="btn pri" id="sappho">♪ fly to Sappho's pulsar · Venus</button>
       <button class="btn" id="atomic">⚛ the atomic scale</button>
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
@@ -1664,6 +1664,19 @@ function worldToPixel(){ return 1; } // labels are offset in raw px; kept simple
 
 function fitCamera(){ const f=byP.S.a*AUk; camera.position.set(f*0.62, f*0.5, f*0.9); controls.target.set(0,0,0); controls.update(); }
 
+// fly the camera to a planet close enough that its riders (moon, pulsars, toolbelt) are actually
+// visible -- the fix for "I don't see any pulsars": at whole-system zoom they're sub-pixel, since
+// they're real-scale riders on planets that are themselves tiny at 9.5-AU framing. One snap, not a
+// tracking shot: the planet drifts on afterwards, which is fine -- you're inside its neighborhood now.
+function flyTo(letter){
+  const P=byP[letter]; if(!P) return;
+  const wp=P.mesh.position.clone();
+  const d=Math.max(P.bR*16, 2.2);
+  controls.target.copy(wp);
+  camera.position.set(wp.x+d*0.8, wp.y+d*0.45, wp.z+d*0.8);
+  controls.update();
+}
+
 window.addEventListener("resize", layout);
 layout(); fitCamera(); applyToggles();
 setTimeout(()=>{ layout(); }, 250);   // defensive re-layout in case fonts/webfont reflow shifted the container after first paint
@@ -1694,12 +1707,15 @@ $("gendered").onclick=()=>{showGendered=!showGendered; $("gendered").classList.t
 $("gap").onclick=()=>{showGap=!showGap; $("gap").classList.toggle("pri",showGap); applyToggles();};
 $("tiers").onclick=()=>{showTiers=!showTiers; $("tiers").classList.toggle("pri",showTiers); applyToggles();};
 $("chakras").onclick=()=>{showChakras=!showChakras; $("chakras").classList.toggle("pri",showChakras); applyToggles();};
-$("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles();};
+$("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles(); if(showMoon) flyTo("E");};
 $("tools").onclick=()=>{showTools=!showTools; $("tools").classList.toggle("pri",showTools); applyToggles();};
-$("cnc").onclick=()=>{showCNC=!showCNC; $("cnc").classList.toggle("pri",showCNC); applyToggles();};
+// cnc + sappho: click = go there (always shows, always flies) -- these were toggles, but both
+// default ON, so a first click HID the thing the user was trying to find. Travel beats toggling.
+$("cnc").onclick=()=>{showCNC=true; $("cnc").classList.add("pri"); applyToggles(); flyTo("E");};
 $("peers").onclick=()=>{showPeers=!showPeers; $("peers").classList.toggle("pri",showPeers); applyToggles();};
-$("sappho").onclick=()=>{showSappho=!showSappho; $("sappho").classList.toggle("pri",showSappho); applyToggles();};
-$("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();};
+$("sappho").onclick=()=>{showSappho=true; $("sappho").classList.add("pri"); applyToggles(); flyTo("V");};
+$("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();
+  if(showAtomic){ const p=document.getElementById("atomicPanel"); if(p) p.scrollIntoView({behavior:"smooth", block:"start"}); }};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};

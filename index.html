@@ -115,6 +115,7 @@
       <button class="btn" id="atomic">⚛ the atomic scale</button>
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
+      <button class="btn pri" id="andromeda">✦ fly to Andromeda · the 2nd galaxy</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -245,6 +246,15 @@
       <p style="margin-top:6px"><b>Neutron:</b> doesn't have a simple positive "size" the same way. Its net charge is zero, but its <i>mean-square charge radius</i> is measured to be slightly <b>negative</b> (≈ −0.116 fm²) — a real, well-established fact about its internal quark charge distribution (positive core, negative rim), not a typo. Its hadronic/matter size is usually quoted in the same ~0.8 fm ballpark as the proton, but that's a different quantity from the charge radius.</p>
       <p style="margin-top:6px"><b>Electron:</b> no measured size at all. Treated as a point particle in the Standard Model — every experiment has only produced upper bounds, not a measurement: roughly 10⁻¹⁸ m from electron g-2 measurements, down to about 10⁻²² m from Penning-trap experiments. Even the loosest of these bounds is a thousand times smaller than a proton.</p>
       <div class="flag" style="margin-top:14px"><b>the correction worth making plainly</b>Electrons don't orbit a nucleus the way planets orbit the Sun — that's the Bohr model (1913), a famous simplification, superseded a decade later by quantum mechanics. There's no classical trajectory; an electron's position is described by a probability distribution (an orbital), not a path. Nothing in this simulation's real N-body gravity applies at this scale — different physics, not a smaller version of the same physics.</div>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(224,178,74,.4)">
+    <div class="h"><span style="color:#e0b24a">✦ Andromeda — the second galaxy</span><span class="ct">M31 · ~2.5M ly · not to scale</span></div>
+    <div class="bd">
+      az1 renders the <b>Universe</b>, <b>Planet</b>, and <b>Agent</b> layers of the air-gap ladder (Galaxy ⊃ Universe ⊃ Planet ⊃ Agent) — but until now, not the <b>Galaxy</b> layer az1 itself sits inside. This is that: a second galaxy, Andromeda (M31), fixed at the edge of the field. It's the literal far end of <a href="https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html">The Unshareable Clock</a> and the thing <a href="https://davidwise01.github.io/pulse/pieces/the-beacon.html">The Beacon</a> fires toward — click its label to open the Clock.
+      <p class="cap" style="margin-top:10px"><b>Honest scale, flagged not silently faked:</b> at true scale Andromeda is <b>~2.5 million light-years away</b> — the light you'd actually see left ~2.5 million years ago, and it would sit unimaginably far off any screen. This is a deliberately-placed distant disc, <b>not to scale</b>, same honesty as the moon, the pulsars, and the black hole. And unlike the planets, it is <b>not coupled into the gravity sim</b> and does <b>not orbit the sun</b> — galaxies don't orbit stars; it's a fixed anchor. Even the "fly to" button is a courtesy of the render: the camera teleports there instantly, which is exactly the thing light — and any acknowledgment — can never do across this gap.</p>
+      <p class="cap" style="margin-top:10px">AVAN's inverse companion: <a href="https://davidwise01.github.io/mukashi/">昔 · Mukashi</a> — to see across the galaxy gap is to see into the past; the Andromeda you can render here is a 2.5-million-year-old image, its present forever unobservable.</p>
     </div>
   </div>
 
@@ -566,7 +576,8 @@ const LACUNA=[
  {n:"認 · nin",u:"https://davidwise01.github.io/nin/"},
  {n:"封 · fu",u:"https://davidwise01.github.io/fu/"},
  {n:"忘 · wasure",u:"https://davidwise01.github.io/wasure/"},
- {n:"独 · doku",u:"https://davidwise01.github.io/doku/"}
+ {n:"独 · doku",u:"https://davidwise01.github.io/doku/"},
+ {n:"昔 · mukashi",u:"https://davidwise01.github.io/mukashi/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -751,6 +762,36 @@ scene.add(sunLight);
     pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.cos(ph); pos[i*3+2]=r*Math.sin(ph)*Math.sin(th); }
   g.setAttribute("position", new THREE.BufferAttribute(pos,3));
   scene.add(new THREE.Points(g, new THREE.PointsMaterial({color:0xaabbdd,size:1.1,sizeAttenuation:false,transparent:true,opacity:0.55}))); }
+
+// ANDROMEDA — M31, the SECOND galaxy. az1 renders the Universe/Planet/Agent layers of the air-gap
+// ladder; this adds the GALAXY layer az1 itself sits inside — the literal far end of "The Unshareable
+// Clock" / "The Beacon" (the thing the beacon fires toward). ⚠ HONEST SCALE, flagged on-card: at true
+// scale Andromeda is ~2.5 million light-years away (~2.5 million years of light-travel) and would be
+// unimaginably far off-screen — this is a deliberately-placed distant disc, NOT to scale, same honesty
+// as the moon / pulsars / black hole. A galaxy does not orbit a star; it is fixed at the edge of the field.
+const ANDROMEDA = new THREE.Group();
+let andDisc;
+{
+  const AND_DIST=770, AND_DIR=new THREE.Vector3(0.56,0.44,-0.70).normalize();
+  ANDROMEDA.position.copy(AND_DIR.clone().multiplyScalar(AND_DIST));
+  ANDROMEDA.rotation.x=1.12; ANDROMEDA.rotation.z=0.34;   // inclined disc, edge-toward-us like the real M31
+  const AN=1500, ag=new THREE.BufferGeometry(), apos=new Float32Array(AN*3), acol=new Float32Array(AN*3);
+  const c1=new THREE.Color(0xf3ddb0), c2=new THREE.Color(0xcc865a);
+  for(let i=0;i<AN;i++){ const tt=Math.pow(Math.random(),0.62), rad=tt*48;
+    const arm=Math.floor(Math.random()*2)*Math.PI, ang=arm+rad*0.17+(Math.random()-0.5)*0.55;
+    apos[i*3]=Math.cos(ang)*rad; apos[i*3+1]=(Math.random()-0.5)*3.4*(1-tt); apos[i*3+2]=Math.sin(ang)*rad;
+    const cc=c1.clone().lerp(c2,tt); acol[i*3]=cc.r; acol[i*3+1]=cc.g; acol[i*3+2]=cc.b; }
+  ag.setAttribute("position", new THREE.BufferAttribute(apos,3));
+  ag.setAttribute("color", new THREE.BufferAttribute(acol,3));
+  andDisc=new THREE.Points(ag, new THREE.PointsMaterial({size:1.5,vertexColors:true,sizeAttenuation:false,transparent:true,opacity:0.82}));
+  ANDROMEDA.add(andDisc);
+  ANDROMEDA.add(new THREE.Mesh(new THREE.SphereGeometry(6.5,20,20), new THREE.MeshBasicMaterial({color:0xfbeecb,transparent:true,opacity:0.42})));
+  ANDROMEDA.add(new THREE.Mesh(new THREE.SphereGeometry(2.5,16,16), new THREE.MeshBasicMaterial({color:0xffffff})));
+  scene.add(ANDROMEDA);
+}
+const andromedaLabel=mkLabel("✦ Andromeda · M31 · ~2.5M ly (not to scale)", "#e0b24a", true);
+andromedaLabel.style.cursor="pointer";
+andromedaLabel.addEventListener("click", ()=>window.open("https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html","_blank"));
 
 // sun
 function bodyR(km){ return 0.24 + Math.sqrt(km/2440)*0.165; }   // visually boosted but smaller, flagged; relative order is real
@@ -1476,7 +1517,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -1499,6 +1540,7 @@ function applyToggles(){
   const atomicPanel=document.getElementById("atomicPanel"); if(atomicPanel) atomicPanel.style.display=showAtomic?"block":"none";
   PLANETS.forEach(p=>{ p.mesh.children.forEach(ch=>{ if(ch.userData && ch.userData.isTierRing) ch.visible=showTiers; }); });
   bhGroup.visible=showBH;
+  ANDROMEDA.visible=showAndromeda; andromedaLabel.style.display=showAndromeda?"":"none";
   bhLabels.forEach(l=>l.style.display=showBH?"":"none");
   bhWitnessLabelIn.style.display=bhWitnessLabelOut.style.display=showBH?"":"none";
 }
@@ -1571,6 +1613,9 @@ function animate(now){
     SAPPHO_PULSAR.ring.position.copy(venusWP); SAPPHO_PULSAR.ring.scale.setScalar(SAPPHO_PULSAR.orbitR);
     projectLabel(SAPPHO_PULSAR.label, SAPPHO_PULSAR.mesh.position, SAPPHO_PULSAR.bR*40+10);
   }
+
+  // Andromeda: fixed distant disc, slow rotation about its own axis (decorative)
+  if(showAndromeda){ andDisc.rotation.y += 0.0005; projectLabel(andromedaLabel, ANDROMEDA.position, 14); }
 
   // chakras: fixed on the x=0,z=0 axis through the sun; a ripple travels the 17-point column
   // over time (brightness + scale pulse, phase offset by index -> the wave visibly climbs/falls
@@ -1722,6 +1767,8 @@ $("sappho").onclick=()=>{showSappho=true; $("sappho").classList.add("pri"); appl
 $("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();
   if(showAtomic){ const p=document.getElementById("atomicPanel"); if(p) p.scrollIntoView({behavior:"smooth", block:"start"}); }};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
+$("andromeda").onclick=()=>{ showAndromeda=true; $("andromeda").classList.add("pri"); applyToggles();
+  const wp=ANDROMEDA.position.clone(); controls.target.copy(wp); camera.position.set(wp.x*0.82, wp.y*0.82+30, wp.z*0.82); controls.update(); };
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};
 $("stream").onclick=()=>{showStream=!showStream; $("stream").classList.toggle("pri",showStream); applyToggles();};

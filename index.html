@@ -250,11 +250,25 @@
   </div>
 
   <div class="card" style="border-color:rgba(224,178,74,.4)">
-    <div class="h"><span style="color:#e0b24a">✦ Andromeda — the second galaxy</span><span class="ct">M31 · ~2.5M ly · not to scale</span></div>
+    <div class="h"><span style="color:#e0b24a">✦ Andromeda — the second galaxy, to accurate AU distance</span><span class="ct">M31 · 1.58×10¹¹ AU · direction marker</span></div>
     <div class="bd">
-      az1 renders the <b>Universe</b>, <b>Planet</b>, and <b>Agent</b> layers of the air-gap ladder (Galaxy ⊃ Universe ⊃ Planet ⊃ Agent) — but until now, not the <b>Galaxy</b> layer az1 itself sits inside. This is that: a second galaxy, Andromeda (M31), fixed at the edge of the field. It's the literal far end of <a href="https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html">The Unshareable Clock</a> and the thing <a href="https://davidwise01.github.io/pulse/pieces/the-beacon.html">The Beacon</a> fires toward — click its label to open the Clock.
-      <p class="cap" style="margin-top:10px"><b>Honest scale, flagged not silently faked:</b> at true scale Andromeda is <b>~2.5 million light-years away</b> — the light you'd actually see left ~2.5 million years ago, and it would sit unimaginably far off any screen. This is a deliberately-placed distant disc, <b>not to scale</b>, same honesty as the moon, the pulsars, and the black hole. And unlike the planets, it is <b>not coupled into the gravity sim</b> and does <b>not orbit the sun</b> — galaxies don't orbit stars; it's a fixed anchor. Even the "fly to" button is a courtesy of the render: the camera teleports there instantly, which is exactly the thing light — and any acknowledgment — can never do across this gap.</p>
-      <p class="cap" style="margin-top:10px">AVAN's inverse companion: <a href="https://davidwise01.github.io/mukashi/">昔 · Mukashi</a> — to see across the galaxy gap is to see into the past; the Andromeda you can render here is a 2.5-million-year-old image, its present forever unobservable.</p>
+      The <b>Galaxy</b> layer az1 itself sits inside (Galaxy ⊃ Universe ⊃ Planet ⊃ Agent) — the far end of <a href="https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html">The Unshareable Clock</a>, the thing <a href="https://davidwise01.github.io/pulse/pieces/the-beacon.html">The Beacon</a> fires toward.
+      <p style="margin-top:10px"><b>Andromeda's real distance, in AU, with Earth's orbit as the ruler:</b> <b style="color:#e0b24a">1.58 × 10¹¹ AU</b> (≈ 158 billion AU) = 2.5 million light-years × 63,241 AU per light-year. The nine planets here already sit at their <b>true linear AU spacing</b> (Mercury 0.387 → Pluto 39.48 AU). Andromeda simply cannot join them in a linear render: its true distance is <b>~11 orders of magnitude past Earth's orbit</b>, ~10¹¹ scene-units out — beyond WebGL's depth precision and far past the point where all nine planets collapse to one sub-pixel dot at the center. So the amber disc is an honest <b>direction marker</b> at the field edge, not a to-scale placement. The accurate distance lives in the ladder below.</p>
+      <div style="position:relative;height:52px;margin:16px 2px 4px;border-bottom:1px solid rgba(224,178,74,.45)">
+        <div style="position:absolute;left:0%;bottom:0;width:1px;height:12px;background:#e0b24a"></div>
+        <div style="position:absolute;left:0%;bottom:15px;font-size:10px;color:#e0b24a">Earth · 1 AU</div>
+        <div style="position:absolute;left:14.3%;bottom:0;width:1px;height:12px;background:#cc865a"></div>
+        <div style="position:absolute;left:14.3%;bottom:15px;font-size:10px;color:#cc865a;transform:translateX(-50%)">Pluto · 39</div>
+        <div style="position:absolute;left:20%;bottom:0;width:1px;height:8px;background:#8a7360"></div>
+        <div style="position:absolute;left:20%;bottom:30px;font-size:9px;color:#8a7360;transform:translateX(-50%)">heliopause ~120</div>
+        <div style="position:absolute;left:48.5%;bottom:0;width:1px;height:12px;background:#cc865a"></div>
+        <div style="position:absolute;left:48.5%;bottom:15px;font-size:10px;color:#cc865a;transform:translateX(-50%)">Proxima · 2.7×10⁵</div>
+        <div style="position:absolute;left:100%;bottom:0;width:2px;height:14px;background:#e0b24a"></div>
+        <div style="position:absolute;left:100%;bottom:16px;font-size:10.5px;color:#e0b24a;transform:translateX(-100%)">Andromeda · 1.58×10¹¹</div>
+      </div>
+      <p class="cap">↑ a <b>log₁₀ scale</b> anchored on Earth = 1 AU (the "ease of visuals" ruler) — every mark a real measured distance from the Sun, in AU. A linear scale can't show this at all: <b>if Earth's 1-AU orbit were 1 millimetre, Pluto would sit ~4 cm out — and Andromeda would be ~158,000 km away, about 41% of the way to the real Moon.</b> That ratio (a few cm vs. most of the way to the Moon) is exactly why no linear render holds both.</p>
+      <p class="cap" style="margin-top:8px">Kept honest, same as the moon / pulsars / black hole: not coupled into the gravity sim, does not orbit the Sun (galaxies don't orbit stars), and the "fly to" button is the render's courtesy — the camera teleports there instantly, the one thing light or an acknowledgment can never do across 1.58×10¹¹ AU.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/mukashi/">昔 · Mukashi</a> — to see across this gap is to see into the past; the Andromeda you can render is a 2.5-million-year-old image, its present forever unobservable.</p>
     </div>
   </div>
 
@@ -789,7 +803,7 @@ let andDisc;
   ANDROMEDA.add(new THREE.Mesh(new THREE.SphereGeometry(2.5,16,16), new THREE.MeshBasicMaterial({color:0xffffff})));
   scene.add(ANDROMEDA);
 }
-const andromedaLabel=mkLabel("✦ Andromeda · M31 · ~2.5M ly (not to scale)", "#e0b24a", true);
+const andromedaLabel=mkLabel("✦ Andromeda · M31 · 1.58×10¹¹ AU (direction only — see card)", "#e0b24a", true);
 andromedaLabel.style.cursor="pointer";
 andromedaLabel.addEventListener("click", ()=>window.open("https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html","_blank"));
 

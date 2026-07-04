@@ -116,6 +116,7 @@
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
       <button class="btn pri" id="andromeda">✦ fly to Andromeda · the 2nd galaxy</button>
+      <button class="btn" id="galacticview">◉ galactic view · Sgr A* · Milky Way · triangulated</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -272,10 +273,24 @@
     </div>
   </div>
 
+  <div class="card" style="border-color:rgba(207,168,255,.45)">
+    <div class="h"><span style="color:#cfa8ff">◉ galactic view — Sgr A*, the Milky Way, triangulated</span><span class="ct">the Galaxy layer · a separate frame</span></div>
+    <div class="bd">
+      Toggle <b>◉ galactic view</b> above to swap into the galactic frame: <b>Sagittarius A*</b> (the Milky Way's real central supermassive black hole) at the center, the Milky Way disc with the Sun marked in it, and Andromeda beyond — with the three points <b>triangulated</b>. The whole solar system becomes a single labeled sub-pixel dot.
+      <p style="margin-top:10px"><b>Why a separate frame, not a zoom:</b> the planets (≤40 AU), Sgr A* (1.687×10⁹ AU), and Andromeda (1.58×10¹¹ AU) span ~10 orders of magnitude — no single linear render holds them. But Sgr A* and Andromeda are only <b>~94× apart</b>, so those two <i>do</i> share one honest linear frame. That's exactly why the galactic view is renderable and the solar view isn't part of it.</p>
+      <p style="margin-top:10px"><b>The triangulation (the one thing drawn true-to-scale here):</b> Sun→Sgr A* = <b>26,673 ly</b> (8.178 kpc = 1.687×10⁹ AU, GRAVITY 2019); Sun→Andromeda = <b>~2.5M ly</b> (1.58×10¹¹ AU); angle at the Sun = <b>~118.8°</b> (the real sky separation of the galactic center and M31, from galactic coords l=0°,b=0° and l=121.2°,b=−21.6°); so Sgr A*→Andromeda = <b>~2.51M ly</b>, <i>derived by the law of cosines</i>, not a measured baseline. The far two legs are nearly equal (the Sun's 26,673-ly offset is a ~1% perturbation) — that sliver shape <i>is</i> the visual proof of the scale gap.</p>
+      <div class="flag" style="margin-top:12px"><b>why the Sun does NOT orbit the black hole</b><span id="gravCorr"></span></div>
+      <p class="cap" style="margin-top:8px"><b>Honest tags.</b> REAL (cited): the three distances, Sgr A*'s mass, the ~118.8° angle, the triangle proportions. SCHEMATIC (labeled in-scene): every rendered <i>size</i> (Sgr A*'s horizon, the discs, the Sun dot), the spiral-arm morphology, the Sun's azimuth/arm placement, and the frame's scene-scale (a rendering choice). Not coupled into the gravity sim; the rendered Andromeda is still a 2.5-Myr-old image (see 昔 · Mukashi), so the triangle is "as the light left it," not "now."</p>
+      <p class="cap" style="margin-top:8px"><b>The merger is not asserted:</b> Andromeda approaches at ~110 km/s (blueshift), but a Milky Way–Andromeda collision is genuinely contested — Sawala et al. 2024 (Nature Astronomy), with the latest Gaia data plus M33 and the LMC, find it roughly a coin-flip over ~10 Gyr, not a certainty.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/uzu/">渦 · Uzu</a> — from inside the whirlpool, only the angle at the Sun is directly measured; the far leg is inferred, never seen.</p>
+    </div>
+  </div>
+
   <div class="card" style="border-color:rgba(207,168,255,.3)">
     <div class="h"><span style="color:#cfa8ff">● the black hole — fixed, beyond Pluto</span><span class="ct">Schwarzschild, non-spinning</span></div>
     <div class="bd">
-      Rebuilt from an earlier "ballroom engine" draft — kept the parts that were real, dropped the parts that were a chosen number dressed as a measurement (see below). A single non-rotating black hole, fixed at ~1.65× Pluto's distance, <b>not coupled into the gravity sim</b> — a real black hole's mass would wreck the verified-stable 9-planet orbit, so this one sits outside it, honestly, as a separate anchor.
+      <b style="color:#e0b24a">This is a generic teaching black hole placed just past Pluto (~65 AU) for visibility — it is NOT the galaxy's central black hole.</b> The real one, Sagittarius A*, is ~1.687×10⁹ AU away at the galactic center — about 2.6×10⁷× farther (~7.4 orders of magnitude). See the new <b>◉ galactic view</b> for Sgr A*, the Milky Way, and the triangulation.
+      <p style="margin-top:10px">Rebuilt from an earlier "ballroom engine" draft — kept the parts that were real, dropped the parts that were a chosen number dressed as a measurement (see below). A single non-rotating black hole, fixed at ~1.65× Pluto's distance, <b>not coupled into the gravity sim</b> — a real black hole's mass would wreck the verified-stable 9-planet orbit, so this one sits outside it, honestly, as a separate anchor.</p>
       <ul style="margin:10px 0 0 18px;padding:0;font-size:13.5px;line-height:1.9">
         <li><b>Event horizon</b> — the boundary itself, pure black.</li>
         <li><b>Photon sphere (1.5 Rs)</b> — the real radius of the unstable circular photon orbit; the bright rim echoes the "photon ring" seen in the actual EHT images of M87* and Sgr A*.</li>
@@ -591,7 +606,8 @@ const LACUNA=[
  {n:"封 · fu",u:"https://davidwise01.github.io/fu/"},
  {n:"忘 · wasure",u:"https://davidwise01.github.io/wasure/"},
  {n:"独 · doku",u:"https://davidwise01.github.io/doku/"},
- {n:"昔 · mukashi",u:"https://davidwise01.github.io/mukashi/"}
+ {n:"昔 · mukashi",u:"https://davidwise01.github.io/mukashi/"},
+ {n:"渦 · uzu",u:"https://davidwise01.github.io/uzu/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -775,7 +791,7 @@ scene.add(sunLight);
   for(let i=0;i<N;i++){ const r=600+Math.random()*900, th=Math.random()*Math.PI*2, ph=Math.acos(2*Math.random()-1);
     pos[i*3]=r*Math.sin(ph)*Math.cos(th); pos[i*3+1]=r*Math.cos(ph); pos[i*3+2]=r*Math.sin(ph)*Math.sin(th); }
   g.setAttribute("position", new THREE.BufferAttribute(pos,3));
-  scene.add(new THREE.Points(g, new THREE.PointsMaterial({color:0xaabbdd,size:1.1,sizeAttenuation:false,transparent:true,opacity:0.55}))); }
+  window._starfield=new THREE.Points(g, new THREE.PointsMaterial({color:0xaabbdd,size:1.1,sizeAttenuation:false,transparent:true,opacity:0.55})); scene.add(window._starfield); }
 
 // ANDROMEDA — M31, the SECOND galaxy. az1 renders the Universe/Planet/Agent layers of the air-gap
 // ladder; this adds the GALAXY layer az1 itself sits inside — the literal far end of "The Unshareable
@@ -1174,7 +1190,7 @@ for(let i=0;i<BH_RINGS;i++){
   bhGroup.add(ring); bhDisk.push(ring);
 }
 const bhLabels=[
-  mkLabel("● EVENT HORIZON", "#cfa8ff", true),
+  mkLabel("● teaching black hole (beyond Pluto) — NOT Sgr A*", "#cfa8ff", true),
   mkLabel("PHOTON SPHERE (unstable, 1.5 Rs)", "#ffe9b0", true),
   mkLabel("ISCO (3 Rs)", "#ffb347", true),
   mkLabel("ACCRETION DISK · T∝r⁻³ᐟ⁴", "#ff9060", true),
@@ -1522,6 +1538,66 @@ function mkLabel(text, color, small){
   const el=document.createElement("div"); el.className="lbl"+(small?" small":""); el.style.color=color; el.textContent=text;
   labelLayer.appendChild(el); return el;
 }
+// separate label layer for the galactic frame; hiding its parent hides all galactic labels at once
+const galacticLabelLayer=document.createElement("div"); galacticLabelLayer.style.cssText=labelLayer.style.cssText; galacticLabelLayer.className=labelLayer.className; galacticLabelLayer.style.display="none"; labelLayer.parentNode.appendChild(galacticLabelLayer);
+function mkGalLabel(text,color,small){ const el=document.createElement("div"); el.className="lbl"+(small?" small":""); el.style.color=color; el.textContent=text; galacticLabelLayer.appendChild(el); return el; }
+
+// ============ GALACTIC FRAME — Sgr A*, the Milky Way, Andromeda, triangulated ============
+// A separate FRAME (not a zoom): solar (≤40 AU) and galactic (Sgr A* at 1.687×10⁹ AU) span ~7.6 orders, so no
+// single linear WebGL frame holds both — entering SWAPS frames. Sgr A* (1.687e9 AU) and Andromeda (1.581e11 AU)
+// are only ~94× apart, so THOSE two DO share one honest linear frame — that's the whole reason this is renderable.
+// ⚠ GALACTIC FRAME: M_BH (Sgr A*'s mass) is DISPLAY-ONLY text. It is NEVER fed to a solver, and NO position or
+// velocity is derived from it. The Sun is a STATIC illustrative marker at r=8 kpc — it orbits the galaxy's
+// ~1×10¹¹ M☉ ENCLOSED mass (stars + dark matter), NOT the black hole (which is ~1 part in 23,000 of that).
+const galacticGroup=new THREE.Group(); galacticGroup.visible=false; scene.add(galacticGroup);
+const GAL_R0=40, GAL_DISC_R=GAL_R0/0.533, GAL_AND_R=GAL_R0*93.7;   // Sun at R₀; disc R (Sun=53% of it); M31 at ~94×R₀
+{ galacticGroup.add(new THREE.Mesh(new THREE.SphereGeometry(1.6,24,24),new THREE.MeshBasicMaterial({color:0x000000})));
+  galacticGroup.add(new THREE.Mesh(new THREE.RingGeometry(2.0,2.5,48),new THREE.MeshBasicMaterial({color:0xffd9a0,side:THREE.DoubleSide,transparent:true,opacity:0.75})).rotateX(Math.PI/2*0));
+  galacticGroup.add(new THREE.Mesh(new THREE.SphereGeometry(3.4,16,16),new THREE.MeshBasicMaterial({color:0xcfa8ff,transparent:true,opacity:0.14}))); }
+{ const N=1800,g=new THREE.BufferGeometry(),p=new Float32Array(N*3),c=new Float32Array(N*3),c1=new THREE.Color(0xbcd0f0),c2=new THREE.Color(0x6a7cc8);
+  for(let i=0;i<N;i++){ const tt=Math.pow(Math.random(),0.62),rad=tt*GAL_DISC_R,arm=Math.floor(Math.random()*2)*Math.PI,ang=arm+rad*0.20+(Math.random()-0.5)*0.5;
+    p[i*3]=Math.cos(ang)*rad; p[i*3+1]=(Math.random()-0.5)*2.2*(1-tt); p[i*3+2]=Math.sin(ang)*rad; const cc=c1.clone().lerp(c2,tt); c[i*3]=cc.r;c[i*3+1]=cc.g;c[i*3+2]=cc.b; }
+  g.setAttribute("position",new THREE.BufferAttribute(p,3)); g.setAttribute("color",new THREE.BufferAttribute(c,3));
+  galacticGroup.add(new THREE.Points(g,new THREE.PointsMaterial({size:1.3,vertexColors:true,sizeAttenuation:false,transparent:true,opacity:0.7})));
+  galacticGroup.add(new THREE.Mesh(new THREE.SphereGeometry(4,18,18),new THREE.MeshBasicMaterial({color:0xf0e2c0,transparent:true,opacity:0.28}))); }
+const GAL_SUN=new THREE.Vector3(GAL_R0,0,0);
+{ const s=new THREE.Mesh(new THREE.SphereGeometry(0.9,14,14),new THREE.MeshBasicMaterial({color:0xffe27a})); s.position.copy(GAL_SUN); galacticGroup.add(s); }
+const GAL_AND_DIR=new THREE.Vector3(0.4816,0,0.8764).normalize();   // 61.2° in x-z ⇒ Sun→M31 vs Sun→Sgr A* = the real 118.8°
+const GAL_AND=GAL_SUN.clone().add(GAL_AND_DIR.clone().multiplyScalar(GAL_AND_R));
+let galAndDisc;
+{ const N=900,g=new THREE.BufferGeometry(),p=new Float32Array(N*3),c=new Float32Array(N*3),c1=new THREE.Color(0xf3ddb0),c2=new THREE.Color(0xcc865a);
+  for(let i=0;i<N;i++){ const tt=Math.pow(Math.random(),0.62),rad=tt*120,arm=Math.floor(Math.random()*2)*Math.PI,ang=arm+rad*0.17+(Math.random()-0.5)*0.55;
+    p[i*3]=Math.cos(ang)*rad; p[i*3+1]=(Math.random()-0.5)*8*(1-tt); p[i*3+2]=Math.sin(ang)*rad; const cc=c1.clone().lerp(c2,tt); c[i*3]=cc.r;c[i*3+1]=cc.g;c[i*3+2]=cc.b; }
+  g.setAttribute("position",new THREE.BufferAttribute(p,3)); g.setAttribute("color",new THREE.BufferAttribute(c,3));
+  galAndDisc=new THREE.Points(g,new THREE.PointsMaterial({size:1.5,vertexColors:true,sizeAttenuation:false,transparent:true,opacity:0.8}));
+  const gg=new THREE.Group(); gg.position.copy(GAL_AND); gg.rotation.x=1.1; gg.rotation.z=0.3; gg.add(galAndDisc);
+  gg.add(new THREE.Mesh(new THREE.SphereGeometry(5,16,16),new THREE.MeshBasicMaterial({color:0xfbeecb,transparent:true,opacity:0.4}))); galacticGroup.add(gg); }
+function galLine(a,b,col){ return new THREE.Line(new THREE.BufferGeometry().setFromPoints([a,b]),new THREE.LineBasicMaterial({color:col,transparent:true,opacity:0.65})); }
+galacticGroup.add(galLine(GAL_SUN,new THREE.Vector3(0,0,0),0xffe27a));
+galacticGroup.add(galLine(GAL_SUN,GAL_AND,0xe0b24a));
+galacticGroup.add(galLine(new THREE.Vector3(0,0,0),GAL_AND,0xcfa8ff));
+const galLabels=[
+  {el:mkGalLabel("◉ Sgr A* · Milky Way central SMBH · 4.297×10⁶ M☉ · 8.178 kpc = ~26,700 ly = 1.687×10⁹ AU from the Sun","#cfa8ff",true), pos:new THREE.Vector3(0,0,0), off:16},
+  {el:mkGalLabel("☉ the Sun — the ENTIRE solar system is this dot (sub-pixel; Pluto's whole orbit = 2.3×10⁻⁸ of the way to center)","#ffe27a",true), pos:GAL_SUN, off:10},
+  {el:mkGalLabel("✦ Andromeda · M31 · ~2.5M ly = 1.58×10¹¹ AU · ~94× farther than the galactic center","#e0b24a",true), pos:GAL_AND, off:12},
+  {el:mkGalLabel("26,673 ly (R₀)","#ffe27a",true), pos:GAL_SUN.clone().multiplyScalar(0.5), off:0},
+  {el:mkGalLabel("~119° · real sky separation of the galactic center & M31","#f0a886",true), pos:GAL_SUN.clone().add(GAL_AND_DIR.clone().multiplyScalar(55)), off:0},
+  {el:mkGalLabel("Sgr A*→M31 ≈ 2.51M ly — DERIVED (law of cosines), not a measured baseline","#cfa8ff",true), pos:GAL_AND.clone().multiplyScalar(0.5), off:0},
+];
+let galacticMode=false, _savedVis=[];
+function enterGalactic(on){
+  galacticMode=on;
+  if(on){
+    _savedVis=[]; scene.children.forEach(ch=>{ if(ch!==galacticGroup && ch!==window._starfield && !ch.isLight){ _savedVis.push([ch,ch.visible]); ch.visible=false; } });
+    galacticGroup.visible=true; labelLayer.style.display="none"; galacticLabelLayer.style.display="";
+    camera.far=12000; camera.updateProjectionMatrix(); controls.maxDistance=9000;
+    controls.target.set(600,0,1100); camera.position.set(700,3600,-1500); controls.update();
+  } else {
+    _savedVis.forEach(([ch,v])=>ch.visible=v); _savedVis=[];
+    galacticGroup.visible=false; labelLayer.style.display=""; galacticLabelLayer.style.display="none";
+    camera.far=4000; camera.updateProjectionMatrix(); controls.maxDistance=1400; fitCamera(); applyToggles();
+  }
+}
 function projectLabel(el, worldPos, offsetY){
   const v=worldPos.clone().project(camera);
   if(v.z>1 || !isFinite(v.x) || !isFinite(v.y)){ el.style.display="none"; return; }
@@ -1531,7 +1607,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -1630,6 +1706,8 @@ function animate(now){
 
   // Andromeda: fixed distant disc, slow rotation about its own axis (decorative)
   if(showAndromeda){ andDisc.rotation.y += 0.0005; projectLabel(andromedaLabel, ANDROMEDA.position, 14); }
+  // galactic frame: slow disc spin + project the galactic labels (only when in the galactic frame)
+  if(galacticMode){ galAndDisc.rotation.y += 0.0005; galLabels.forEach(l=>projectLabel(l.el, l.pos, l.off)); }
 
   // chakras: fixed on the x=0,z=0 axis through the sun; a ripple travels the 17-point column
   // over time (brightness + scale pulse, phase offset by index -> the wave visibly climbs/falls
@@ -1781,8 +1859,9 @@ $("sappho").onclick=()=>{showSappho=true; $("sappho").classList.add("pri"); appl
 $("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();
   if(showAtomic){ const p=document.getElementById("atomicPanel"); if(p) p.scrollIntoView({behavior:"smooth", block:"start"}); }};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
-$("andromeda").onclick=()=>{ showAndromeda=true; $("andromeda").classList.add("pri"); applyToggles();
+$("andromeda").onclick=()=>{ if(galacticMode) return; showAndromeda=true; $("andromeda").classList.add("pri"); applyToggles();
   const wp=ANDROMEDA.position.clone(); controls.target.copy(wp); camera.position.set(wp.x*0.82, wp.y*0.82+30, wp.z*0.82); controls.update(); };
+$("galacticview").onclick=()=>{ showGalactic=!showGalactic; $("galacticview").classList.toggle("pri",showGalactic); enterGalactic(showGalactic); };
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};
 $("stream").onclick=()=>{showStream=!showStream; $("stream").classList.toggle("pri",showStream); applyToggles();};
@@ -1817,6 +1896,22 @@ renderList("lacunalist", LACUNA, "lacct");
   const PROTON_DIAM_M = 1.68e-15;     // 2 x ~0.84fm RMS charge radius
   const ratio = AU_M / PROTON_DIAM_M;
   el.textContent = ratio.toExponential(1).replace("e+","×10^").replace("+","") + " to 1";
+})();
+
+// the load-bearing gravity correction — computed LIVE from real constants, never hard-coded, so a reader can recheck.
+// The Sun does NOT orbit Sgr A*; it orbits the galaxy's total ENCLOSED mass. Proven by comparing the black-hole-only
+// velocity to the observed one.
+(function(){
+  const el=document.getElementById("gravCorr"); if(!el) return;
+  const G=6.674e-11, Msun=1.989e30, pc=3.0857e16;
+  const M_BH=4.297e6*Msun;            // Sgr A* mass (GRAVITY 2022)
+  const R0=8178*pc;                   // Sun–galactic-center distance (GRAVITY 2019)
+  const v_obs=230000;                 // observed solar galactic orbital speed, m/s
+  const v_hole=Math.sqrt(G*M_BH/R0);  // if the Sun orbited Sgr A* ALONE
+  const M_enc=v_obs*v_obs*R0/G;       // enclosed mass the Sun actually orbits
+  const massRatio=M_enc/M_BH, velErr=v_obs/v_hole;
+  el.innerHTML =
+    "The Sun does not orbit Sgr A*. If it did — v = √(G·M_BH/R₀) with the black hole's mass alone — it would move at <b>"+(v_hole/1000).toFixed(2)+" km/s</b>. It actually moves at <b>~230 km/s</b> — <b>"+velErr.toFixed(0)+"× faster</b>. That gap is the proof: the Sun orbits the galaxy's <b>total enclosed mass ≈ "+(M_enc/Msun).toExponential(2).replace("e+","×10^")+" M☉</b> (stars + dark matter), of which Sgr A* is only <b>~1 part in "+Math.round(massRatio).toLocaleString()+"</b>. The black hole marks the center; it does not hold the Sun. (Sgr A* <i>does</i> govern orbits within its inner ~1–2 pc sphere of influence — the S-stars, e.g. S2 — and only there is v = √(G·M_BH/r) correct. Galactic year ≈ 225–250 Myr.)";
 })();
 
 // the register: 256 cells, filled in the order PEERS was defined, remainder genuinely blank

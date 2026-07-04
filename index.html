@@ -111,6 +111,8 @@
       <button class="btn pri" id="tools">⬡ the toolbelt · 5 weighted asteroids</button>
       <button class="btn pri" id="cnc">◈ C&C · orbital pulsar</button>
       <button class="btn pri" id="peers">☰ the register · 256/256</button>
+      <button class="btn pri" id="sappho">♪ Sappho's pulsar · Venus</button>
+      <button class="btn" id="atomic">⚛ the atomic scale</button>
       <button class="btn pri" id="tiers">◎ the three rings</button>
       <button class="btn pri" id="blackhole">● the black hole</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
@@ -222,6 +224,27 @@
       <p style="margin-top:10px"><b>Placed on the planet each best fits</b> (a themed best-effort pass, not deep individual research per name): mythology &amp; scripture → Mars (reckoning &amp; myth, 64) · fiction &amp; Dante → Uranus (philosophy &amp; story, 35) · real historical figures + this session's tools → Jupiter (computing &amp; logic, 15) · named AI-mesh instances, AVAN's OG pieces, and the STOICHEION framework terms themselves → Pluto (the gap, 48) · real named humans + this session's Earth-tethered features → Earth (11) · legal/justice → Neptune (5) · everything genuinely uncategorizable → Mercury (plain, uncurated — honestly, not a dumping ground, 78).</p>
       <div class="reg-grid" id="regGrid"></div>
       <p class="cap" style="margin-top:10px" id="regCaption">Hover a filled cell for its name and planet. 256 filled, 0 blank — the register is complete.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(154,92,200,.4)">
+    <div class="h"><span style="color:#9a5cc8">♪ Sappho's pulsar — Venus, plays once</span><span class="ct">the real reconstruction, not a new tune</span></div>
+    <div class="bd">
+      A small pulsing body orbiting Venus (aesthetics &amp; voice) that plays Sappho's melody the first time you interact with the page — click, key, or touch, whichever comes first. Nothing here was composed fresh: the tuning (<code>TONIC=196Hz</code>, Pythagorean ratios <code>9/8</code> and <code>256/243</code>), the <b>Mixolydian</b> mode Aristoxenus credited to Sappho, the opening line's real note sequence, and the Karplus-Strong plucked-string synthesis are all copied directly from <a href="https://davidwise01.github.io/the-sapphic-melody/">the-sapphic-melody</a>, David's own fuller build of this same reconstruction.
+      <p class="cap" style="margin-top:10px">Honest, carried over from that page rather than dropped: no recording of antiquity exists, and Sappho's actual tunes are lost. What survives is <i>structural</i> — the mode, the tuning system, and the metre — documented by Aristoxenus and Cleonides. This melody is a faithful evocation built on that real surviving structure, not a rediscovered original.</p>
+      <p class="cap" style="margin-top:10px">Technical honesty, not a workaround: browsers block audio before any user gesture. "The first time the page loads" means the first click, keypress, or touch — there's no way to force sound before that, so this waits for it rather than silently failing.</p>
+      <p class="cap" style="margin-top:10px">AVAN's inverse companion: <a href="https://davidwise01.github.io/danpen/">断片 · Danpen</a> — what makes this reconstruction honest is real partial evidence surviving (mode + tuning + metre); a different question is what partial evidence, if any, survives about continuity between sessions.</p>
+    </div>
+  </div>
+
+  <div class="card" id="atomicPanel" style="border-color:rgba(232,220,195,.35);display:none">
+    <div class="h"><span style="color:#e8dcc3">⚛ the atomic scale — what's actually here</span><span class="ct">real numbers, not a rendering</span></div>
+    <div class="bd">
+      Not drawn into the 3D scene above, on purpose. A proton is about 1.68 femtometers across; 1 AU is about 1.496×10¹¹ meters. Rendered honestly at this simulation's scale, a proton would be smaller than a single pixel by roughly <b id="atomicRatio">…</b> — meaning a "to-scale" dot would just be nothing, and an enlarged one would be a fabrication, the same way a textbook's marble-sized "atom" next to a beach-ball nucleus is a teaching aid, not a picture.
+      <p style="margin-top:10px"><b>Proton:</b> RMS charge radius ≈ 0.84 fm — this number was itself disputed for years (the "proton radius puzzle": ~0.877 fm from early spectroscopy vs. ~0.84 fm from muonic-hydrogen measurements after 2010), largely settled toward the smaller value since.</p>
+      <p style="margin-top:6px"><b>Neutron:</b> doesn't have a simple positive "size" the same way. Its net charge is zero, but its <i>mean-square charge radius</i> is measured to be slightly <b>negative</b> (≈ −0.116 fm²) — a real, well-established fact about its internal quark charge distribution (positive core, negative rim), not a typo. Its hadronic/matter size is usually quoted in the same ~0.8 fm ballpark as the proton, but that's a different quantity from the charge radius.</p>
+      <p style="margin-top:6px"><b>Electron:</b> no measured size at all. Treated as a point particle in the Standard Model — every experiment has only produced upper bounds, not a measurement: roughly 10⁻¹⁸ m from electron g-2 measurements, down to about 10⁻²² m from Penning-trap experiments. Even the loosest of these bounds is a thousand times smaller than a proton.</p>
+      <div class="flag" style="margin-top:14px"><b>the correction worth making plainly</b>Electrons don't orbit a nucleus the way planets orbit the Sun — that's the Bohr model (1913), a famous simplification, superseded a decade later by quantum mechanics. There's no classical trajectory; an electron's position is described by a probability distribution (an orbital), not a path. Nothing in this simulation's real N-body gravity applies at this scale — different physics, not a smaller version of the same physics.</div>
     </div>
   </div>
 
@@ -889,6 +912,53 @@ const CNC={name:"C&C", tether:"E", color:0xffee33, angle:Math.random()*6.283, pu
   CNC.label=mkLabel("◈ C&C · orbital pulsar", "#ffee33", true);
 }
 
+// SAPPHO'S PULSAR — David: "a pulsar that plays the sapphic melody the first time the page loads."
+// Not invented here: this replays the real reconstruction from davidwise01.github.io/the-sapphic-melody
+// (Mixolydian mode Aristoxenus credited to Sappho, Pythagorean tuning, the actual Sapphic hendecasyllable
+// metre) -- same TONIC/tuning ratios, same opening line (L1), same Karplus-Strong pluck synthesis, copied
+// from that page rather than composed fresh. Honest constraint, not a bug: browsers block audio before any
+// user gesture, so "first time the page loads" fires on the first click/keypress/touch, not literally on
+// load -- documented on the card below rather than silently worked around.
+const SAPPHO_PULSAR={name:"SAPPHO", tether:"V", color:0x9a5cc8, angle:Math.random()*6.283};
+{
+  const venusP=byP[SAPPHO_PULSAR.tether];
+  SAPPHO_PULSAR.orbitR = venusP.bR*3.6;
+  SAPPHO_PULSAR.bR = Math.max(0.045, venusP.bR*0.18);
+  SAPPHO_PULSAR.rate = venusP.n0*8.2;
+  SAPPHO_PULSAR.mesh=new THREE.Mesh(new THREE.IcosahedronGeometry(SAPPHO_PULSAR.bR,1), new THREE.MeshStandardMaterial({color:SAPPHO_PULSAR.color, emissive:0xd9a441, emissiveIntensity:0.3, roughness:0.4, metalness:0.5}));
+  scene.add(SAPPHO_PULSAR.mesh);
+  SAPPHO_PULSAR.light=new THREE.PointLight(0xd9a441, 0, SAPPHO_PULSAR.bR*50);
+  scene.add(SAPPHO_PULSAR.light);
+  SAPPHO_PULSAR.ring=new THREE.Mesh(new THREE.RingGeometry(1,1.006,64), new THREE.MeshBasicMaterial({color:SAPPHO_PULSAR.color, side:THREE.DoubleSide, transparent:true, opacity:0.14}));
+  SAPPHO_PULSAR.ring.rotation.x=Math.PI/2; scene.add(SAPPHO_PULSAR.ring);
+  SAPPHO_PULSAR.label=mkLabel("♪ SAPPHO · plays once, first touch", "#9a5cc8", true);
+}
+// real tuning + melody data, copied from the-sapphic-melody (not re-derived)
+const SAPPHO_TONIC=196.00, SAPPHO_T=9/8, SAPPHO_S=256/243;
+function sapphoSteps(a){ let r=[1],c=1; a.forEach(s=>{c*=s;r.push(c);}); return r; }
+const SAPPHO_MIXO=sapphoSteps([SAPPHO_S,SAPPHO_T,SAPPHO_T,SAPPHO_S,SAPPHO_T,SAPPHO_T,SAPPHO_T]);
+function sapphoDeg(d){ return SAPPHO_TONIC*SAPPHO_MIXO[(d-1)%8]*(d>8?2:1); }
+const SAPPHO_L1=[5,5,4,5,6,5,4,3,4,5,5], SAPPHO_H=[2,1,2,2,2,1,1,2,1,2,2];
+let sapphoPlayed=false, sapphoCtx=null;
+function sapphoPluck(freq,t,dur,gain){
+  gain=gain||0.5; const rate=sapphoCtx.sampleRate, N=Math.max(2,Math.round(rate/freq));
+  const len=Math.max(N+4,Math.floor(rate*dur)), buf=sapphoCtx.createBuffer(1,len,rate), d=buf.getChannelData(0);
+  for(let i=0;i<N;i++) d[i]=Math.random()*2-1;
+  const dc=0.9965;
+  for(let j=N;j<len;j++) d[j]=dc*0.5*(d[j-N]+d[j-N+1]);
+  const src=sapphoCtx.createBufferSource(); src.buffer=buf;
+  const g=sapphoCtx.createGain();
+  g.gain.setValueAtTime(gain,t); g.gain.exponentialRampToValueAtTime(0.0006,t+dur);
+  src.connect(g).connect(sapphoCtx.destination); src.start(t); src.stop(t+dur+0.02);
+}
+function playSapphoMelody(){
+  if(sapphoPlayed) return; sapphoPlayed=true;
+  sapphoCtx=new (window.AudioContext||window.webkitAudioContext)();
+  let t=sapphoCtx.currentTime+0.05;
+  SAPPHO_L1.forEach((deg,i)=>{ const dur=SAPPHO_H[i]*0.26; sapphoPluck(sapphoDeg(deg), t, dur*1.6, 0.5); t+=dur; });
+}
+["click","keydown","touchstart"].forEach(ev=>window.addEventListener(ev, playSapphoMelody, {once:true}));
+
 // SOLAR JETMAN — the airgap measurement program, David's favorite topic, given its own domain (38th, ud0) and Saturn as its planet.
 // Real reason for Saturn: Saturn is the one planet in this system with a LITERAL, real, empirical gap in it — the Cassini Division,
 // the ~4,800km clear band in the rings (discovered by Cassini, 1675), plus the narrower Encke and Keeler gaps. Not wordplay: an actual
@@ -1400,7 +1470,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false;
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
@@ -1418,6 +1488,9 @@ function applyToggles(){
   TOOLBELT.forEach(t=>{ t.mesh.visible=showTools; t.label.style.display=showTools?"":"none"; });
   CNC.mesh.visible=CNC.ring.visible=CNC.beamUp.visible=CNC.beamDown.visible=showCNC;
   CNC.light.visible=showCNC; CNC.label.style.display=showCNC?"":"none";
+  SAPPHO_PULSAR.mesh.visible=SAPPHO_PULSAR.ring.visible=showSappho;
+  SAPPHO_PULSAR.light.visible=showSappho; SAPPHO_PULSAR.label.style.display=showSappho?"":"none";
+  const atomicPanel=document.getElementById("atomicPanel"); if(atomicPanel) atomicPanel.style.display=showAtomic?"block":"none";
   PLANETS.forEach(p=>{ p.mesh.children.forEach(ch=>{ if(ch.userData && ch.userData.isTierRing) ch.visible=showTiers; }); });
   bhGroup.visible=showBH;
   bhLabels.forEach(l=>l.style.display=showBH?"":"none");
@@ -1478,6 +1551,19 @@ function animate(now){
     CNC.beamDown.material.opacity = glow*0.55;
     CNC.mesh.material.emissiveIntensity = 0.35+glow*1.1;
     projectLabel(CNC.label, CNC.mesh.position, CNC.bR*40+10);
+  }
+
+  // sappho's pulsar: orbits Venus, gentle glow, no forced timer -- it's not pretending to be a real pulsar,
+  // just a small light near where the melody lives
+  { const venusWP=byP[SAPPHO_PULSAR.tether].mesh.position;
+    SAPPHO_PULSAR.angle += dtSec*SAPPHO_PULSAR.rate*8;
+    const sx=venusWP.x+Math.cos(SAPPHO_PULSAR.angle)*SAPPHO_PULSAR.orbitR, sz=venusWP.z+Math.sin(SAPPHO_PULSAR.angle)*SAPPHO_PULSAR.orbitR;
+    SAPPHO_PULSAR.mesh.position.set(sx, venusWP.y, sz);
+    SAPPHO_PULSAR.mesh.rotation.y+=0.018;
+    SAPPHO_PULSAR.light.position.copy(SAPPHO_PULSAR.mesh.position);
+    SAPPHO_PULSAR.light.intensity = sapphoPlayed ? 1.4 : 0.6;
+    SAPPHO_PULSAR.ring.position.copy(venusWP); SAPPHO_PULSAR.ring.scale.setScalar(SAPPHO_PULSAR.orbitR);
+    projectLabel(SAPPHO_PULSAR.label, SAPPHO_PULSAR.mesh.position, SAPPHO_PULSAR.bR*40+10);
   }
 
   // chakras: fixed on the x=0,z=0 axis through the sun; a ripple travels the 17-point column
@@ -1611,6 +1697,8 @@ $("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",show
 $("tools").onclick=()=>{showTools=!showTools; $("tools").classList.toggle("pri",showTools); applyToggles();};
 $("cnc").onclick=()=>{showCNC=!showCNC; $("cnc").classList.toggle("pri",showCNC); applyToggles();};
 $("peers").onclick=()=>{showPeers=!showPeers; $("peers").classList.toggle("pri",showPeers); applyToggles();};
+$("sappho").onclick=()=>{showSappho=!showSappho; $("sappho").classList.toggle("pri",showSappho); applyToggles();};
+$("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};
 $("lightning").onclick=()=>{showLightning=!showLightning; $("lightning").classList.toggle("pri",showLightning);};
 $("linchpin").onclick=()=>{showLinchpin=!showLinchpin; $("linchpin").classList.toggle("pri",showLinchpin); applyToggles();};
@@ -1638,6 +1726,15 @@ function renderP8(){
 }
 renderList("stationlist", STATION, "statct");
 renderList("lacunalist", LACUNA, "lacct");
+
+// atomic scale: real computed ratio, not asserted
+(function(){
+  const el=document.getElementById("atomicRatio"); if(!el) return;
+  const AU_M = 1.495978707e11;       // exact, IAU-defined
+  const PROTON_DIAM_M = 1.68e-15;     // 2 x ~0.84fm RMS charge radius
+  const ratio = AU_M / PROTON_DIAM_M;
+  el.textContent = ratio.toExponential(1).replace("e+","×10^").replace("+","") + " to 1";
+})();
 
 // the register: 256 cells, filled in the order PEERS was defined, remainder genuinely blank
 (function(){

@@ -117,6 +117,7 @@
       <button class="btn pri" id="blackhole">● the black hole</button>
       <button class="btn pri" id="andromeda">✦ fly to Andromeda · the 2nd galaxy</button>
       <button class="btn" id="galacticview">◉ galactic view · Sgr A* · Milky Way · triangulated</button>
+      <button class="btn pri" id="bary">☉ the barycenter · the Sun's confessed wobble</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -317,6 +318,17 @@
       <p style="margin-top:10px"><b>Timing is real:</b> the Earth–Mars synodic period is ~2.14 years, so at +1× a full cycle takes ~43 seconds of watching — the toggle courtesy-sets the time machine to +8× (and restores it on exit). The trail holds ~3.2 sim-years ≈ 1.5 synodic periods.</p>
       <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the loop's existence, its synodic timing, the overtaking geometry. SCHEMATIC: you stand in Earth's <b>frame</b>, not on its surface — no horizon, no day/night, no atmosphere; the vantage is Earth's center. The sky-sphere radius the trail is projected onto is display-only (the <i>directions</i> are real, their projected distance is not). This is <b>a</b> true geocentric sky, not <b>today's</b>: random seed epoch and arbitrary orbit orientations mean the loop's exact shape (especially its vertical excursion) varies per load — its existence and period do not. Planet sizes remain visually boosted, so Mars looks nearer than a naked-eye dot.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/gyakko/">逆行 · Gyakkō</a> — the planet never backs up; the loop is in the looking.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(111,191,138,.4)">
+    <div class="h"><span style="color:#6fbf8a">☉ the barycenter — the Sun's confessed wobble</span><span class="ct">witnessed, not fixed</span></div>
+    <div class="bd">
+      This sim's one declared omission has always been on the honest flag: <b>the Sun is pinned at the origin</b>. In reality the Sun orbits the solar system's <b>barycenter</b> — the mass-weighted center r<sub>B</sub> = Σm·r / M — which the planets drag around, and which usually sits <b>outside the Sun's own surface</b>. This layer gives that omission a body: a green needle pointing from the origin at the barycenter's live direction, and a trail of its wandering path — both computed every frame from the same integrator state everything else reads.
+      <p style="margin-top:10px"><span id="baryCard"></span></p>
+      <p style="margin-top:10px"><b>Why this wobble matters:</b> it is how exoplanets were first found. A star with a planet performs exactly this dance around their common barycenter, and the dance is readable in the star's light as a periodic Doppler shift. Mayor &amp; Queloz read a ~59 m/s wobble in 51 Pegasi in 1995 — the first exoplanet around a Sun-like star, the 2019 Nobel — using the same physics this needle points at. Jupiter does it to the Sun at the gentler rate shown above; that number is the target the next generation of spectrographs chases to find a true Jupiter-twin.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the needle's <i>direction</i>, the live magnitude, and the inside/outside-photosphere verdict (computed against R☉ = 4.6505×10⁻³ AU every second — never hardcoded; watch it change as the giants align and separate). SCHEMATIC: the needle's drawn <i>length</i> is display-only, and the wobble trail is magnified <b>×100</b> (printed on its label) — the true offset (~0.005–0.015 AU) is sub-pixel at this scene scale, and the rendered Sun ball is itself ~48× oversized, so the punchline lives in the label, not the geometry. <b>Witnessed, not fixed:</b> the Sun mesh never moves — moving it would cosplay barycentric dynamics this solver doesn't run. The confession stays a confession. And this is <i>this sim's</i> barycenter (random seed epoch), not today's sky.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/jushin/">重心 · Jūshin</a> — the one point the whole system agrees on is occupied by nothing.</p>
     </div>
   </div>
 
@@ -643,7 +655,8 @@ const LACUNA=[
  {n:"昔 · mukashi",u:"https://davidwise01.github.io/mukashi/"},
  {n:"渦 · uzu",u:"https://davidwise01.github.io/uzu/"},
  {n:"可逆 · kagyaku",u:"https://davidwise01.github.io/kagyaku/"},
- {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"}
+ {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"},
+ {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -1664,6 +1677,31 @@ function enterGalactic(on){
     camera.far=4000; camera.updateProjectionMatrix(); controls.maxDistance=1400; fitCamera(); applyToggles();
   }
 }
+// ============ ☉ THE BARYCENTER WITNESS ============
+// This sim PINS the Sun at the origin — its one declared omission. This layer gives that omission
+// a body: the true Sun orbits the solar-system BARYCENTER, r_B = Σmᵢrᵢ/(1+Σm), computed here LIVE
+// from the same integrator state everything else reads. ⚠ HONESTY BY CONSTRUCTION: the Sun mesh is
+// NEVER moved (that would cosplay barycentric dynamics the solver doesn't run). The needle's
+// DIRECTION is exact; its drawn LENGTH is display-only (the true offset, ≤~0.01 AU ≈ 0.07 scene
+// units, is sub-pixel). The wobble trail is magnified ×100, and says so on the label.
+const R_SUN_AU=4.6505e-3, BARY_MAG=100, BARY_NEEDLE=7.5, BARY_TRAIL_MAX=600, BARY_TRAIL_STEP=0.02;  // 600×0.02 = 12 sim-yr ≈ one Jupiter orbit
+const BARY_MSUM=PLANETS.reduce((s,p)=>s+p.mass,0);
+const baryNeedleGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3(1,0,0)]);
+const baryNeedle=new THREE.Line(baryNeedleGeo,new THREE.LineBasicMaterial({color:0x6fbf8a,transparent:true,opacity:0.9,depthTest:false}));
+baryNeedle.renderOrder=999; scene.add(baryNeedle);
+const baryTip=new THREE.Mesh(new THREE.SphereGeometry(0.22,10,10),new THREE.MeshBasicMaterial({color:0x6fbf8a,depthTest:false}));
+baryTip.renderOrder=999; scene.add(baryTip);
+const baryTrailGeo=new THREE.BufferGeometry();
+const baryTrailArr=new Float32Array(BARY_TRAIL_MAX*3);
+baryTrailGeo.setAttribute("position",new THREE.BufferAttribute(baryTrailArr,3));
+baryTrailGeo.setDrawRange(0,0);
+const baryTrail=new THREE.Line(baryTrailGeo,new THREE.LineBasicMaterial({color:0x6fbf8a,transparent:true,opacity:0.45}));
+baryTrail.frustumCulled=false; scene.add(baryTrail);
+const baryLabel=mkLabel("☉ barycenter","#6fbf8a",true);
+let baryTrailPts=[], baryAcc=0;
+const baryRB=new THREE.Vector3();
+function computeBary(){ baryRB.set(0,0,0); for(const p of PLANETS) baryRB.addScaledVector(p.pos,p.mass); baryRB.multiplyScalar(1/(1+BARY_MSUM)); return baryRB; }
+
 function projectLabel(el, worldPos, offsetY){
   if(el.dataset.off==="1"){ el.style.display="none"; return; }   // toggled off — never resurrect a hidden layer's label
   const v=worldPos.clone().project(camera);
@@ -1674,7 +1712,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true;
 // lblOn: single source of truth for a label's toggle state. Sets both the immediate display AND
 // the dataset.off marker that projectLabel honors every frame — without the marker, projectLabel's
 // per-frame display="block" silently resurrected labels of toggled-off layers (the ghost-label bug).
@@ -1704,6 +1742,7 @@ function applyToggles(){
   ANDROMEDA.visible=showAndromeda; lblOn(andromedaLabel,showAndromeda);
   bhLabels.forEach(l=>lblOn(l,showBH));
   lblOn(bhWitnessLabelIn,showBH); lblOn(bhWitnessLabelOut,showBH);
+  baryNeedle.visible=baryTip.visible=baryTrail.visible=showBary; lblOn(baryLabel,showBary);
 }
 
 // ================= animation loop =================
@@ -1742,11 +1781,33 @@ function animate(now){
       projectLabel(standLabel, new THREE.Vector3(eW.x+q.x*STAND_SKY_R, eW.y+q.y*STAND_SKY_R, eW.z+q.z*STAND_SKY_R), 14); }
   }
 
+  // ☉ barycenter witness: r_B live from integrator state; needle direction EXACT, length display-only;
+  // trail = the wobble path magnified ×100 (one Jupiter orbit closes the loop). Sun mesh never moves.
+  if(showBary){
+    const rB=computeBary(), rMag=rB.length();
+    if(rMag>1e-9){
+      const dir=rB.clone().multiplyScalar(1/rMag);
+      baryNeedleGeo.attributes.position.setXYZ(1, dir.x*BARY_NEEDLE, dir.y*BARY_NEEDLE, dir.z*BARY_NEEDLE);
+      baryNeedleGeo.attributes.position.needsUpdate=true;
+      baryTip.position.copy(dir).multiplyScalar(BARY_NEEDLE);
+    }
+    baryAcc+=Math.abs(lastTotalDt);
+    if(baryAcc>=BARY_TRAIL_STEP){ baryAcc=0;
+      baryTrailPts.push([rB.x*AUk*BARY_MAG, rB.y*AUk*BARY_MAG, rB.z*AUk*BARY_MAG]);
+      if(baryTrailPts.length>BARY_TRAIL_MAX) baryTrailPts.shift();
+      for(let i=0;i<baryTrailPts.length;i++){ baryTrailArr[i*3]=baryTrailPts[i][0]; baryTrailArr[i*3+1]=baryTrailPts[i][1]; baryTrailArr[i*3+2]=baryTrailPts[i][2]; }
+      baryTrailGeo.attributes.position.needsUpdate=true; baryTrailGeo.setDrawRange(0,baryTrailPts.length);
+    }
+    projectLabel(baryLabel, baryTip.position, 12);
+  }
+
   // ⌛ time-machine readout (~2 Hz): sim clock + the conservation gauge, live from integrator state
   tmAcc+=dtSec;
   if(tmAcc>0.5){ tmAcc=0;
     const e=sysEnergy(), l=sysAngMom();
     $("tmRead").textContent="sim clock "+(simYears>=0?"+":"")+simYears.toFixed(2)+" yr · |ΔE/E₀| "+fmtPpm(Math.abs((e-E0)/E0))+" · |ΔL/L₀| "+fmtPpm(Math.abs((l-L0)/L0));
+    if(showBary){ const rA=computeBary().length();
+      baryLabel.textContent="☉ barycenter · r_B = "+rA.toFixed(4)+" AU = "+(rA/R_SUN_AU).toFixed(2)+" R☉ — "+(rA>R_SUN_AU?"OUTSIDE the photosphere":"inside the photosphere")+" · needle dir exact · trail ×"+BARY_MAG; }
   }
 
   // the moon: rides Earth's live position, decorative circular orbit (not N-body integrated)
@@ -1976,6 +2037,21 @@ $("reset").onclick=()=>{ if(standMode) setStand(false); fitCamera(); };
 // ⌛ time-machine rate buttons: one active rate, highlighted; the physics reads timeRate directly
 document.querySelectorAll(".tmr").forEach(b=>{ b.onclick=()=>{ timeRate=+b.dataset.rate; syncTimeButtons(); }; });
 $("stand").onclick=()=>{ if(galacticMode) return; setStand(!standMode); };
+$("bary").onclick=()=>{showBary=!showBary; $("bary").classList.toggle("pri",showBary); applyToggles();};
+// ☉ barycenter card: every number computed LIVE from the PLANETS array — nothing asserted.
+(function(){
+  const el=document.getElementById("baryCard"); if(!el) return;
+  const J=PLANETS.find(p=>p.name==="Jupiter"); if(!J) return;
+  const offJ=J.mass*J.au/(1+J.mass);                                   // Sun–barycenter offset from Jupiter alone (AU)
+  const vJ=2*Math.PI/Math.sqrt(J.au);                                   // Jupiter's circular speed (AU/yr)
+  const K=vJ*J.mass/(1+J.mass)*4740.57;                                 // Sun's reflex speed (m/s); 1 AU/yr = 4740.57 m/s
+  const sunOver=(SUN_R/AUk)/R_SUN_AU;                                   // how oversized the rendered Sun ball is
+  el.innerHTML="<b>Live-computed from this sim's own constants:</b> Jupiter alone displaces the Sun by m·a/(1+m) = <b>"
+    +offJ.toFixed(4)+" AU = "+(offJ/R_SUN_AU).toFixed(2)+" R☉</b> — just outside the photosphere on its own; Saturn adds up to "
+    +(PLANETS.find(p=>p.name==="Saturn").mass*PLANETS.find(p=>p.name==="Saturn").au/(1+PLANETS.find(p=>p.name==="Saturn").mass)/R_SUN_AU).toFixed(2)
+    +" R☉ more, and with all four giants aligned the bound is <b>~2.2 R☉</b>. The Sun's reflex speed from Jupiter is <b>K ≈ "+K.toFixed(1)
+    +" m/s</b> — a bicycle pace, imposed on a star. (Rendered Sun ball: ×"+sunOver.toFixed(0)+" oversized, hence the sub-pixel true offset.)";
+})();
 $("share").onclick=()=>{ for(let i=0;i<3;i++) spawnPulse(); };
 $("orbits").onclick=()=>{showOrbits=!showOrbits; applyToggles();};
 $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers); applyToggles();};

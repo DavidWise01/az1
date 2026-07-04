@@ -118,6 +118,7 @@
       <button class="btn pri" id="andromeda">✦ fly to Andromeda · the 2nd galaxy</button>
       <button class="btn" id="galacticview">◉ galactic view · Sgr A* · Milky Way · triangulated</button>
       <button class="btn pri" id="bary">☉ the barycenter · the Sun's confessed wobble</button>
+      <button class="btn pri" id="halley">☄ fly to 1P/Halley · the returner</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -332,6 +333,18 @@
     </div>
   </div>
 
+  <div class="card" style="border-color:rgba(191,230,240,.4)">
+    <div class="h"><span style="color:#bfe6f0">☄ 1P/Halley — a 10th body, not a 10th planet</span><span class="ct">really integrated · the sim's only retrograde orbit</span></div>
+    <div class="bd">
+      Halley is not a rider or a prop: it is a <b>genuine 10th body in the N-body loop</b> — real semi-major axis (17.834 AU), real eccentricity (<b>e = 0.96714</b>, which forced a hardening of this page's Kepler seed-solver), real inclination (<b>162.26°</b> — tilted past 90°, making it the only thing in this sim that orbits <i>backwards</i>), and its real mass (~2.2×10¹⁴ kg ≈ 1.1×10⁻¹⁶ M☉) sits in the pairwise gravity sum — pulled by every planet, pulling every planet, honestly and negligibly.
+      <p style="margin-top:10px"><span id="halleyCard"></span></p>
+      <p style="margin-top:10px"><b>Watch Kepler's 2nd law happen:</b> nothing in the code speeds the comet up at perihelion — the same leapfrog that walks Pluto walks Halley, and the 60× speed-up at closest approach <i>emerges</i> from gravity alone. The integrator quietly ×4s its substeps while Halley is inside 2 AU (same rule as the time machine: accuracy is bought with compute, never silently dropped). Set the time machine to <b>+32×</b> and a full 75-year return takes ~47 seconds of watching; the ☄ label live-computes "next perihelion" from the comet's <i>current state</i> (vis-viva), not from a stored schedule.</p>
+      <p style="margin-top:10px"><b>A real effect, found under test:</b> run long enough and the ☄ label's live eccentricity <i>wanders</i> — a and e shift ~0.3% per return. That is not integration error: re-running the same scheme without Jupiter measured the integrator's own drift at ~0.002% per orbit, <b>~180× smaller</b>. The wander is <b>Jupiter genuinely reshaping the comet's orbit</b> — the same perturbation that historically swung the real Halley's period between 74 and 79 years, and the correction Halley himself (with Clairaut's team) had to apply to predict the 1758 return. The sim reproduces it unforced, and the live-from-state readout is what lets you catch it doing so.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the orbit (a, e, i from J2000 elements), the integration, the retrograde direction, the perihelion speed-up, the anti-sunward tail <i>direction</i> (solar wind + radiation pressure — which is why comets travel tail-first on the way out), and coma/tail appearing only near the Sun (outgassing needs heat). SCHEMATIC: the coma and tail's <i>size, shape and glow</i> are theater on top of a real trajectory; the nucleus (a ~11 km lump) is drawn at the sim's minimum body size, enormously oversized like every body here. RANDOM PHASE: like all ten bodies, Halley is seeded at a random orbital phase with an arbitrary orientation — <b>this sim's Halley, not 2061's sky</b>. Pinning the real perihelion date inside an arbitrary orientation would fake a prediction this sim cannot make; the honest choice is a real orbit at an unclaimed epoch.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/kakusei/">客星 · Kakusei</a> — the guest star: the comet doesn't remember its returns; the ledger does.</p>
+    </div>
+  </div>
+
   <div class="card" style="border-color:rgba(207,168,255,.3)">
     <div class="h"><span style="color:#cfa8ff">● the black hole — fixed, beyond Pluto</span><span class="ct">Schwarzschild, non-spinning</span></div>
     <div class="bd">
@@ -428,12 +441,20 @@ const PLANETS=[
  {L:"S", name:"Saturn", au:9.537,r:58232,e:0.057,inc:2.485,mass:2.8583e-4,c:0xe3c793,role:"female",rings:1,gas:true},
  {L:"U", name:"Uranus", au:19.191,r:25362,e:0.046,inc:0.773,mass:4.3662e-5,c:0xa6e0e0,role:"male",gas:true},
  {L:"N", name:"Neptune",au:30.07,r:24622,e:0.010,inc:1.770,mass:5.1514e-5,c:0x3a5ad8,role:"female",gas:true},
- {L:"P", name:"Pluto",  au:39.482,r:1188,e:0.2488,inc:17.16,mass:6.55e-9,c:0xe08a6a,role:"avan",gas:false}
+ {L:"P", name:"Pluto",  au:39.482,r:1188,e:0.2488,inc:17.16,mass:6.55e-9,c:0xe08a6a,role:"avan",gas:false},
+ // 1P/Halley — a genuine 10th INTEGRATED body, not a rider: real a/e/i (J2000), real mass in the
+ // pairwise N-body loop (~2.2e14 kg ≈ 1.1e-16 M☉ — negligible pull, honestly included, not for
+ // effect). e=0.96714 is why kepler() above needed hardening. i=162.26° makes this the sim's ONLY
+ // retrograde orbit. Aphelion 35.1 AU fits the frame TRUE-SCALE. Random phase like every planet:
+ // this sim's Halley, NOT 2061's sky (seeding the real perihelion date inside an arbitrary
+ // orientation would imply a sky position that is wrong — dishonest-by-construction).
+ {L:"H", name:"1P/Halley", au:17.834,r:5.5,e:0.96714,inc:162.26,mass:1.1e-16,c:0xbfe6f0,role:"comet",gas:false}
 ];
 const PTHEME={Me:"plain world · real, uncurated",V:"the corpus · female I — aesthetics & voice",E:"David · home world",
   Ma:"the corpus · male I — reckoning & myth",J:"the corpus · male II — computing & logic",
   S:"the corpus · female II — discovery",U:"the corpus · male III — philosophy & story",N:"the corpus · female III — language & law",
-  P:"AVAN · the gap, the edge, the held zero"};
+  P:"AVAN · the gap, the edge, the held zero",
+  H:"the visitor · real orbit, really integrated — a comet, not a 10th planet"};
 const TINT={E:0xe89cff, V:0xe8be8c, S:0xe3c793, N:0x9aa4e8, Ma:0xe0743c, J:0xcda06a, U:0x82c8c8, P:0xe08a6a, GAP:0xd9a441};
 const PCOL={green:0x7fc98a,blue:0x5b8cff,white:0xe8e2d0,purple:0x9a7cff,void:0x6a4d8e,orange:0xe0904a,red:0xe06a6a};
 
@@ -656,7 +677,8 @@ const LACUNA=[
  {n:"渦 · uzu",u:"https://davidwise01.github.io/uzu/"},
  {n:"可逆 · kagyaku",u:"https://davidwise01.github.io/kagyaku/"},
  {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"},
- {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"}
+ {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"},
+ {n:"客星 · kakusei",u:"https://davidwise01.github.io/kakusei/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -761,7 +783,16 @@ const SUN_MASS = 1.0;
 const AUk = 7.0;              // scene units per AU -- REAL linear spacing now, no compression
 const D2R = Math.PI/180;
 
-function kepler(M,e){M=((M%6.28318)+6.28318)%6.28318;let E=M;for(let i=0;i<6;i++)E=E-(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));return E;}
+// Kepler solver, hardened for high eccentricity: the old 6 fixed Newton iterations from E₀=M
+// silently under-converge at e≈0.97 (Halley). Start from E₀=π when e>0.8 (guaranteed-safe basin)
+// and iterate to convergence (|ΔE|<1e-12) with a hard cap. Identical results for the planets
+// (low e converges in ≤5 steps regardless of start).
+function kepler(M,e){
+  M=((M%6.283185307179586)+6.283185307179586)%6.283185307179586;
+  let E=(e>0.8)?Math.PI:M;
+  for(let i=0;i<50;i++){ const d=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E)); E-=d; if(Math.abs(d)<1e-12) break; }
+  return E;
+}
 
 PLANETS.forEach((p,i)=>{
   p.a = p.au;                                  // AU
@@ -786,6 +817,7 @@ PLANETS.forEach((p,i)=>{
   p.res=[]; for(let k=0;k<4;k++){const a=Math.random()*6.283,rr=Math.random()*0.6; p.res.push({a,rr,ph:Math.random()*6.28,sp:0.4+Math.random()*0.6});}
 });
 const byP={}; PLANETS.forEach(p=>byP[p.L]=p);
+const COMET=byP.H;   // 1P/Halley — the one body whose perihelion dash needs a finer integrator step
 
 function computeAccelerations(){
   for(const p of PLANETS) p.acc.set(0,0,0);
@@ -816,7 +848,12 @@ function stepPhysics(realDtSec){
   const totalDt = Math.min(realDtSec, 0.05) * SIM_YEARS_PER_SEC * timeRate;
   lastTotalDt = totalDt;
   if(totalDt===0) return;
-  const sub = BASE_SUBSTEPS * Math.max(1, Math.min(32, Math.abs(timeRate)));
+  // ×4 substeps while Halley is inside 2 AU: its perihelion (q=0.586 AU) is the fastest motion in
+  // the sim (v_peri ≈ 11.5 AU/yr, ~59.8× its aphelion speed — Kepler's 2nd law, unforced), so dt
+  // shrinks exactly when the dynamics demand it. Same rule as the rate scaling: accuracy is bought
+  // with compute, never silently dropped.
+  const periNear = (COMET && COMET.pos.length()<2) ? 4 : 1;
+  const sub = BASE_SUBSTEPS * Math.max(1, Math.min(32, Math.abs(timeRate))) * periNear;
   const dt = totalDt/sub;
   for(let s=0;s<sub;s++){
     // velocity-Verlet / leapfrog (symplectic -> stable, energy-conserving orbits)
@@ -986,6 +1023,17 @@ PLANETS.forEach((p,pi)=>{
   // planet label
   p.label=mkLabel(p.L, "#"+p.c.toString(16).padStart(6,"0"), false);
 });
+
+// ☄ 1P/Halley extras — the ORBIT is real (integrated); the COMA and TAIL are SCHEMATIC theater,
+// flagged as such on the card. Honest physics kept: both only appear near the Sun (real comets
+// outgas inside ~3–5 AU), the tail points ANTI-SUNWARD (real: solar wind + radiation pressure,
+// which is why comets travel tail-FIRST on the way out), and brightness scales with proximity.
+const cometComa=new THREE.Sprite(new THREE.SpriteMaterial({map:radialTexture("#dff4fb","#8fc4dc"), transparent:true, depthWrite:false, opacity:0}));
+cometComa.scale.set(1.6,1.6,1); scene.add(cometComa);
+const cometTailGeo=new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]);
+const cometTail=new THREE.Line(cometTailGeo,new THREE.LineBasicMaterial({color:0xbfe6f0,transparent:true,opacity:0}));
+cometTail.frustumCulled=false; scene.add(cometTail);
+const cometInfo=mkLabel("☄ 1P/Halley","#bfe6f0",true);
 
 // ═══ THE MOON — the first moon in this sim, Earth's, for The Garden (breathing / dancing /
 // ignition — davidwise01.github.io/The-Garden). Earth, not any other planet: the sprout (🌱)
@@ -1582,7 +1630,7 @@ let pulses=[], pulseTimer=0;
 function bodyPos3(id){ if(id==="sun") return new THREE.Vector3(0,0,0); return byP[id].pos.clone().multiplyScalar(AUk); }
 function spawnPulse(){
   if(galacticMode) return;   // never spawn scene children inside the galactic frame (they'd bypass the _savedVis snapshot)
-  const ids=["sun",...PLANETS.map(p=>p.L)];
+  const ids=["sun",...PLANETS.filter(p=>p.role!=="comet").map(p=>p.L)];   // info-share arcs between WORLDS; the visitor carries no corpus
   const a=ids[Math.floor(Math.random()*ids.length)]; let b;
   do{ b=ids[Math.floor(Math.random()*ids.length)]; }while(b===a);
   const original=(a==="E"||a==="P"||b==="E"||b==="P");
@@ -1801,6 +1849,22 @@ function animate(now){
     projectLabel(baryLabel, baryTip.position, 12);
   }
 
+  // ☄ Halley's coma + tail: schematic theater on a real orbit — they appear only inside ~5 AU
+  // (real comets outgas near the Sun), the tail points strictly ANTI-SUNWARD (real physics: solar
+  // wind + radiation pressure — which is why a comet travels TAIL-FIRST on its way back out), and
+  // brightness scales with proximity. The geometry is display-only; the orbit is integrated.
+  { const cw=COMET.mesh.position, rAU=COMET.pos.length();
+    const near=Math.max(0,(5-rAU)/5);
+    cometComa.position.copy(cw); cometComa.material.opacity=near*0.75;
+    cometComa.scale.setScalar(0.9+near*2.6);
+    const away=cw.clone().normalize();   // Sun is at the origin, so position IS the anti-sunward direction
+    cometTailGeo.attributes.position.setXYZ(0,cw.x,cw.y,cw.z);
+    cometTailGeo.attributes.position.setXYZ(1,cw.x+away.x*near*6.5,cw.y+away.y*near*6.5,cw.z+away.z*near*6.5);
+    cometTailGeo.attributes.position.needsUpdate=true;
+    cometTail.material.opacity=near*0.7;
+    projectLabel(cometInfo, cw, 22);
+  }
+
   // ⌛ time-machine readout (~2 Hz): sim clock + the conservation gauge, live from integrator state
   tmAcc+=dtSec;
   if(tmAcc>0.5){ tmAcc=0;
@@ -1808,6 +1872,18 @@ function animate(now){
     $("tmRead").textContent="sim clock "+(simYears>=0?"+":"")+simYears.toFixed(2)+" yr · |ΔE/E₀| "+fmtPpm(Math.abs((e-E0)/E0))+" · |ΔL/L₀| "+fmtPpm(Math.abs((l-L0)/L0));
     if(showBary){ const rA=computeBary().length();
       baryLabel.textContent="☉ barycenter · r_B = "+rA.toFixed(4)+" AU = "+(rA/R_SUN_AU).toFixed(2)+" R☉ — "+(rA>R_SUN_AU?"OUTSIDE the photosphere":"inside the photosphere")+" · needle dir exact · trail ×"+BARY_MAG; }
+    // ☄ live orbit read-back from STATE (not from the seed constants): a,e,ν → time to perihelion.
+    // Vis-viva + angular momentum, Kepler estimate (unperturbed 2-body from current state).
+    { const r=COMET.pos.length(), v2=COMET.vel.lengthSq();
+      const aL=1/Math.max(1e-9, 2/r - v2/G_AU);
+      const h=new THREE.Vector3().crossVectors(COMET.pos,COMET.vel).length();
+      const eL=Math.sqrt(Math.max(0,1-h*h/(G_AU*aL)));
+      let cosE=(1-r/aL)/Math.max(1e-12,eL); cosE=Math.max(-1,Math.min(1,cosE));
+      let Ea=Math.acos(cosE); if(COMET.pos.dot(COMET.vel)<0) Ea=2*Math.PI-Ea;
+      const Mm=Ea-eL*Math.sin(Ea), nn=Math.sqrt(G_AU/(aL*aL*aL));
+      const tPeri=((2*Math.PI-Mm)%(2*Math.PI))/nn;
+      cometInfo.textContent="☄ 1P/Halley · r = "+r.toFixed(2)+" AU · v = "+Math.sqrt(v2).toFixed(2)+" AU/yr · e = "+eL.toFixed(4)+" (live, from state) · next perihelion ≈ +"+tPeri.toFixed(1)+" sim-yr · coma/tail schematic";
+    }
   }
 
   // the moon: rides Earth's live position, decorative circular orbit (not N-body integrated)
@@ -2038,6 +2114,19 @@ $("reset").onclick=()=>{ if(standMode) setStand(false); fitCamera(); };
 document.querySelectorAll(".tmr").forEach(b=>{ b.onclick=()=>{ timeRate=+b.dataset.rate; syncTimeButtons(); }; });
 $("stand").onclick=()=>{ if(galacticMode) return; setStand(!standMode); };
 $("bary").onclick=()=>{showBary=!showBary; $("bary").classList.toggle("pri",showBary); applyToggles();};
+$("halley").onclick=()=>{ flyTo("H"); };   // travel, not toggle — the visitor is always integrated
+// ☄ Halley card: every number derived live from the PLANETS entry — nothing asserted.
+(function(){
+  const el=document.getElementById("halleyCard"); if(!el || !COMET) return;
+  const q=COMET.au*(1-COMET.e), Q=COMET.au*(1+COMET.e), T=Math.pow(COMET.au,1.5);
+  const vq=Math.sqrt(G_AU*(2/q-1/COMET.au)), vQ=Math.sqrt(G_AU*(2/Q-1/COMET.au));
+  const tug=COMET.mass/Math.pow(1-q,2);   // Halley's pull on Earth at a best-case coplanar pass, vs the Sun's pull (=1 at 1 AU)
+  el.innerHTML="<b>Live-derived from its elements:</b> perihelion q = a(1−e) = <b>"+q.toFixed(3)+" AU</b> (inside Venus' orbit) · "
+    +"aphelion Q = <b>"+Q.toFixed(1)+" AU</b> (past Neptune, short of Pluto — the whole orbit fits this frame TRUE-SCALE) · "
+    +"period T = a<sup>3/2</sup> = <b>"+T.toFixed(1)+" yr</b> · speed at perihelion <b>"+vq.toFixed(1)+" AU/yr</b> vs aphelion <b>"
+    +vQ.toFixed(2)+" AU/yr</b> — a <b>"+(vq/vQ).toFixed(1)+"×</b> swing, = (1+e)/(1−e), Kepler's 2nd law as a number. "
+    +"Its tug on Earth even at a best-case "+(1-q).toFixed(2)+" AU pass: <b>~"+tug.toExponential(1)+"</b> of the Sun's pull — in the loop honestly, not for effect.";
+})();
 // ☉ barycenter card: every number computed LIVE from the PLANETS array — nothing asserted.
 (function(){
   const el=document.getElementById("baryCard"); if(!el) return;

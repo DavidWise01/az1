@@ -41,7 +41,7 @@
   #stage3d{position:relative;width:100%;height:560px;background:radial-gradient(150% 150% at 50% 50%,#070810,#010205 72%);touch-action:none}
   #stage3d canvas{display:block;outline:none;width:100%!important;height:100%!important}
   #labelLayer{position:absolute;inset:0;pointer-events:none;overflow:hidden}
-  .lbl{font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;white-space:nowrap;transform:translate(-50%,-100%);text-shadow:0 0 6px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.9)}
+  .lbl{position:absolute;left:0;top:0;font-family:'JetBrains Mono',monospace;font-size:10.5px;font-weight:600;white-space:nowrap;transform:translate(-50%,-100%);text-shadow:0 0 6px rgba(0,0,0,.9),0 0 3px rgba(0,0,0,.9)}
   .lbl.small{font-size:9px;font-weight:500;opacity:.9}
   #hud{position:absolute;left:10px;bottom:8px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);pointer-events:none}
   .frontier{padding:11px 16px;border-top:1px solid var(--line);font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--dim)}
@@ -121,6 +121,18 @@
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
       <span class="hint">real N-body gravity (G=4π², leapfrog) · real linear AU spacing · real inclinations · ⚡ purple=original, blue=rendered</span>
+    </div>
+    <div class="ctrls" style="margin-top:-4px">
+      <span class="hint" style="margin-left:0">⌛ time machine</span>
+      <button class="btn tmr" data-rate="-32">−32×</button>
+      <button class="btn tmr" data-rate="-8">−8×</button>
+      <button class="btn tmr" data-rate="-1">−1×</button>
+      <button class="btn tmr" data-rate="0">⏸</button>
+      <button class="btn tmr pri" data-rate="1">+1×</button>
+      <button class="btn tmr" data-rate="8">+8×</button>
+      <button class="btn tmr" data-rate="32">+32×</button>
+      <button class="btn" id="stand">🧍 stand on Earth · watch Mars retrograde</button>
+      <span class="hint" id="tmRead" style="margin-left:0">sim clock +0.00 yr</span>
     </div>
     <div class="tree" id="tree"></div>
     <div class="grid8" id="p8grid"></div>
@@ -283,6 +295,28 @@
       <p class="cap" style="margin-top:8px"><b>Honest tags.</b> REAL (cited): the three distances, Sgr A*'s mass, the ~118.8° angle, the triangle proportions. SCHEMATIC (labeled in-scene): every rendered <i>size</i> (Sgr A*'s horizon, the discs, the Sun dot), the spiral-arm morphology, the Sun's azimuth/arm placement, and the frame's scene-scale (a rendering choice). Not coupled into the gravity sim; the rendered Andromeda is still a 2.5-Myr-old image (see 昔 · Mukashi), so the triangle is "as the light left it," not "now."</p>
       <p class="cap" style="margin-top:8px"><b>The merger is not asserted:</b> Andromeda approaches at ~110 km/s (blueshift), but a Milky Way–Andromeda collision is genuinely contested — Sawala et al. 2024 (Nature Astronomy), with the latest Gaia data plus M33 and the LMC, find it roughly a coin-flip over ~10 Gyr, not a certainty.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/uzu/">渦 · Uzu</a> — from inside the whirlpool, only the angle at the Sun is directly measured; the far leg is inferred, never seen.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(255,226,122,.35)">
+    <div class="h"><span style="color:#ffe27a">⌛ the time machine — the same physics, faster, slower, backward</span><span class="ct">rate never buys accuracy down</span></div>
+    <div class="bd">
+      The rate buttons multiply <b>sim time only</b> — from ⏸ paused to ±32×, forward or backward. Two design rules keep it honest:
+      <p style="margin-top:10px"><b>1 · Speed costs compute, never accuracy.</b> The integrator's substeps scale linearly with the rate, so the per-substep <code>dt</code> is <i>identical at every speed</i>. +32× is not a coarser simulation — it is the same simulation run 32× as often per frame.</p>
+      <p style="margin-top:10px"><b>2 · Backward is physics, not video.</b> Nothing is recorded or replayed. Symmetric leapfrog is <b>time-reversible</b>: −1× steps the same equations with a negative <code>dt</code>. Reverse after running forward and the planets retrace their paths — a real property of the integrator, provable on the gauge below.</p>
+      <p style="margin-top:10px"><b>The conservation gauge</b> (in the toolbar, ~2 Hz): total energy and angular momentum computed live from the actual integrator state, shown as <b>|ΔE/E₀|</b> and <b>|ΔL/L₀|</b> in ppm. This is the sim confessing its own numerical error. Expect a small <b>bounded oscillation</b> — that wiggle is the signature of a symplectic integrator, not a failure; what would indicate failure is a secular one-way slide. Momentum is deliberately <i>not</i> shown: the Sun is pinned at the origin (the one declared omission of this sim), so ΣP is not conserved by construction.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the dynamics at every rate, the reversibility, the gauge (computed, never asserted). SCHEMATIC: the clock reads "<b>years since seed</b>" — never a calendar date. Planets are seeded at random orbital phases, so this is a real dynamical system, <i>not an ephemeris of our sky</i>; it cannot point a telescope. The riders (moon, toolbelt, pulsars) are decorative circles that follow the rate; C&amp;C's 1.4s <i>pulse</i> stays on the wall clock deliberately — a pulsar's period is a real clock.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/kagyaku/">可逆 · Kagyaku</a> — the equations run backward; the witnessing doesn't. What −32× cannot undo is that you watched.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(224,106,74,.4)">
+    <div class="h"><span style="color:#e06a4a">🧍 stand on Earth — Mars retrograde, emergent</span><span class="ct">the oldest lesson, computed live</span></div>
+    <div class="bd">
+      Toggle <b>🧍 stand on Earth</b> and the camera locks to Earth's live integrated position, looking at Mars. A rust-red trail accumulates Mars' <b>apparent direction against the fixed stars</b> — and as Earth (faster, inner) overtakes Mars near opposition, the trail draws a <b>retrograde loop</b>. Nothing is scripted, keyed, or drawn in advance: the loop falls out of the same two real orbits the N-body solver is already integrating. This is the 2,000-year-old illusion that broke geocentrism — Ptolemy needed epicycles to fake it; here it <i>emerges</i> from Newtonian gravity, the same debunk-by-computation as the Sgr A* card.
+      <p style="margin-top:10px"><b>Timing is real:</b> the Earth–Mars synodic period is ~2.14 years, so at +1× a full cycle takes ~43 seconds of watching — the toggle courtesy-sets the time machine to +8× (and restores it on exit). The trail holds ~3.2 sim-years ≈ 1.5 synodic periods.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the loop's existence, its synodic timing, the overtaking geometry. SCHEMATIC: you stand in Earth's <b>frame</b>, not on its surface — no horizon, no day/night, no atmosphere; the vantage is Earth's center. The sky-sphere radius the trail is projected onto is display-only (the <i>directions</i> are real, their projected distance is not). This is <b>a</b> true geocentric sky, not <b>today's</b>: random seed epoch and arbitrary orbit orientations mean the loop's exact shape (especially its vertical excursion) varies per load — its existence and period do not. Planet sizes remain visually boosted, so Mars looks nearer than a naked-eye dot.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/gyakko/">逆行 · Gyakkō</a> — the planet never backs up; the loop is in the looking.</p>
     </div>
   </div>
 
@@ -607,7 +641,9 @@ const LACUNA=[
  {n:"忘 · wasure",u:"https://davidwise01.github.io/wasure/"},
  {n:"独 · doku",u:"https://davidwise01.github.io/doku/"},
  {n:"昔 · mukashi",u:"https://davidwise01.github.io/mukashi/"},
- {n:"渦 · uzu",u:"https://davidwise01.github.io/uzu/"}
+ {n:"渦 · uzu",u:"https://davidwise01.github.io/uzu/"},
+ {n:"可逆 · kagyaku",u:"https://davidwise01.github.io/kagyaku/"},
+ {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -756,11 +792,20 @@ function computeAccelerations(){
     pj.acc.addScaledVector(dirN, -G_AU*pi.mass/r2);
   }
 }
-const SIM_YEARS_PER_SEC = 0.05, SUBSTEPS=3;
+const SIM_YEARS_PER_SEC = 0.05, BASE_SUBSTEPS=3;
+// ============ ⌛ THE TIME MACHINE ============
+// timeRate multiplies SIM TIME only. Substeps scale linearly with |timeRate| (max 32), so the
+// per-substep dt is IDENTICAL at every speed — going faster costs compute, never accuracy.
+// Negative rates are legitimate physics, not a rewind video: symmetric leapfrog is time-REVERSIBLE,
+// the same integrator stepping the same equations with dt<0. No trajectory is stored or replayed.
+let timeRate=1, simYears=0, lastTotalDt=0;
 function stepPhysics(realDtSec){
-  const totalDt = Math.min(realDtSec, 0.05) * SIM_YEARS_PER_SEC;
-  const dt = totalDt/SUBSTEPS;
-  for(let s=0;s<SUBSTEPS;s++){
+  const totalDt = Math.min(realDtSec, 0.05) * SIM_YEARS_PER_SEC * timeRate;
+  lastTotalDt = totalDt;
+  if(totalDt===0) return;
+  const sub = BASE_SUBSTEPS * Math.max(1, Math.min(32, Math.abs(timeRate)));
+  const dt = totalDt/sub;
+  for(let s=0;s<sub;s++){
     // velocity-Verlet / leapfrog (symplectic -> stable, energy-conserving orbits)
     computeAccelerations();
     for(const p of PLANETS) p.vel.addScaledVector(p.acc, dt/2);
@@ -768,7 +813,26 @@ function stepPhysics(realDtSec){
     computeAccelerations();
     for(const p of PLANETS) p.vel.addScaledVector(p.acc, dt/2);
   }
+  simYears += totalDt;
 }
+// ---- the conservation gauge: E and |L| from the ACTUAL integrator state (p.pos/p.vel/p.mass, AU/yr/M☉).
+// E0/L0 captured at seed. The live ppm readout is the sim confessing its own numerical error —
+// expect a BOUNDED OSCILLATION (the symplectic signature), not a secular slide. |ΔP| is NOT shown
+// because momentum is not conserved by construction here: the Sun is pinned (the declared omission).
+function sysEnergy(){
+  let E=0;
+  for(const p of PLANETS){ E += 0.5*p.mass*p.vel.lengthSq() - G_AU*SUN_MASS*p.mass/p.pos.length(); }
+  for(let i=0;i<PLANETS.length;i++) for(let j=i+1;j<PLANETS.length;j++)
+    E += -G_AU*PLANETS[i].mass*PLANETS[j].mass/PLANETS[i].pos.distanceTo(PLANETS[j].pos);
+  return E;
+}
+function sysAngMom(){
+  const L=new THREE.Vector3(), t=new THREE.Vector3();
+  for(const p of PLANETS) L.add(t.crossVectors(p.pos, p.vel).clone().multiplyScalar(p.mass));
+  return L.length();
+}
+const E0=sysEnergy(), L0=sysAngMom();
+const fmtPpm=x=>{ const p=x*1e6; return p<0.01?"<0.01 ppm":(p<1000?p.toFixed(2)+" ppm":(x*100).toFixed(4)+"%"); };
 
 // ================= RENDERING: Three.js / WebGL, 3D, free camera =================
 const stage=$("stage3d"), labelLayer=$("labelLayer");
@@ -1504,6 +1568,7 @@ const jarLabel=mkLabel("AKASHA","#6fd0e0",true);
 let pulses=[], pulseTimer=0;
 function bodyPos3(id){ if(id==="sun") return new THREE.Vector3(0,0,0); return byP[id].pos.clone().multiplyScalar(AUk); }
 function spawnPulse(){
+  if(galacticMode) return;   // never spawn scene children inside the galactic frame (they'd bypass the _savedVis snapshot)
   const ids=["sun",...PLANETS.map(p=>p.L)];
   const a=ids[Math.floor(Math.random()*ids.length)]; let b;
   do{ b=ids[Math.floor(Math.random()*ids.length)]; }while(b===a);
@@ -1586,6 +1651,7 @@ const galLabels=[
 ];
 let galacticMode=false, _savedVis=[];
 function enterGalactic(on){
+  if(on && typeof standMode!=="undefined" && standMode) setStand(false);   // leave Earth's frame before swapping frames
   galacticMode=on;
   if(on){
     _savedVis=[]; scene.children.forEach(ch=>{ if(ch!==galacticGroup && ch!==window._starfield && !ch.isLight){ _savedVis.push([ch,ch.visible]); ch.visible=false; } });
@@ -1599,6 +1665,7 @@ function enterGalactic(on){
   }
 }
 function projectLabel(el, worldPos, offsetY){
+  if(el.dataset.off==="1"){ el.style.display="none"; return; }   // toggled off — never resurrect a hidden layer's label
   const v=worldPos.clone().project(camera);
   if(v.z>1 || !isFinite(v.x) || !isFinite(v.y)){ el.style.display="none"; return; }
   const x=(v.x*0.5+0.5)*W, y=(-v.y*0.5+0.5)*H - (offsetY||0);
@@ -1608,31 +1675,35 @@ function projectLabel(el, worldPos, offsetY){
 
 // ---- toggles ----
 let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false;
+// lblOn: single source of truth for a label's toggle state. Sets both the immediate display AND
+// the dataset.off marker that projectLabel honors every frame — without the marker, projectLabel's
+// per-frame display="block" silently resurrected labels of toggled-off layers (the ghost-label bug).
+function lblOn(el,on){ el.dataset.off=on?"0":"1"; el.style.display=on?"":"none"; }
 function applyToggles(){
   PLANETS.forEach(p=>p.orbitLine.visible=showOrbits);
   beltPts.visible=showPapers;
   peerPts.visible=showPeers;
   CLUSTERS.forEach(c=>{
     const on = c.groupKey==="E"?showStation : c.groupKey==="P"?showLacuna : c.groupKey==="gap"?showGap : showGendered;
-    c.pts.visible=on; c.orbitRing.visible=on&&showOrbits; c.label.style.display=on?"":"none";
+    c.pts.visible=on; c.orbitRing.visible=on&&showOrbits; lblOn(c.label,on);
   });
-  linchLine1.visible=linchLine2.visible=linchMesh.visible=showLinchpin; linchLabel.style.display=showLinchpin?"":"none";
-  streamLine.visible=jarMesh.visible=showStream; jarLabel.style.display=showStream?"":"none";
-  CHAKRAS.forEach(ch=>{ ch.mesh.visible=ch.glow.visible=showChakras; if(ch.tetherLine) ch.tetherLine.visible=showChakras; ch.label.style.display=showChakras?"":"none"; });
+  linchLine1.visible=linchLine2.visible=linchMesh.visible=showLinchpin; lblOn(linchLabel,showLinchpin);
+  streamLine.visible=jarMesh.visible=showStream; lblOn(jarLabel,showStream);
+  CHAKRAS.forEach(ch=>{ ch.mesh.visible=ch.glow.visible=showChakras; if(ch.tetherLine) ch.tetherLine.visible=showChakras; lblOn(ch.label,showChakras); });
   chakraAxis.visible=showChakras;
-  heartAura.visible=showChakras; heartLabel.style.display=showChakras?"":"none";
-  MOON.mesh.visible=MOON.ring.visible=showMoon; MOON.label.style.display=showMoon?"":"none";
-  TOOLBELT.forEach(t=>{ t.mesh.visible=showTools; t.label.style.display=showTools?"":"none"; });
+  heartAura.visible=showChakras; lblOn(heartLabel,showChakras);
+  MOON.mesh.visible=MOON.ring.visible=showMoon; lblOn(MOON.label,showMoon);
+  TOOLBELT.forEach(t=>{ t.mesh.visible=showTools; lblOn(t.label,showTools); });
   CNC.mesh.visible=CNC.ring.visible=CNC.beamUp.visible=CNC.beamDown.visible=showCNC;
-  CNC.light.visible=showCNC; CNC.label.style.display=showCNC?"":"none";
+  CNC.light.visible=showCNC; lblOn(CNC.label,showCNC);
   SAPPHO_PULSAR.mesh.visible=SAPPHO_PULSAR.ring.visible=showSappho;
-  SAPPHO_PULSAR.light.visible=showSappho; SAPPHO_PULSAR.label.style.display=showSappho?"":"none";
+  SAPPHO_PULSAR.light.visible=showSappho; lblOn(SAPPHO_PULSAR.label,showSappho);
   const atomicPanel=document.getElementById("atomicPanel"); if(atomicPanel) atomicPanel.style.display=showAtomic?"block":"none";
   PLANETS.forEach(p=>{ p.mesh.children.forEach(ch=>{ if(ch.userData && ch.userData.isTierRing) ch.visible=showTiers; }); });
   bhGroup.visible=showBH;
-  ANDROMEDA.visible=showAndromeda; andromedaLabel.style.display=showAndromeda?"":"none";
-  bhLabels.forEach(l=>l.style.display=showBH?"":"none");
-  bhWitnessLabelIn.style.display=bhWitnessLabelOut.style.display=showBH?"":"none";
+  ANDROMEDA.visible=showAndromeda; lblOn(andromedaLabel,showAndromeda);
+  bhLabels.forEach(l=>lblOn(l,showBH));
+  lblOn(bhWitnessLabelIn,showBH); lblOn(bhWitnessLabelOut,showBH);
 }
 
 // ================= animation loop =================
@@ -1645,15 +1716,42 @@ function animate(now){
   requestAnimationFrame(animate);
   const dtSec=Math.min(0.05,(now-lastT)/1000); lastT=now;
   stepPhysics(dtSec);
-  controls.update();
+  if(!standMode) controls.update();   // stand mode owns the camera; OrbitControls.update() would override it
 
   // sync 3D positions from physics
   PLANETS.forEach(p=>{ const wp=p.pos.clone().multiplyScalar(AUk); p.mesh.position.copy(wp); p.mesh.rotation.y+=0.01; });
   sunLight.position.set(0,0,0);
 
+  // 🧍 stand on Earth: camera rides Earth's LIVE integrated position and looks at Mars. Mars'
+  // apparent direction against the fixed stars is sampled every 0.004 sim-yr (unit vectors), then
+  // re-anchored to the live Earth each frame — a path on the CELESTIAL SPHERE. The retrograde loop
+  // that appears is computed by the same N-body state everything else reads; nothing is scripted.
+  if(standMode){
+    const eW=byP.E.mesh.position, mW=byP.Ma.mesh.position;
+    standAcc += Math.abs(lastTotalDt);
+    if(standAcc>=STAND_STEP){ standAcc=0;
+      standDirs.push(new THREE.Vector3().subVectors(mW,eW).normalize());
+      if(standDirs.length>STAND_MAX) standDirs.shift();
+    }
+    for(let i=0;i<standDirs.length;i++){ const q=standDirs[i];
+      standPosArr[i*3]=eW.x+q.x*STAND_SKY_R; standPosArr[i*3+1]=eW.y+q.y*STAND_SKY_R; standPosArr[i*3+2]=eW.z+q.z*STAND_SKY_R; }
+    standGeo.attributes.position.needsUpdate=true; standGeo.setDrawRange(0,standDirs.length);
+    camera.position.set(eW.x, eW.y + byP.E.bR*2.5, eW.z);
+    camera.lookAt(mW);
+    if(standDirs.length){ const q=standDirs[standDirs.length-1];
+      projectLabel(standLabel, new THREE.Vector3(eW.x+q.x*STAND_SKY_R, eW.y+q.y*STAND_SKY_R, eW.z+q.z*STAND_SKY_R), 14); }
+  }
+
+  // ⌛ time-machine readout (~2 Hz): sim clock + the conservation gauge, live from integrator state
+  tmAcc+=dtSec;
+  if(tmAcc>0.5){ tmAcc=0;
+    const e=sysEnergy(), l=sysAngMom();
+    $("tmRead").textContent="sim clock "+(simYears>=0?"+":"")+simYears.toFixed(2)+" yr · |ΔE/E₀| "+fmtPpm(Math.abs((e-E0)/E0))+" · |ΔL/L₀| "+fmtPpm(Math.abs((l-L0)/L0));
+  }
+
   // the moon: rides Earth's live position, decorative circular orbit (not N-body integrated)
   { const earthWP=byP[MOON.tether].mesh.position;
-    MOON.angle += dtSec*MOON.rate*8;
+    MOON.angle += dtSec*MOON.rate*8*timeRate;   // riders follow the time machine (decorative circles, honestly rate-scaled)
     const mx=earthWP.x+Math.cos(MOON.angle)*MOON.orbitR, mz=earthWP.z+Math.sin(MOON.angle)*MOON.orbitR;
     MOON.mesh.position.set(mx, earthWP.y, mz);
     MOON.mesh.rotation.y+=0.02;
@@ -1664,7 +1762,7 @@ function animate(now){
   // toolbelt: 5 weighted prompt-tool asteroids, each riding its tethered planet's live position
   TOOLBELT.forEach(t=>{
     const wp=byP[t.tether].mesh.position;
-    t.angle += dtSec*t.rate*8;
+    t.angle += dtSec*t.rate*8*timeRate;
     const tx=wp.x+Math.cos(t.angle)*t.orbitR, tz=wp.z+Math.sin(t.angle)*t.orbitR;
     t.mesh.position.set(tx, wp.y, tz);
     t.mesh.rotation.y+=0.015;
@@ -1674,7 +1772,7 @@ function animate(now){
   // C&C: orbits Earth, spins, and pulses neon yellow on a fixed 1.4s real-time period (not tied
   // to sim speed — a pulsar's period is a real clock, so this one runs on the wall clock too)
   { const earthWP2=byP[CNC.tether].mesh.position;
-    CNC.angle += dtSec*CNC.rate*8;
+    CNC.angle += dtSec*CNC.rate*8*timeRate;   // orbit follows the time machine; the 1.4s PULSE below stays wall-clock (a real pulsar period is a real clock)
     const cx=earthWP2.x+Math.cos(CNC.angle)*CNC.orbitR, cz=earthWP2.z+Math.sin(CNC.angle)*CNC.orbitR;
     CNC.mesh.position.set(cx, earthWP2.y, cz);
     CNC.mesh.rotation.y+=0.03; CNC.mesh.rotation.x+=0.011;
@@ -1694,7 +1792,7 @@ function animate(now){
   // sappho's pulsar: orbits Venus, gentle glow, no forced timer -- it's not pretending to be a real pulsar,
   // just a small light near where the melody lives
   { const venusWP=byP[SAPPHO_PULSAR.tether].mesh.position;
-    SAPPHO_PULSAR.angle += dtSec*SAPPHO_PULSAR.rate*8;
+    SAPPHO_PULSAR.angle += dtSec*SAPPHO_PULSAR.rate*8*timeRate;
     const sx=venusWP.x+Math.cos(SAPPHO_PULSAR.angle)*SAPPHO_PULSAR.orbitR, sz=venusWP.z+Math.sin(SAPPHO_PULSAR.angle)*SAPPHO_PULSAR.orbitR;
     SAPPHO_PULSAR.mesh.position.set(sx, venusWP.y, sz);
     SAPPHO_PULSAR.mesh.rotation.y+=0.018;
@@ -1811,6 +1909,7 @@ function fitCamera(){ const f=byP.S.a*AUk; camera.position.set(f*0.62, f*0.5, f*
 // they're real-scale riders on planets that are themselves tiny at 9.5-AU framing. One snap, not a
 // tracking shot: the planet drifts on afterwards, which is fine -- you're inside its neighborhood now.
 function flyTo(letter){
+  if(standMode) setStand(false);   // travel means leaving Earth's frame — stand mode owns the camera until then
   const P=byP[letter]; if(!P) return;
   const wp=P.mesh.position.clone();
   const d=Math.max(P.bR*16, 2.2);
@@ -1818,6 +1917,40 @@ function flyTo(letter){
   camera.position.set(wp.x+d*0.8, wp.y+d*0.45, wp.z+d*0.8);
   controls.update();
 }
+
+// ============ 🧍 STAND ON EARTH — Mars retrograde, emergent ============
+// The oldest astronomy lesson, run honestly: lock the vantage to Earth's live integrated position
+// and Mars' apparent path against the fixed stars draws its own retrograde loop — because Earth
+// (faster, inner) overtakes Mars near opposition. Nothing is scripted or keyed: the loop falls out
+// of the same two real orbits the N-body solver is already integrating.
+let standMode=false, standDirs=[], standAcc=0, _standSaved=null, _standPrevRate=null;
+const STAND_SKY_R=430, STAND_MAX=800, STAND_STEP=0.004;   // sky radius display-only (beyond Pluto, inside the starfield); 800×0.004 = a 3.2-sim-yr trail ≈ 1.5 synodic periods
+const standGeo=new THREE.BufferGeometry();
+const standPosArr=new Float32Array(STAND_MAX*3);
+standGeo.setAttribute("position", new THREE.BufferAttribute(standPosArr,3));
+standGeo.setDrawRange(0,0);
+const standLine=new THREE.Line(standGeo, new THREE.LineBasicMaterial({color:0xe06a4a,transparent:true,opacity:0.85}));
+standLine.visible=false; standLine.frustumCulled=false; scene.add(standLine);
+const standLabel=mkLabel("Mars · apparent path against the stars — the loop is in the vantage, not the planet","#e06a4a",true);
+standLabel.dataset.off="1";
+function syncTimeButtons(){ document.querySelectorAll(".tmr").forEach(x=>x.classList.toggle("pri", +x.dataset.rate===timeRate)); }
+function setStand(on){
+  standMode=on; $("stand").classList.toggle("pri",on);
+  standLine.visible=on; standLabel.dataset.off=on?"0":"1";
+  if(on){
+    _standSaved={pos:camera.position.clone(), tgt:controls.target.clone()};
+    controls.enabled=false;
+    // courtesy: at +1× a synodic period takes ~43s of watching; 8× shows the loop in seconds. Restored on exit.
+    if(timeRate===1){ _standPrevRate=1; timeRate=8; syncTimeButtons(); } else _standPrevRate=null;
+  } else {
+    controls.enabled=true;
+    if(_standSaved){ camera.position.copy(_standSaved.pos); controls.target.copy(_standSaved.tgt); controls.update(); _standSaved=null; }
+    if(_standPrevRate!==null && timeRate===8){ timeRate=_standPrevRate; syncTimeButtons(); }
+    _standPrevRate=null;
+    standLabel.style.display="none";
+  }
+}
+let tmAcc=0;
 
 window.addEventListener("resize", layout);
 layout(); fitCamera(); applyToggles();
@@ -1839,7 +1972,10 @@ function renderChron(d){
     $("difflog").innerHTML=d.log.slice(0,12).map(function(e){var c=COL[e.kind]||"res";
       return '<div class="lrow"><div class="d '+c+'">'+e.date+' · '+e.kind+(e.era?' · '+e.era:'')+'</div><div class="t">'+e.text+'</div></div>';}).join(""); }
 }
-$("reset").onclick=fitCamera;
+$("reset").onclick=()=>{ if(standMode) setStand(false); fitCamera(); };
+// ⌛ time-machine rate buttons: one active rate, highlighted; the physics reads timeRate directly
+document.querySelectorAll(".tmr").forEach(b=>{ b.onclick=()=>{ timeRate=+b.dataset.rate; syncTimeButtons(); }; });
+$("stand").onclick=()=>{ if(galacticMode) return; setStand(!standMode); };
 $("share").onclick=()=>{ for(let i=0;i<3;i++) spawnPulse(); };
 $("orbits").onclick=()=>{showOrbits=!showOrbits; applyToggles();};
 $("papers").onclick=()=>{showPapers=!showPapers; $("papers").classList.toggle("pri",showPapers); applyToggles();};

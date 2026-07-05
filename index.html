@@ -121,6 +121,7 @@
       <button class="btn pri" id="halley">☄ fly to 1P/Halley · the returner</button>
       <button class="btn pri" id="voyager">🛰 fly to Voyager 1 · the farthest artifact</button>
       <button class="btn pri" id="trojans">△ L4/L5 · Jupiter's trojan camps</button>
+      <button class="btn pri" id="kuiper">❄ the Kuiper belt · Pluto's home · 3:2</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -138,6 +139,15 @@
       <button class="btn" id="stand">🧍 stand on Earth · watch Mars retrograde</button>
       <span class="hint" id="tmRead" style="margin-left:0">sim clock +0.00 yr</span>
       <span class="hint" id="boundRead" style="margin-left:0">⚖ bound check warming up…</span>
+    </div>
+    <div class="ctrls" style="margin-top:-4px">
+      <span class="hint" style="margin-left:0">⚡c light caliper</span>
+      <select id="calA" class="btn"></select>
+      <span class="hint" style="margin-left:0;margin-right:0">⇄</span>
+      <select id="calB" class="btn"></select>
+      <button class="btn" id="calPulse">◦ send a pulse · light, ×1/2000 time</button>
+      <button class="btn pri" id="calBadges">☉+ light badges</button>
+      <span class="hint" id="calRead" style="margin-left:0">…</span>
     </div>
     <div class="tree" id="tree"></div>
     <div class="grid8" id="p8grid"></div>
@@ -368,6 +378,28 @@
       <p style="margin-top:10px"><b>The camps and the spies:</b> the leading swarm is named for the <i>Greek</i> heroes of the Iliad, the trailing swarm for the <i>Trojan</i> ones — a convention settled just slightly too late: <b>617 Patroclus</b> (a Greek) had already been placed in the Trojan camp, and <b>624 Hektor</b> (Troy's champion) in the Greek camp. Each camp keeps its enemy's hero. More than 10,000 are known, and the asymmetry is real: the Greek camp outnumbers the Trojan roughly <b>1.6 : 1</b> — rendered here as 400 vs 250 points.</p>
       <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the two points (exact live construction), the equilateral geometry, the stability criterion above, the 1.6:1 asymmetry, the naming history. SCHEMATIC: the swarm <i>shapes</i> — real trojans librate around the points in tadpole orbits with full amplitudes from ~1° to tens of degrees (see the companion page, which integrates one honestly); these clouds sketch that territory, they don't track members. NOT INTEGRATED: the trojan dots are massless decoration on real points — no swarm mass enters the solver. <b>⚠ Vocabulary:</b> everywhere else in this universe, small points are <i>repos</i> — these are the first point-clouds that carry no corpus. Astronomy dots, not works: dim, unlabeled, unclickable, in a color no corpus layer uses. Stable is also not eternal: on Gyr timescales real trojans do occasionally escape (Saturn perturbs), and none of that dynamics is claimed here.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/teiritsu/">鼎立 · Teiritsu</a> — three-legged standing: pushed off the empty point, the guest orbits the vacancy instead of falling.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(159,184,200,.4)">
+    <div class="h"><span style="color:#9fb8c8">❄ the Kuiper belt — Pluto's home · and the Oort anti-frame</span><span class="ct">true scale · and a refusal to draw</span></div>
+    <div class="bd">
+      The classical Kuiper belt, drawn <b>true-scale in the true frame</b> — the first whole population this scene renders with no scale apology. Its bounds are not typed in: they are <b>Neptune's resonances</b>, computed from Neptune's own semi-major axis — the 3:2 at <span id="kuiBounds"></span>. Pluto — AVAN's world, LACUNA's home — is not <i>near</i> this belt. It is <b>in</b> it: the most famous member of a population of ~100,000 bodies over 100 km. The gap-world turns out to be a citizen.
+      <p style="margin-top:10px"><b>The 3:2 meter:</b> <span id="kuiperMeter">warming up…</span></p>
+      <p style="margin-top:10px"><b>Safety by timing, not by distance:</b> Pluto's perihelion (29.66 AU) is <i>inside</i> Neptune's orbit (30.07 AU) — their paths cross, and they will never collide. The 3:2 lock means Pluto reaches perihelion only when Neptune is far around its own orbit; the geometry repeats every ~496 years and the separation never falls below ~17 AU. In fact Pluto passes <i>closer to Uranus</i> (~11 AU) than it ever gets to Neptune, the planet whose orbit it crosses. Protection here is rhythm, not fence.</p>
+      <p class="cap" style="margin-top:10px"><b>The Oort anti-frame — the first layer defined by refusing to draw.</b> The dashed ring at the render's edge is a confession, not an object: this frame ends at 571 AU, and the Oort cloud's inner edge (~2,000 AU) lies <b>3.5× beyond everything visible here</b>, reaching out to ~100,000 AU ≈ <b>1.6 light-years</b> — a third of the way to the next star. No linear frame that shows planets can show it (the same impossibility the ◉ galactic view frame-swap owns). az1 renders its own limit and labels it, rather than pretending the map ends where the territory does.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the belt bounds (from Neptune's resonances), Pluto's membership, the live 3:2 ratio, the crossing-orbits protection, the Oort numbers. ⚑ THE METER'S HONESTY: the 1.50 above is the seeded real semi-axes <i>round-tripping</i> through the integrator — the sim <b>shows</b> the ratio; it does not <b>discover</b> the resonance (that would require the resonant argument librating over millions of years this page never runs). SCHEMATIC: the dots are placeholder members, not integrated, drifting for life only; same vocabulary rule as the trojan camps — astronomy dots, not repos.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/maai/">間合い · Maai</a> — the swordsman's interval: safe not because far, but because timed.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(234,246,255,.35)">
+    <div class="h"><span style="color:#eaf6ff">⚡c the light caliper — no shared now, measured</span><span class="ct">the honest meter the lightning isn't</span></div>
+    <div class="bd">
+      Pick any two bodies in the caliper row above: it reads the <b>live distance between their integrated positions</b> and the real one-way and round-trip light times. Send the ◦ pulse and it crosses at c with time compressed <b>×1/2000</b> — the factor is printed because the alternative already lives in this scene: the ⚡ info-share arcs cross the whole system in 1.35 seconds flat, a rendering convenience this caliper exists to confess. The ☉+ badges put the same honesty on every body's label: how old the sunlight touching it is, live.
+      <p style="margin-top:10px"><span id="calCard"></span></p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: distances from the live integrator state, light times at the real c (499.005 s/AU), the badge numbers, the pulse's aim updating while in flight (the bodies keep moving — that lag is the point). SCHEMATIC/FLAGGED: the ×2000 time compression (printed on the button); Voyager entries are extrapolated positions, marked in the readout. <b>EXCLUDED — the Moon:</b> its scene orbit is ~<span id="calMoon"></span>× its real size (a display coordinate so The Garden stays visible); a caliper must refuse to read a laundered number. FAKE EPOCH: these are this sim's geometries, not tonight's sky — the <i>kind</i> of number is real, the specific values belong to this seed. Ties <a href="https://davidwise01.github.io/pulse/pieces/the-unshareable-clock.html">The Unshareable Clock</a> down to solar scale: there is no shared now even here at home.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/jisa/">時差 · Jisa</a> — the system runs on lag: no shared now, only exchanged thens.</p>
     </div>
   </div>
 
@@ -706,7 +738,9 @@ const LACUNA=[
  {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"},
  {n:"客星 · kakusei",u:"https://davidwise01.github.io/kakusei/"},
  {n:"形見 · katami",u:"https://davidwise01.github.io/katami/"},
- {n:"鼎立 · teiritsu",u:"https://davidwise01.github.io/teiritsu/"}
+ {n:"鼎立 · teiritsu",u:"https://davidwise01.github.io/teiritsu/"},
+ {n:"間合い · maai",u:"https://davidwise01.github.io/maai/"},
+ {n:"時差 · jisa",u:"https://davidwise01.github.io/jisa/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -1853,6 +1887,56 @@ const l4Label=mkLabel("△ L4 · the Greek camp — leads Jupiter by 60°","#9ca
 const l5Label=mkLabel("△ L5 · the Trojan camp — trails by 60°","#9caf9a",true);
 const _tj={h:new THREE.Vector3(),d4:new THREE.Vector3(),d5:new THREE.Vector3(),m:new THREE.Matrix4(),e2:new THREE.Vector3(),origin:new THREE.Vector3()};
 
+// ============ ❄ THE KUIPER BELT + THE OORT ANTI-FRAME ============
+// The classical belt drawn TRUE-SCALE in the true frame — the first whole population this scene
+// renders with no scale apology: its real bounds are set by Neptune's resonances, 3:2 (39.4 AU)
+// to 2:1 (47.7 AU), computed below from Neptune's own semi-major axis, not typed in. Pluto — AVAN's
+// world, LACUNA's home — is not near the belt; it is IN it: the most famous member of a population.
+// ⚠ Same vocabulary rule as the trojans: astronomy dots, NOT repos — dim, unlabeled, unclickable.
+// The dots are schematic members (not integrated); the BOUNDS and Pluto's membership are real.
+// THE OORT ANTI-FRAME: the first layer defined by REFUSING to draw. The Oort cloud's inner edge
+// (~2,000 AU) is 3.5× beyond this frame's far plane (571 AU); its outer reach (~100,000 AU) is
+// 1.6 LIGHT-YEARS. No render at this scale can hold it — so az1 draws its own edge and says so.
+const KUI_IN=byP.N.a*Math.pow(1.5,2/3), KUI_OUT=byP.N.a*Math.pow(2,2/3);   // 39.4 / 47.7 AU — from Neptune, live
+const kuiGeo=new THREE.BufferGeometry();
+{ const N=1400, pos=new Float32Array(N*3);
+  const gauss=()=>((Math.random()+Math.random()+Math.random())-1.5)/1.5;
+  for(let i=0;i<N;i++){
+    const r=(KUI_IN+Math.random()*(KUI_OUT-KUI_IN))*AUk, th=Math.random()*Math.PI*2;
+    const iz=gauss()*0.12;                                                  // inclination scatter, σ≈7°
+    pos[i*3]=r*Math.cos(th); pos[i*3+1]=r*iz; pos[i*3+2]=r*Math.sin(th);
+  }
+  kuiGeo.setAttribute("position",new THREE.BufferAttribute(pos,3)); }
+const kuiPts=new THREE.Points(kuiGeo,new THREE.PointsMaterial({color:0x9fb8c8,size:1.0,sizeAttenuation:false,transparent:true,opacity:0.4}));
+scene.add(kuiPts);
+const kuiLabel=mkLabel("❄ the Kuiper belt · 39.4–47.7 AU TRUE SCALE · Pluto is a member, not a neighbor","#9fb8c8",true);
+const _kuiLblPos=new THREE.Vector3(KUI_OUT*AUk*0.72,4,KUI_OUT*AUk*0.72);
+// the Oort anti-frame edge: a dashed ring AT the render's own limit, confessing what lies beyond
+const oortRing=(function(){ const pts=[]; for(let k=0;k<=160;k++){ const a=k/160*Math.PI*2; pts.push(new THREE.Vector3(Math.cos(a)*3800,0,Math.sin(a)*3800)); }
+  const g=new THREE.BufferGeometry().setFromPoints(pts);
+  const l=new THREE.Line(g,new THREE.LineDashedMaterial({color:0x8a7360,dashSize:22,gapSize:30,transparent:true,opacity:0.4}));
+  l.computeLineDistances(); return l; })();
+scene.add(oortRing);
+const oortLabel=mkLabel("this frame ends at 571 AU — the Oort cloud begins ~2,000 AU (3.5× beyond everything here) and reaches ~1.6 light-years · NOT RENDERED, on purpose","#8a7360",true);
+const _oortLblPos=new THREE.Vector3(2687,0,2687);
+
+// ============ ⚡c THE LIGHT CALIPER — no shared now, measured ============
+// Pick two bodies; the caliper reads the LIVE distance between their integrated positions and the
+// real one-way/round-trip light time. The ◦ pulse crosses at c with time compressed ×1/2000 — the
+// factor is printed, because the alternative is the ⚡ info-share arcs, which cross in 1.35 s flat
+// (a rendering convenience this caliper exists to confess). The Moon is EXCLUDED: its scene orbit
+// is ~50× real size — a display coordinate, not a distance; a caliper must not read it.
+const CAL_COMP=2000, CAL_LTS=499.005;
+function calPosAU(id){ if(id==="sun") return new THREE.Vector3(0,0,0);
+  if(id==="V1") return V1_DIR.clone().multiplyScalar(voyD1());
+  if(id==="V2") return V2_DIR.clone().multiplyScalar(voyD2());
+  return byP[id].pos.clone(); }
+function calName(id){ if(id==="sun") return "Sun"; if(id==="V1") return "Voyager 1"; if(id==="V2") return "Voyager 2"; return byP[id].name; }
+const fmtLT=au=>{ const s=au*CAL_LTS; return s<90?s.toFixed(1)+"s":(s<5400?(s/60).toFixed(1)+"m":(s/3600).toFixed(1)+"h"); };
+let calPulse=null;   // {a,b,frac}
+const calDot=new THREE.Mesh(new THREE.SphereGeometry(0.55,10,10), new THREE.MeshBasicMaterial({color:0xeaf6ff}));
+calDot.visible=false; scene.add(calDot);
+
 function projectLabel(el, worldPos, offsetY){
   if(el.dataset.off==="1"){ el.style.display="none"; return; }   // toggled off — never resurrect a hidden layer's label
   const v=worldPos.clone().project(camera);
@@ -1863,7 +1947,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true, showVoyager=true, showTrojans=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true, showVoyager=true, showTrojans=true, showKuiper=true, showBadges=true;
 // lblOn: single source of truth for a label's toggle state. Sets both the immediate display AND
 // the dataset.off marker that projectLabel honors every frame — without the marker, projectLabel's
 // per-frame display="block" silently resurrected labels of toggled-off layers (the ghost-label bug).
@@ -1898,6 +1982,8 @@ function applyToggles(){
   lblOn(v1Label,showVoyager); lblOn(v2Label,showVoyager); lblOn(helioLabel,showVoyager);
   trojL4.visible=trojL5.visible=showTrojans; trojLines.forEach(l=>l.visible=showTrojans);
   lblOn(l4Label,showTrojans); lblOn(l5Label,showTrojans);
+  kuiPts.visible=oortRing.visible=showKuiper;
+  lblOn(kuiLabel,showKuiper); lblOn(oortLabel,showKuiper);
 }
 
 // ================= animation loop =================
@@ -1983,6 +2069,27 @@ function animate(now){
     projectLabel(l4Label,_tj.d4,14);
     projectLabel(l5Label,_tj.d5,14);
   }
+  if(showKuiper){
+    kuiPts.rotation.y += 0.00003;   // slow drift for life — schematic motion, flagged on-card (members are not integrated)
+    projectLabel(kuiLabel,_kuiLblPos,10);
+    projectLabel(oortLabel,_oortLblPos,10);
+  }
+
+  // ⚡c pulse in flight: crosses at c with time ×1/2000; endpoints tracked LIVE (the bodies keep
+  // moving while the light is en route — that, too, is the honest part)
+  if(calPulse){
+    const A=calPosAU(calPulse.a), B=calPosAU(calPulse.b);
+    const dAU=A.distanceTo(B), dur=dAU*CAL_LTS/CAL_COMP;
+    calPulse.frac += dtSec/Math.max(0.05,dur);
+    if(calPulse.frac>=1){
+      calDot.visible=false;
+      $("calRead").textContent="◦ arrived — one way took "+fmtLT(dAU)+" of real light time ("+dAU.toFixed(2)+" AU); no reply is on the way unless someone there sends one";
+      calPulse=null;
+    } else {
+      calDot.visible=true;
+      calDot.position.copy(A.lerp(B,calPulse.frac)).multiplyScalar(AUk);
+    }
+  }
 
   // ☄ Halley's coma + tail: schematic theater on a real orbit — they appear only inside ~5 AU
   // (real comets outgas near the Sun), the tail points strictly ANTI-SUNWARD (real physics: solar
@@ -2025,6 +2132,18 @@ function animate(now){
       const rc=COMET.vel.length()/Math.sqrt(2*G_AU/COMET.pos.length());
       $("boundRead").textContent="⚖ bound: planets v/v_esc "+lo.toFixed(2)+"–"+hi.toFixed(2)+" (1/√2 ≈ 0.71 = circular signature) · ☄ "+rc.toFixed(2)+" · all < 1 — bound at this instant";
     }
+    // ⚡c caliper readout (unless a pulse owns the line) + ☉ light badges on every body label
+    { const a=$("calA").value, b=$("calB").value;
+      if(!calPulse){ const dAU=calPosAU(a).distanceTo(calPosAU(b));
+        $("calRead").textContent=calName(a)+" ⇄ "+calName(b)+" · "+dAU.toFixed(2)+" AU · light one-way "+fmtLT(dAU)+" · round trip "+fmtLT(2*dAU)+((/V[12]/.test(a)||/V[12]/.test(b))?" · Voyager = extrapolated":""); }
+      PLANETS.forEach(p=>{ p.label.textContent = showBadges ? p.L+" ☉+"+fmtLT(p.pos.length()) : p.L; });
+    }
+    // ❄ the 3:2 meter — LIVE from vis-viva state; the honesty is in the card: this ratio is the
+    // seeded real semi-axes ROUND-TRIPPING through the integrator, not a discovered resonance.
+    if(showKuiper){ const el=document.getElementById("kuiperMeter");
+      if(el){ const aOf=bd=>1/Math.max(1e-9, 2/bd.pos.length()-bd.vel.lengthSq()/G_AU);
+        const TP=Math.pow(aOf(byP.P),1.5), TN=Math.pow(aOf(byP.N),1.5);
+        el.innerHTML="Live from integrator state: T<sub>Pluto</sub>/T<sub>Neptune</sub> = <b>"+(TP/TN).toFixed(4)+"</b> (3:2 = 1.5000) · Pluto–Neptune separation right now: <b>"+byP.P.pos.distanceTo(byP.N.pos).toFixed(1)+" AU</b> — their orbits cross, and this number never gets dangerous."; } }
     // ☄ live orbit read-back from STATE (not from the seed constants): a,e,ν → time to perihelion.
     // Vis-viva + angular momentum, Kepler estimate (unperturbed 2-body from current state).
     { const r=COMET.pos.length(), v2=COMET.vel.lengthSq();
@@ -2271,6 +2390,34 @@ $("halley").onclick=()=>{ flyTo("H"); };   // travel, not toggle — the visitor
 $("voyager").onclick=()=>{ if(galacticMode) return; if(standMode) setStand(false); showVoyager=true; $("voyager").classList.add("pri"); applyToggles();
   const wp=v1Mesh.position.clone(); controls.target.copy(wp); camera.position.set(wp.x*0.85, wp.y*0.85+40, wp.z*0.85); controls.update(); };
 $("trojans").onclick=()=>{showTrojans=!showTrojans; $("trojans").classList.toggle("pri",showTrojans); applyToggles(); if(showTrojans) flyTo("J");};
+$("kuiper").onclick=()=>{showKuiper=!showKuiper; $("kuiper").classList.toggle("pri",showKuiper); applyToggles(); if(showKuiper) flyTo("P");};
+// ⚡c caliper: populate the two selects (Sun + all integrated bodies + the two extrapolated craft;
+// the Moon is deliberately absent — its scene orbit is a display coordinate, see the card)
+(function(){
+  const opts=[["sun","Sun"]].concat(PLANETS.map(p=>[p.L,p.name])).concat([["V1","Voyager 1 (extrapolated)"],["V2","Voyager 2 (extrapolated)"]]);
+  for(const id of ["calA","calB"]){ const sel=$(id);
+    opts.forEach(([v,n])=>{ const o=document.createElement("option"); o.value=v; o.textContent=n; sel.appendChild(o); }); }
+  $("calA").value="E"; $("calB").value="Ma";
+})();
+$("calPulse").onclick=()=>{ const a=$("calA").value,b=$("calB").value; if(a!==b) calPulse={a,b,frac:0}; };
+$("calBadges").onclick=()=>{ showBadges=!showBadges; $("calBadges").classList.toggle("pri",showBadges); if(!showBadges) PLANETS.forEach(p=>p.label.textContent=p.L); };
+// ❄ + ⚡c cards: every number derived from the sim's own constants — nothing typed in.
+(function(){
+  const kb=document.getElementById("kuiBounds");
+  if(kb) kb.innerHTML="<b>"+KUI_IN.toFixed(1)+" AU</b> to the 2:1 at <b>"+KUI_OUT.toFixed(1)+" AU</b>";
+  const cc=document.getElementById("calCard");
+  if(cc){ const E=byP.E, M=byP.Ma;
+    const lo=(M.a*(1-M.e)-E.a*(1+E.e)), hi=(M.a*(1+M.e)+E.a*(1+E.e));
+    const pLo=byP.P.a*(1-byP.P.e)*CAL_LTS/60, pHi=byP.P.a*(1+byP.P.e)*CAL_LTS/60;
+    cc.innerHTML="<b>Computed from this sim's own elements:</b> Earth ⇄ Mars swings between <b>"+lo.toFixed(2)+" and "+hi.toFixed(2)
+      +" AU</b> — light takes <b>"+(lo*CAL_LTS/60).toFixed(1)+" to "+(hi*CAL_LTS/60).toFixed(1)+" minutes</b> depending on where both planets are; "
+      +"a Mars conversation has a "+(2*lo*CAL_LTS/60).toFixed(0)+"–"+(2*hi*CAL_LTS/60).toFixed(0)+" minute round trip on its best and worst days. "
+      +"Pluto's eccentricity swings the Sun's own light from <b>"+(pLo/60).toFixed(1)+" to "+(pHi/60).toFixed(1)+" hours</b> across one orbit. "
+      +"Nothing in the system shares a present tense; every look is a look at a then.";
+  }
+  const cm=document.getElementById("calMoon");
+  if(cm) cm.textContent=(MOON.orbitR/AUk/0.00257).toFixed(0);
+})();
 // △ trojan card: the Routh/Gascheau stability criterion computed live from this sim's own masses.
 (function(){
   const el=document.getElementById("trojanCard"); if(!el) return;

@@ -120,6 +120,7 @@
       <button class="btn pri" id="bary">☉ the barycenter · the Sun's confessed wobble</button>
       <button class="btn pri" id="halley">☄ fly to 1P/Halley · the returner</button>
       <button class="btn pri" id="voyager">🛰 fly to Voyager 1 · the farthest artifact</button>
+      <button class="btn pri" id="trojans">△ L4/L5 · Jupiter's trojan camps</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -356,6 +357,17 @@
       <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the distances (radial extrapolation from a cited JPL epoch — 2025.0: V1 164.7 AU at 3.58 AU/yr = 17.0 km/s; V2 137.4 AU at 3.25 AU/yr = 15.4 km/s — good to ~±1 AU), the live one-way light times, the heliopause <i>radius</i> (121.6 AU, V1's actual 2012 crossing), and the three pairwise sky angles (V1–M31 98°, V2–M31 115°, V1–V2 79°, from RA/Dec) anchored to this scene's Andromeda direction. SCHEMATIC: the heliopause drawn as a sphere (the real boundary is asymmetric and breathes with the solar cycle); the rotation of the whole V1/V2 configuration <i>about</i> the M31 axis is the scene's one unconstrained choice; the octahedron markers are enormously oversized (the real craft are ~4 m). NOT SIMULATED: the Voyagers left this sim's gravity well long ago — their positions come from the extrapolation, not the integrator, and <b>the planets around them are at random phases</b>: the AU distance is the honest part, not the tableau.</p>
       <p class="cap" style="margin-top:8px"><b>Two collisions this frame owns honestly:</b> (1) the true-scale heliopause shell (121.6 AU) <i>encloses</i> the deliberately not-to-scale Andromeda disc parked at ~110 AU-equivalent — a flagged prop sitting inside a real boundary; that jarring nesting <b>is</b> the scale lesson, stated rather than hidden. (2) The frame itself expires: camera.far = 4000 units = 571 AU, so <span id="voyExit"></span> — the first layer with a printed expiration date.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/katami/">形見 · Katami</a> — the keepsake that outruns its giver.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(156,175,154,.45)">
+    <div class="h"><span style="color:#9caf9a">△ L4 / L5 — Jupiter's trojan camps</span><span class="ct">constructed live · the triangle breathes</span></div>
+    <div class="bd">
+      Sixty degrees ahead of Jupiter and sixty behind sit the two <b>equilateral points</b> — the only places a third body can hold formation with the Sun and a planet using geometry alone: no station-keeping, no tether, nothing there to hold onto. This layer constructs them <b>live every frame</b> from Jupiter's actual integrated state (rotate J's position ±60° about ĥ = r×v), so the triangle genuinely breathes with Jupiter's real e=0.049 orbit — nothing is precomputed.
+      <p style="margin-top:10px"><span id="trojanCard"></span></p>
+      <p style="margin-top:10px"><b>The camps and the spies:</b> the leading swarm is named for the <i>Greek</i> heroes of the Iliad, the trailing swarm for the <i>Trojan</i> ones — a convention settled just slightly too late: <b>617 Patroclus</b> (a Greek) had already been placed in the Trojan camp, and <b>624 Hektor</b> (Troy's champion) in the Greek camp. Each camp keeps its enemy's hero. More than 10,000 are known, and the asymmetry is real: the Greek camp outnumbers the Trojan roughly <b>1.6 : 1</b> — rendered here as 400 vs 250 points.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the two points (exact live construction), the equilateral geometry, the stability criterion above, the 1.6:1 asymmetry, the naming history. SCHEMATIC: the swarm <i>shapes</i> — real trojans librate around the points in tadpole orbits with full amplitudes from ~1° to tens of degrees (see the companion page, which integrates one honestly); these clouds sketch that territory, they don't track members. NOT INTEGRATED: the trojan dots are massless decoration on real points — no swarm mass enters the solver. <b>⚠ Vocabulary:</b> everywhere else in this universe, small points are <i>repos</i> — these are the first point-clouds that carry no corpus. Astronomy dots, not works: dim, unlabeled, unclickable, in a color no corpus layer uses. Stable is also not eternal: on Gyr timescales real trojans do occasionally escape (Saturn perturbs), and none of that dynamics is claimed here.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/teiritsu/">鼎立 · Teiritsu</a> — three-legged standing: pushed off the empty point, the guest orbits the vacancy instead of falling.</p>
     </div>
   </div>
 
@@ -693,7 +705,8 @@ const LACUNA=[
  {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"},
  {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"},
  {n:"客星 · kakusei",u:"https://davidwise01.github.io/kakusei/"},
- {n:"形見 · katami",u:"https://davidwise01.github.io/katami/"}
+ {n:"形見 · katami",u:"https://davidwise01.github.io/katami/"},
+ {n:"鼎立 · teiritsu",u:"https://davidwise01.github.io/teiritsu/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -1806,6 +1819,40 @@ const v1Label=mkLabel("🛰 Voyager 1","#d8e8f4",true), v2Label=mkLabel("🛰 Vo
 const helioLabel=mkLabel("heliopause · 121.6 AU — V1's real 2012 crossing radius (sphere idealized; the real boundary is asymmetric)","#8fb8d8",true);
 const _helioLblPos=new THREE.Vector3(HELIO_AU*AUk,0,0);   // fixed anchor on the shell's equator
 
+// ============ △ L4 / L5 — JUPITER'S TROJAN CAMPS ============
+// The two equilateral points, constructed LIVE each frame from Jupiter's integrated state:
+// rotate J.pos by ±60° about ĥ = J.pos × J.vel. Nothing is precomputed — the points ride the real
+// eccentric orbit (watch the triangle breathe with Jupiter's e=0.049). Lagrange FOUND the
+// equilateral solution (1772); GASCHEAU (1843) and ROUTH (1875) proved the standing is stable —
+// iff 27µ(1−µ) < 1, which the card computes live from this sim's own masses.
+// ⚠ VOCABULARY: these dots are ASTRONOMY, not corpus — the first point-cloud in this scene that
+// carries no repos. Drawn dim, unlabeled per-point, unclickable, in a color no corpus layer uses.
+// The POINTS are exact constructions; the SWARM shapes are schematic (real trojans librate in
+// tadpoles with full amplitudes from ~1° to tens of degrees; >10,000 known, camps ~1.6:1).
+const TROJ_REF=5.2035*AUk;
+function mkTrojanCloud(n){
+  const g=new THREE.BufferGeometry(), pos=new Float32Array(n*3);
+  const gauss=()=>((Math.random()+Math.random()+Math.random())-1.5)/1.5;   // cheap ~normal in [-1,1]
+  for(let i=0;i<n;i++){
+    const dth=Math.max(-0.45,Math.min(0.45,gauss()*0.20));                 // along-track ±26°, σ≈11°
+    const drf=gauss()*0.02, dz=gauss()*0.11*AUk;
+    const r=TROJ_REF*(1+drf);
+    pos[i*3]=r*Math.cos(dth); pos[i*3+1]=dz; pos[i*3+2]=r*Math.sin(dth);
+  }
+  g.setAttribute("position",new THREE.BufferAttribute(pos,3));
+  return new THREE.Points(g,new THREE.PointsMaterial({color:0x9caf9a,size:1.1,sizeAttenuation:false,transparent:true,opacity:0.5}));
+}
+const trojL4=new THREE.Group(), trojL5=new THREE.Group();
+trojL4.add(mkTrojanCloud(400)); trojL5.add(mkTrojanCloud(250));            // the real ~1.6:1 Greek:Trojan asymmetry, rendered
+scene.add(trojL4); scene.add(trojL5);
+function trojLine(){ return new THREE.Line(new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(),new THREE.Vector3()]),
+  new THREE.LineBasicMaterial({color:0x9caf9a,transparent:true,opacity:0.22})); }
+const trojLines=[trojLine(),trojLine(),trojLine(),trojLine()];             // Sun→L4, Sun→L5, J→L4, J→L5
+trojLines.forEach(l=>scene.add(l));
+const l4Label=mkLabel("△ L4 · the Greek camp — leads Jupiter by 60°","#9caf9a",true);
+const l5Label=mkLabel("△ L5 · the Trojan camp — trails by 60°","#9caf9a",true);
+const _tj={h:new THREE.Vector3(),d4:new THREE.Vector3(),d5:new THREE.Vector3(),m:new THREE.Matrix4(),e2:new THREE.Vector3(),origin:new THREE.Vector3()};
+
 function projectLabel(el, worldPos, offsetY){
   if(el.dataset.off==="1"){ el.style.display="none"; return; }   // toggled off — never resurrect a hidden layer's label
   const v=worldPos.clone().project(camera);
@@ -1816,7 +1863,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true, showVoyager=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true, showVoyager=true, showTrojans=true;
 // lblOn: single source of truth for a label's toggle state. Sets both the immediate display AND
 // the dataset.off marker that projectLabel honors every frame — without the marker, projectLabel's
 // per-frame display="block" silently resurrected labels of toggled-off layers (the ghost-label bug).
@@ -1849,6 +1896,8 @@ function applyToggles(){
   baryNeedle.visible=baryTip.visible=baryTrail.visible=showBary; lblOn(baryLabel,showBary);
   v1Mesh.visible=v2Mesh.visible=helioShell.visible=helioRing.visible=showVoyager;
   lblOn(v1Label,showVoyager); lblOn(v2Label,showVoyager); lblOn(helioLabel,showVoyager);
+  trojL4.visible=trojL5.visible=showTrojans; trojLines.forEach(l=>l.visible=showTrojans);
+  lblOn(l4Label,showTrojans); lblOn(l5Label,showTrojans);
 }
 
 // ================= animation loop =================
@@ -1910,6 +1959,29 @@ function animate(now){
     projectLabel(v1Label, v1Mesh.position, 12);
     projectLabel(v2Label, v2Mesh.position, 12);
     projectLabel(helioLabel, _helioLblPos, 10);
+  }
+
+  // △ L4/L5: constructed EVERY frame from Jupiter's live integrated state — rotate J.pos by ±60°
+  // about ĥ = J.pos × J.vel. The equilateral triangle breathes with Jupiter's real eccentricity.
+  if(showTrojans){
+    const Jp=byP.J.pos, Jv=byP.J.vel;
+    _tj.h.crossVectors(Jp,Jv).normalize();
+    _tj.d4.copy(Jp).applyAxisAngle(_tj.h, Math.PI/3).multiplyScalar(AUk);      // leads (toward v)
+    _tj.d5.copy(Jp).applyAxisAngle(_tj.h,-Math.PI/3).multiplyScalar(AUk);      // trails
+    const rScene=Jp.length()*AUk, sc=rScene/TROJ_REF;
+    // orient each camp: local X → L̂-direction, local Y → ĥ, local Z → along-track
+    for(const [grp,dir] of [[trojL4,_tj.d4],[trojL5,_tj.d5]]){
+      const e1=dir.clone().normalize(); _tj.e2.crossVectors(_tj.h,e1);
+      _tj.m.makeBasis(e1,_tj.h.clone(),_tj.e2.clone());
+      grp.setRotationFromMatrix(_tj.m); grp.scale.setScalar(sc);
+    }
+    const Jscene=Jp.clone().multiplyScalar(AUk);
+    trojLines[0].geometry.setFromPoints([_tj.origin,_tj.d4]);
+    trojLines[1].geometry.setFromPoints([_tj.origin,_tj.d5]);
+    trojLines[2].geometry.setFromPoints([Jscene,_tj.d4]);
+    trojLines[3].geometry.setFromPoints([Jscene,_tj.d5]);
+    projectLabel(l4Label,_tj.d4,14);
+    projectLabel(l5Label,_tj.d5,14);
   }
 
   // ☄ Halley's coma + tail: schematic theater on a real orbit — they appear only inside ~5 AU
@@ -2198,6 +2270,16 @@ $("bary").onclick=()=>{showBary=!showBary; $("bary").classList.toggle("pri",show
 $("halley").onclick=()=>{ flyTo("H"); };   // travel, not toggle — the visitor is always integrated
 $("voyager").onclick=()=>{ if(galacticMode) return; if(standMode) setStand(false); showVoyager=true; $("voyager").classList.add("pri"); applyToggles();
   const wp=v1Mesh.position.clone(); controls.target.copy(wp); camera.position.set(wp.x*0.85, wp.y*0.85+40, wp.z*0.85); controls.update(); };
+$("trojans").onclick=()=>{showTrojans=!showTrojans; $("trojans").classList.toggle("pri",showTrojans); applyToggles(); if(showTrojans) flyTo("J");};
+// △ trojan card: the Routh/Gascheau stability criterion computed live from this sim's own masses.
+(function(){
+  const el=document.getElementById("trojanCard"); if(!el) return;
+  const mJ=byP.J.mass, mu=mJ/(1+mJ), val=27*mu*(1-mu), crit=(1-Math.sqrt(1-4/27))/2;
+  el.innerHTML="<b>Stability, computed live from this sim's masses:</b> the equilateral points are stable iff <b>27µ(1−µ) &lt; 1</b> "
+    +"(Gascheau 1843; Routh 1875 — Lagrange found the points in 1772 but never proved they hold). Here µ = m_J/(1+m_J) = <b>"
+    +mu.toExponential(3)+"</b>, so 27µ(1−µ) = <b>"+val.toFixed(4)+"</b> — under the threshold with a <b>"+(1/val).toFixed(0)
+    +"× margin</b> (critical µ = "+crit.toFixed(5)+"; Sun–Jupiter is "+(crit/mu).toFixed(0)+"× lighter than the limit).";
+})();
 // 🛰 Voyager card: live numbers computed at load from the cited epoch — nothing asserted.
 (function(){
   const el=document.getElementById("voyCard"), ex=document.getElementById("voyExit"); if(!el||!ex) return;

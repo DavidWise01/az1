@@ -119,6 +119,7 @@
       <button class="btn" id="galacticview">◉ galactic view · Sgr A* · Milky Way · triangulated</button>
       <button class="btn pri" id="bary">☉ the barycenter · the Sun's confessed wobble</button>
       <button class="btn pri" id="halley">☄ fly to 1P/Halley · the returner</button>
+      <button class="btn pri" id="voyager">🛰 fly to Voyager 1 · the farthest artifact</button>
       <button class="btn pri" id="lightning">⚡ info-share</button>
       <button class="btn pri" id="linchpin">⟡ THE LINCHPIN</button>
       <button class="btn pri" id="stream">≈ THE STREAM</button>
@@ -135,6 +136,7 @@
       <button class="btn tmr" data-rate="32">+32×</button>
       <button class="btn" id="stand">🧍 stand on Earth · watch Mars retrograde</button>
       <span class="hint" id="tmRead" style="margin-left:0">sim clock +0.00 yr</span>
+      <span class="hint" id="boundRead" style="margin-left:0">⚖ bound check warming up…</span>
     </div>
     <div class="tree" id="tree"></div>
     <div class="grid8" id="p8grid"></div>
@@ -308,6 +310,7 @@
       <p style="margin-top:10px"><b>2 · Backward is physics, not video.</b> Nothing is recorded or replayed. Symmetric leapfrog is <b>time-reversible</b>: −1× steps the same equations with a negative <code>dt</code>. Reverse after running forward and the planets retrace their paths — a real property of the integrator, provable on the gauge below.</p>
       <p style="margin-top:10px"><b>The conservation gauge</b> (in the toolbar, ~2 Hz): total energy and angular momentum computed live from the actual integrator state, shown as <b>|ΔE/E₀|</b> and <b>|ΔL/L₀|</b> in ppm. This is the sim confessing its own numerical error. Expect a small <b>bounded oscillation</b> — that wiggle is the signature of a symplectic integrator, not a failure; what would indicate failure is a secular one-way slide. Momentum is deliberately <i>not</i> shown: the Sun is pinned at the origin (the one declared omission of this sim), so ΣP is not conserved by construction.</p>
       <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the dynamics at every rate, the reversibility, the gauge (computed, never asserted). SCHEMATIC: the clock reads "<b>years since seed</b>" — never a calendar date. Planets are seeded at random orbital phases, so this is a real dynamical system, <i>not an ephemeris of our sky</i>; it cannot point a telescope. The riders (moon, toolbelt, pulsars) are decorative circles that follow the rate; C&amp;C's 1.4s <i>pulse</i> stays on the wall clock deliberately — a pulsar's period is a real clock.</p>
+      <p style="margin-top:10px"><b>The third gauge — ⚖ the bound check:</b> every body's live speed against escape speed <i>at its current distance</i>, v/v_esc = v/√(2GM☉/r). The planets all hover near <b>1/√2 ≈ 0.71</b> — not a coincidence but the <i>signature of a circular orbit</i> (v_circ/v_esc = 1/√2 exactly; eccentricity is how far the ratio swings around it). Halley sweeps almost the whole gauge: ~0.13 at aphelion to <b>~0.99 at perihelion</b> — grazing the escape edge without crossing it is precisely what e = 0.967 <i>means</i>. Honest scope: "bound <b>at this instant</b>," computed from live state — not a stability theorem about eternity.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/kagyaku/">可逆 · Kagyaku</a> — the equations run backward; the witnessing doesn't. What −32× cannot undo is that you watched.</p>
     </div>
   </div>
@@ -342,6 +345,17 @@
       <p style="margin-top:10px"><b>A real effect, found under test:</b> run long enough and the ☄ label's live eccentricity <i>wanders</i> — a and e shift ~0.3% per return. That is not integration error: re-running the same scheme without Jupiter measured the integrator's own drift at ~0.002% per orbit, <b>~180× smaller</b>. The wander is <b>Jupiter genuinely reshaping the comet's orbit</b> — the same perturbation that historically swung the real Halley's period between 74 and 79 years, and the correction Halley himself (with Clairaut's team) had to apply to predict the 1758 return. The sim reproduces it unforced, and the live-from-state readout is what lets you catch it doing so.</p>
       <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the orbit (a, e, i from J2000 elements), the integration, the retrograde direction, the perihelion speed-up, the anti-sunward tail <i>direction</i> (solar wind + radiation pressure — which is why comets travel tail-first on the way out), and coma/tail appearing only near the Sun (outgassing needs heat). SCHEMATIC: the coma and tail's <i>size, shape and glow</i> are theater on top of a real trajectory; the nucleus (a ~11 km lump) is drawn at the sim's minimum body size, enormously oversized like every body here. RANDOM PHASE: like all ten bodies, Halley is seeded at a random orbital phase with an arbitrary orientation — <b>this sim's Halley, not 2061's sky</b>. Pinning the real perihelion date inside an arbitrary orientation would fake a prediction this sim cannot make; the honest choice is a real orbit at an unclaimed epoch.</p>
       <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/kakusei/">客星 · Kakusei</a> — the guest star: the comet doesn't remember its returns; the ledger does.</p>
+    </div>
+  </div>
+
+  <div class="card" style="border-color:rgba(216,232,244,.4)">
+    <div class="h"><span style="color:#d8e8f4">🛰 Voyager 1 &amp; 2 — the farthest artifacts, at true linear AU</span><span class="ct">live date · no scale apology</span></div>
+    <div class="bd">
+      The first <b>live-date</b> objects in this universe, the first human artifacts in the scene, and the rare real-astronomy layer that needs <b>no scale apology in this exact frame</b>: at real linear spacing (7 scene-units/AU), Voyager 1 and 2 sit at their true distances, comfortably inside the render. Their labels carry the live numbers: <span id="voyCard"></span>
+      <p style="margin-top:10px"><b>The one-way thesis, in hardware:</b> this corpus keeps building instruments about messages that cannot expect replies — <a href="https://davidwise01.github.io/pulse/">PULSE/LIMEN</a>, the Beacon, the Unshareable Clock. The Voyagers are that thesis <i>launched</i>: each carries the Golden Record, a message composed for recipients who can never acknowledge it, on spacecraft whose radioisotope power fades this decade. After the last downlink they become pure keepsakes — still outbound, still addressed, permanently unanswered.</p>
+      <p class="cap" style="margin-top:10px"><b>Honest tags.</b> REAL: the distances (radial extrapolation from a cited JPL epoch — 2025.0: V1 164.7 AU at 3.58 AU/yr = 17.0 km/s; V2 137.4 AU at 3.25 AU/yr = 15.4 km/s — good to ~±1 AU), the live one-way light times, the heliopause <i>radius</i> (121.6 AU, V1's actual 2012 crossing), and the three pairwise sky angles (V1–M31 98°, V2–M31 115°, V1–V2 79°, from RA/Dec) anchored to this scene's Andromeda direction. SCHEMATIC: the heliopause drawn as a sphere (the real boundary is asymmetric and breathes with the solar cycle); the rotation of the whole V1/V2 configuration <i>about</i> the M31 axis is the scene's one unconstrained choice; the octahedron markers are enormously oversized (the real craft are ~4 m). NOT SIMULATED: the Voyagers left this sim's gravity well long ago — their positions come from the extrapolation, not the integrator, and <b>the planets around them are at random phases</b>: the AU distance is the honest part, not the tableau.</p>
+      <p class="cap" style="margin-top:8px"><b>Two collisions this frame owns honestly:</b> (1) the true-scale heliopause shell (121.6 AU) <i>encloses</i> the deliberately not-to-scale Andromeda disc parked at ~110 AU-equivalent — a flagged prop sitting inside a real boundary; that jarring nesting <b>is</b> the scale lesson, stated rather than hidden. (2) The frame itself expires: camera.far = 4000 units = 571 AU, so <span id="voyExit"></span> — the first layer with a printed expiration date.</p>
+      <p class="cap" style="margin-top:8px">AVAN's inverse companion: <a href="https://davidwise01.github.io/katami/">形見 · Katami</a> — the keepsake that outruns its giver.</p>
     </div>
   </div>
 
@@ -678,7 +692,8 @@ const LACUNA=[
  {n:"可逆 · kagyaku",u:"https://davidwise01.github.io/kagyaku/"},
  {n:"逆行 · gyakko",u:"https://davidwise01.github.io/gyakko/"},
  {n:"重心 · jushin",u:"https://davidwise01.github.io/jushin/"},
- {n:"客星 · kakusei",u:"https://davidwise01.github.io/kakusei/"}
+ {n:"客星 · kakusei",u:"https://davidwise01.github.io/kakusei/"},
+ {n:"形見 · katami",u:"https://davidwise01.github.io/katami/"}
 ];
 const FEMALE_ALL=[
   {n:"ADA LOVELACE",u:"https://davidwise01.github.io/ada-lovelace/"},
@@ -1665,7 +1680,9 @@ function mkLabel(text, color, small){
   labelLayer.appendChild(el); return el;
 }
 // separate label layer for the galactic frame; hiding its parent hides all galactic labels at once
-const galacticLabelLayer=document.createElement("div"); galacticLabelLayer.style.cssText=labelLayer.style.cssText; galacticLabelLayer.className=labelLayer.className; galacticLabelLayer.style.display="none"; labelLayer.parentNode.appendChild(galacticLabelLayer);
+// (repair: the old cssText/className clone copied NOTHING — labelLayer is styled by its #id rule,
+// not inline styles — so this layer had no positioning and its labels intercepted canvas drags)
+const galacticLabelLayer=document.createElement("div"); galacticLabelLayer.style.cssText="position:absolute;inset:0;pointer-events:none;overflow:hidden;display:none"; labelLayer.parentNode.appendChild(galacticLabelLayer);
 function mkGalLabel(text,color,small){ const el=document.createElement("div"); el.className="lbl"+(small?" small":""); el.style.color=color; el.textContent=text; galacticLabelLayer.appendChild(el); return el; }
 
 // ============ GALACTIC FRAME — Sgr A*, the Milky Way, Andromeda, triangulated ============
@@ -1750,6 +1767,45 @@ let baryTrailPts=[], baryAcc=0;
 const baryRB=new THREE.Vector3();
 function computeBary(){ baryRB.set(0,0,0); for(const p of PLANETS) baryRB.addScaledVector(p.pos,p.mass); baryRB.multiplyScalar(1/(1+BARY_MSUM)); return baryRB; }
 
+// ============ 🛰 VOYAGER 1 & 2 — the farthest artifacts, at TRUE linear AU ============
+// The first live-date objects in the scene, and the rare real-astronomy layer needing NO scale
+// apology in this exact frame: V1 (~170 AU) and V2 (~142 AU) sit at their real linear distances
+// under AUk=7, comfortably inside camera.far. Positions are RADIAL EXTRAPOLATIONS from a cited
+// JPL epoch (2025.0: V1 164.7 AU @ 3.58 AU/yr = 17.0 km/s; V2 137.4 AU @ 3.25 AU/yr = 15.4 km/s),
+// good to ~±1 AU — NOT integrated by the sim (they left its gravity well long ago), NOT a sky
+// ephemeris. DIRECTIONS: the scene has no longitude zero, so the three real pairwise sky angles
+// (V1–M31 98.0°, V2–M31 115.0°, V1–V2 79.1°, from RA/Dec vs Andromeda) are anchored to the scene's
+// existing M31 direction; the one remaining freedom — rotation about that axis — is the scene's
+// single arbitrary choice, and the card says so.
+const VOY_EPOCH=2025.0, V1_D0=164.7, V1_RATE=3.58, V2_D0=137.4, V2_RATE=3.25;
+const VOY_A1=98.0*Math.PI/180, VOY_A2=115.0*Math.PI/180, VOY_A12=79.1*Math.PI/180;
+const HELIO_AU=121.6, LT_S=499.005;   // V1's real heliopause crossing (2012) · light seconds per AU
+const nowYr=()=>{ const d=new Date(); return d.getFullYear()+(d-new Date(d.getFullYear(),0,1))/(365.25*864e5); };
+const voyD1=()=>V1_D0+(nowYr()-VOY_EPOCH)*V1_RATE, voyD2=()=>V2_D0+(nowYr()-VOY_EPOCH)*V2_RATE;
+// build the two direction vectors off the M31 axis with the real pairwise angles
+const voyM=ANDROMEDA.position.clone().normalize();
+const voyU=new THREE.Vector3().crossVectors(voyM, Math.abs(voyM.y)<0.9?new THREE.Vector3(0,1,0):new THREE.Vector3(1,0,0)).normalize();
+const voyV=new THREE.Vector3().crossVectors(voyM,voyU).normalize();
+const dPhi=Math.acos(Math.max(-1,Math.min(1,(Math.cos(VOY_A12)-Math.cos(VOY_A1)*Math.cos(VOY_A2))/(Math.sin(VOY_A1)*Math.sin(VOY_A2)))));
+function voyDir(th,phi){ return voyM.clone().multiplyScalar(Math.cos(th))
+  .addScaledVector(voyU,Math.sin(th)*Math.cos(phi)).addScaledVector(voyV,Math.sin(th)*Math.sin(phi)).normalize(); }
+const V1_DIR=voyDir(VOY_A1,0), V2_DIR=voyDir(VOY_A2,dPhi);
+const v1Mesh=new THREE.Mesh(new THREE.OctahedronGeometry(2.2),new THREE.MeshBasicMaterial({color:0xd8e8f4}));
+const v2Mesh=new THREE.Mesh(new THREE.OctahedronGeometry(2.2),new THREE.MeshBasicMaterial({color:0xb8d0e4}));
+v1Mesh.position.copy(V1_DIR).multiplyScalar(voyD1()*AUk);
+v2Mesh.position.copy(V2_DIR).multiplyScalar(voyD2()*AUk);
+scene.add(v1Mesh); scene.add(v2Mesh);
+// heliopause: real crossing RADIUS, idealized SPHERE (the real boundary is asymmetric and breathes)
+const helioShell=new THREE.Mesh(new THREE.SphereGeometry(HELIO_AU*AUk,48,32),
+  new THREE.MeshBasicMaterial({color:0x8fb8d8,transparent:true,opacity:0.045,side:THREE.BackSide,depthWrite:false}));
+scene.add(helioShell);
+const helioRing=new THREE.Mesh(new THREE.RingGeometry(HELIO_AU*AUk-0.5,HELIO_AU*AUk+0.5,128),
+  new THREE.MeshBasicMaterial({color:0x8fb8d8,side:THREE.DoubleSide,transparent:true,opacity:0.18}));
+helioRing.rotation.x=Math.PI/2; scene.add(helioRing);
+const v1Label=mkLabel("🛰 Voyager 1","#d8e8f4",true), v2Label=mkLabel("🛰 Voyager 2","#b8d0e4",true);
+const helioLabel=mkLabel("heliopause · 121.6 AU — V1's real 2012 crossing radius (sphere idealized; the real boundary is asymmetric)","#8fb8d8",true);
+const _helioLblPos=new THREE.Vector3(HELIO_AU*AUk,0,0);   // fixed anchor on the shell's equator
+
 function projectLabel(el, worldPos, offsetY){
   if(el.dataset.off==="1"){ el.style.display="none"; return; }   // toggled off — never resurrect a hidden layer's label
   const v=worldPos.clone().project(camera);
@@ -1760,7 +1816,7 @@ function projectLabel(el, worldPos, offsetY){
 }
 
 // ---- toggles ----
-let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true;
+let showOrbits=true, showPapers=true, showStation=true, showLacuna=true, showGendered=true, showGap=true, showLightning=true, showLinchpin=true, showStream=true, showChakras=true, showBH=true, showTiers=true, showMoon=true, showTools=true, showCNC=true, showPeers=true, showSappho=true, showAtomic=false, showAndromeda=true, showGalactic=false, showBary=true, showVoyager=true;
 // lblOn: single source of truth for a label's toggle state. Sets both the immediate display AND
 // the dataset.off marker that projectLabel honors every frame — without the marker, projectLabel's
 // per-frame display="block" silently resurrected labels of toggled-off layers (the ghost-label bug).
@@ -1791,6 +1847,8 @@ function applyToggles(){
   bhLabels.forEach(l=>lblOn(l,showBH));
   lblOn(bhWitnessLabelIn,showBH); lblOn(bhWitnessLabelOut,showBH);
   baryNeedle.visible=baryTip.visible=baryTrail.visible=showBary; lblOn(baryLabel,showBary);
+  v1Mesh.visible=v2Mesh.visible=helioShell.visible=helioRing.visible=showVoyager;
+  lblOn(v1Label,showVoyager); lblOn(v2Label,showVoyager); lblOn(helioLabel,showVoyager);
 }
 
 // ================= animation loop =================
@@ -1848,6 +1906,11 @@ function animate(now){
     }
     projectLabel(baryLabel, baryTip.position, 12);
   }
+  if(showVoyager){
+    projectLabel(v1Label, v1Mesh.position, 12);
+    projectLabel(v2Label, v2Mesh.position, 12);
+    projectLabel(helioLabel, _helioLblPos, 10);
+  }
 
   // ☄ Halley's coma + tail: schematic theater on a real orbit — they appear only inside ~5 AU
   // (real comets outgas near the Sun), the tail points strictly ANTI-SUNWARD (real physics: solar
@@ -1872,6 +1935,24 @@ function animate(now){
     $("tmRead").textContent="sim clock "+(simYears>=0?"+":"")+simYears.toFixed(2)+" yr · |ΔE/E₀| "+fmtPpm(Math.abs((e-E0)/E0))+" · |ΔL/L₀| "+fmtPpm(Math.abs((l-L0)/L0));
     if(showBary){ const rA=computeBary().length();
       baryLabel.textContent="☉ barycenter · r_B = "+rA.toFixed(4)+" AU = "+(rA/R_SUN_AU).toFixed(2)+" R☉ — "+(rA>R_SUN_AU?"OUTSIDE the photosphere":"inside the photosphere")+" · needle dir exact · trail ×"+BARY_MAG; }
+    // 🛰 Voyagers: live-date radial extrapolation (cited epoch) + one-way light time
+    if(showVoyager){
+      const d1=voyD1(), d2=voyD2();
+      v1Mesh.position.copy(V1_DIR).multiplyScalar(d1*AUk);
+      v2Mesh.position.copy(V2_DIR).multiplyScalar(d2*AUk);
+      v1Label.textContent="🛰 Voyager 1 · "+d1.toFixed(1)+" AU (live date, JPL-epoch extrapolation ±1 AU) · one-way light "+(d1*LT_S/3600).toFixed(1)+" h · launched 1977";
+      v2Label.textContent="🛰 Voyager 2 · "+d2.toFixed(1)+" AU · one-way light "+(d2*LT_S/3600).toFixed(1)+" h · crossed the heliopause 2018";
+    }
+    // ⚖ bound check: every body's live speed vs escape speed AT ITS CURRENT r — the third gauge.
+    // Near-circular orbits sit at v/v_esc ≈ 1/√2 = 0.707 BY CONSTRUCTION (that ratio IS the
+    // circular signature, not a coincidence); Halley swings the whole range and kisses the
+    // escape edge at perihelion — which is what e=0.967 MEANS. Scoped to "bound at this instant."
+    { let lo=1e9,hi=0;
+      for(const p of PLANETS){ if(p.role==="comet") continue;
+        const ratio=p.vel.length()/Math.sqrt(2*G_AU/p.pos.length()); lo=Math.min(lo,ratio); hi=Math.max(hi,ratio); }
+      const rc=COMET.vel.length()/Math.sqrt(2*G_AU/COMET.pos.length());
+      $("boundRead").textContent="⚖ bound: planets v/v_esc "+lo.toFixed(2)+"–"+hi.toFixed(2)+" (1/√2 ≈ 0.71 = circular signature) · ☄ "+rc.toFixed(2)+" · all < 1 — bound at this instant";
+    }
     // ☄ live orbit read-back from STATE (not from the seed constants): a,e,ν → time to perihelion.
     // Vis-viva + angular momentum, Kepler estimate (unperturbed 2-body from current state).
     { const r=COMET.pos.length(), v2=COMET.vel.lengthSq();
@@ -2115,6 +2196,17 @@ document.querySelectorAll(".tmr").forEach(b=>{ b.onclick=()=>{ timeRate=+b.datas
 $("stand").onclick=()=>{ if(galacticMode) return; setStand(!standMode); };
 $("bary").onclick=()=>{showBary=!showBary; $("bary").classList.toggle("pri",showBary); applyToggles();};
 $("halley").onclick=()=>{ flyTo("H"); };   // travel, not toggle — the visitor is always integrated
+$("voyager").onclick=()=>{ if(galacticMode) return; if(standMode) setStand(false); showVoyager=true; $("voyager").classList.add("pri"); applyToggles();
+  const wp=v1Mesh.position.clone(); controls.target.copy(wp); camera.position.set(wp.x*0.85, wp.y*0.85+40, wp.z*0.85); controls.update(); };
+// 🛰 Voyager card: live numbers computed at load from the cited epoch — nothing asserted.
+(function(){
+  const el=document.getElementById("voyCard"), ex=document.getElementById("voyExit"); if(!el||!ex) return;
+  const d1=voyD1(), d2=voyD2();
+  el.innerHTML="V1 ≈ <b>"+d1.toFixed(1)+" AU</b> (one-way light <b>"+(d1*LT_S/3600).toFixed(1)+" h</b>) · V2 ≈ <b>"+d2.toFixed(1)
+    +" AU</b> (<b>"+(d2*LT_S/3600).toFixed(1)+" h</b>) — a reply to anything sent today is a two-day round trip, minimum, forever growing.";
+  const exitYr=VOY_EPOCH+(4000/AUk-V1_D0)/V1_RATE;
+  ex.innerHTML="Voyager 1 outruns this render around <b>~"+Math.round(exitYr)+"</b>";
+})();
 // ☄ Halley card: every number derived live from the PLANETS entry — nothing asserted.
 (function(){
   const el=document.getElementById("halleyCard"); if(!el || !COMET) return;
@@ -2150,13 +2242,13 @@ $("gendered").onclick=()=>{showGendered=!showGendered; $("gendered").classList.t
 $("gap").onclick=()=>{showGap=!showGap; $("gap").classList.toggle("pri",showGap); applyToggles();};
 $("tiers").onclick=()=>{showTiers=!showTiers; $("tiers").classList.toggle("pri",showTiers); applyToggles();};
 $("chakras").onclick=()=>{showChakras=!showChakras; $("chakras").classList.toggle("pri",showChakras); applyToggles();};
-$("moon").onclick=()=>{showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles(); if(showMoon) flyTo("E");};
+$("moon").onclick=()=>{if(galacticMode) return; showMoon=!showMoon; $("moon").classList.toggle("pri",showMoon); applyToggles(); if(showMoon) flyTo("E");};   // guarded: applyToggles inside the galactic frame would re-show solar meshes hidden by _savedVis
 $("tools").onclick=()=>{showTools=!showTools; $("tools").classList.toggle("pri",showTools); applyToggles();};
 // cnc + sappho: click = go there (always shows, always flies) -- these were toggles, but both
 // default ON, so a first click HID the thing the user was trying to find. Travel beats toggling.
-$("cnc").onclick=()=>{showCNC=true; $("cnc").classList.add("pri"); applyToggles(); flyTo("E");};
+$("cnc").onclick=()=>{if(galacticMode) return; showCNC=true; $("cnc").classList.add("pri"); applyToggles(); flyTo("E");};
 $("peers").onclick=()=>{showPeers=!showPeers; $("peers").classList.toggle("pri",showPeers); applyToggles();};
-$("sappho").onclick=()=>{showSappho=true; $("sappho").classList.add("pri"); applyToggles(); flyTo("V");};
+$("sappho").onclick=()=>{if(galacticMode) return; showSappho=true; $("sappho").classList.add("pri"); applyToggles(); flyTo("V");};
 $("atomic").onclick=()=>{showAtomic=!showAtomic; $("atomic").classList.toggle("pri",showAtomic); applyToggles();
   if(showAtomic){ const p=document.getElementById("atomicPanel"); if(p) p.scrollIntoView({behavior:"smooth", block:"start"}); }};
 $("blackhole").onclick=()=>{showBH=!showBH; $("blackhole").classList.toggle("pri",showBH); applyToggles();};

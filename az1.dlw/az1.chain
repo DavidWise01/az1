@@ -4,6 +4,6 @@ slug  : az1
 seal  : b63eed563c85d91325025b84f613c40032697d0eaee0449fcda91f8c795a60ed
 prev  : 7e49e9fd95dcfa43f5ad63817155deb12fa05b41270e8626d829b6c5e1b87743
 link  : b5468dd60702166ab384f885baee32ec1731afc97de51bee49572db6bd08ea4a
-head  : 28a24c5b8f6c7db85278ab972758273a90fc7f1e5f31ced8cf8ed75b4aaf9727
+head  : 3447d3a0533aaf1e29a8bdc67a9774884fb3ae9dbc8a17064b7a008ca3c4ec90
 
 — the tether: link = sha256(index|slug|seal|prev). the chain head commits to the whole corpus.

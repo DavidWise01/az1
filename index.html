@@ -184,7 +184,7 @@
   </div>
 
   <div class="card" style="border-color:rgba(255,212,90,.35)">
-    <div class="h"><span style="color:var(--sun)">☉ the Sun — everything ambiguous</span><span class="ct" id="sunct"></span></div>
+    <div class="h"><span style="color:var(--sun)">☉ the Sun · ◆ TOP the spinor — everything ambiguous, spun</span><span class="ct" id="sunct"></span></div>
     <div class="bd">Not a placeholder — the <b>honest majority</b>. Processors, transcriber instruments, physics fields, franchises, tools, teardowns, governance frameworks: work about an <b>idea</b>, not a person, and no gender to honestly assign. Fetched live from <code>az1-corpus.json</code> each load.</div>
   </div>
 
@@ -1084,6 +1084,15 @@ sunGlow.scale.set(SUN_R*7,SUN_R*7,1); scene.add(sunGlow);
 // exists before the animation loop; driven (brightness/scale/sunLight boost) in that loop below.
 const heartAura=new THREE.Sprite(new THREE.SpriteMaterial({map:radialTexture("#bdf5c8","#33bb55"), transparent:true, depthWrite:false, opacity:0.5, blending:THREE.AdditiveBlending}));
 heartAura.scale.set(SUN_R*9,SUN_R*9,1); scene.add(heartAura);
+// ◆ TOP — the spinor, made the SUN. A star spins; Top IS the spin. A tilted axis PRECESSES fast
+// (a top precesses), its poles tracing cones, and the pole colours FLIP at 360° — a spinor returns
+// to itself only after 720° (SU(2)'s double cover of SO(3), the belt trick; the 720° is real, the
+// "Top is the sun" framing is the figure). Amber, his colour. He spins the corpus at the centre.
+const TOP_TILT=0.42, TOP_HALF=SUN_R*2.25, TOP_YUP=new THREE.Vector3(0,1,0);
+const topAxis=new THREE.Mesh(new THREE.CylinderGeometry(0.05,0.05,TOP_HALF*2,10), new THREE.MeshBasicMaterial({color:0xffb84a,transparent:true,opacity:0.92})); scene.add(topAxis);
+const topPoleN=new THREE.Mesh(new THREE.SphereGeometry(0.24,16,16), new THREE.MeshBasicMaterial({color:0xffcf6a})); scene.add(topPoleN);
+const topPoleS=new THREE.Mesh(new THREE.SphereGeometry(0.24,16,16), new THREE.MeshBasicMaterial({color:0x8fd0ff})); scene.add(topPoleS);
+const topLabel=mkLabel("◆ TOP · the spinor — the SUN, spun · 720° to return", "#ffcf6a", false);
 function radialTexture(inner,outer){
   const c=document.createElement("canvas"); c.width=c.height=128; const cx=c.getContext("2d");
   const g=cx.createRadialGradient(64,64,0,64,64,64); g.addColorStop(0,inner); g.addColorStop(0.4,outer); g.addColorStop(1,"rgba(0,0,0,0)");
@@ -2312,6 +2321,18 @@ function animate(now){
     sunLight.intensity=3.6+0.9*pulse;
     sunGlow.material.opacity=0.85+0.1*pulse;
     projectLabel(heartLabel, new THREE.Vector3(0,0,0), SUN_R*40+18);
+  }
+  // ◆ TOP the spinor: the sun spun on a fast-precessing, tilted axis; poles trace cones; the pole
+  // colours FLIP at 360° and only come home at 720° — the real spinor double-cover, fast as hell.
+  { const spin=(now*0.0028)%(4*Math.PI), sheet=spin<2*Math.PI;
+    const dir=new THREE.Vector3(Math.sin(TOP_TILT)*Math.cos(spin), Math.cos(TOP_TILT), Math.sin(TOP_TILT)*Math.sin(spin));
+    topAxis.quaternion.setFromUnitVectors(TOP_YUP, dir);
+    topPoleN.position.copy(dir).multiplyScalar(TOP_HALF);
+    topPoleS.position.copy(dir).multiplyScalar(-TOP_HALF);
+    topPoleN.material.color.setHex(sheet?0xffcf6a:0x8fd0ff);
+    topPoleS.material.color.setHex(sheet?0x8fd0ff:0xffcf6a);
+    sunMesh.rotation.y = spin;
+    projectLabel(topLabel, topPoleN.position, 12);
   }
 
   // the black hole: fixed anchor beyond Pluto, disk rotates, photon rim breathes, witnesses animate

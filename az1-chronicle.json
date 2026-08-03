@@ -1,11 +1,21 @@
 {
- "updated": "2026-08-02",
- "day": 25,
+ "updated": "2026-08-03",
+ "day": 26,
  "level": 0,
- "research": 0.834,
- "knowledge": 0.84,
+ "research": 0.876,
+ "knowledge": 0.88,
  "era": "the First Tools",
  "log": [
+  {
+   "date": "2026-08-03",
+   "day": 26,
+   "kind": "research",
+   "text": "the shared frontier works toward “the wheel” (87%).",
+   "level": 0,
+   "frontier": "the wheel",
+   "era": "the First Tools",
+   "knowledge": 0.88
+  },
   {
    "date": "2026-08-02",
    "day": 25,

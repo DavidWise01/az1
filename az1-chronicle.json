@@ -1,11 +1,21 @@
 {
- "updated": "2026-08-12",
- "day": 33,
+ "updated": "2026-08-13",
+ "day": 34,
  "level": 1,
- "research": 0.083,
+ "research": 0.0,
  "knowledge": 1.11,
  "era": "the First Tools",
  "log": [
+  {
+   "date": "2026-08-13",
+   "day": 34,
+   "kind": "setback",
+   "text": "a celebrated result on V failed to replicate; the frontier paused — but the shared archive on P held the rest.",
+   "level": 1,
+   "frontier": "geometry",
+   "era": "the First Tools",
+   "knowledge": 1.11
+  },
   {
    "date": "2026-08-12",
    "day": 33,

@@ -1,11 +1,21 @@
 {
- "updated": "2026-09-07",
- "day": 57,
+ "updated": "2026-09-08",
+ "day": 58,
  "level": 1,
- "research": 0.765,
- "knowledge": 1.89,
+ "research": 0.8,
+ "knowledge": 1.92,
  "era": "the First Tools",
  "log": [
+  {
+   "date": "2026-09-08",
+   "day": 58,
+   "kind": "research",
+   "text": "the shared frontier works toward “geometry” (59%).",
+   "level": 1,
+   "frontier": "geometry",
+   "era": "the First Tools",
+   "knowledge": 1.92
+  },
   {
    "date": "2026-09-07",
    "day": 57,

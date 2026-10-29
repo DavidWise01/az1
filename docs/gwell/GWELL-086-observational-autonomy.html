@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GWELL 086 | Observational Autonomy</title>
+<style>
+:root{color-scheme:dark;font:14px system-ui,Segoe UI,sans-serif;color:#e7f9ff;background:#06111d}
+*{box-sizing:border-box}body{margin:0}header{padding:24px max(20px,4vw);border-bottom:1px solid #254356}
+h1{font-size:clamp(23px,4vw,37px);margin:5px 0}p{color:#aac8d8}
+main{max-width:1400px;margin:auto;padding:20px;display:grid;grid-template-columns:minmax(0,1.7fr) minmax(270px,1fr);gap:16px}
+.card{background:#101f30;border:1px solid #2a5263;border-radius:14px;overflow:hidden;padding:16px}
+canvas{width:100%;display:block;aspect-ratio:16/9;background:#030c17;border-radius:10px}
+h2{font-size:16px;margin:0 0 12px}h3{font-size:13px;margin:12px 0 5px;color:#8be6db}
+button{background:#163c4c;color:#e8ffff;border:1px solid #3a8291;border-radius:8px;padding:8px 10px;cursor:pointer}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}output,pre{font:12px/1.6 ui-monospace,monospace;color:#c0e0e9}
+pre{overflow:auto;white-space:pre-wrap;max-height:200px}code{color:#8ce9dc}.govern{color:#e6fcf8;font-size:17px;font-weight:650}
+.note{font-size:12px;color:#9cb9ca}.bar{padding:10px;background:#0b1726;border:1px solid #234152;border-radius:9px;font:12px ui-monospace,monospace}
+#events{max-height:210px;overflow:auto}
+@media(max-width:800px){main{grid-template-columns:1fr}}
+</style></head><body>
+<header><div class="note">GWELL 086 · FROZEN GOVERNING RULE · OBSERVE & REPORT</div>
+<h1>Observational Autonomy</h1><div class="govern">Give space. Observe without interference. Preserve the record.</div>
+<p>One bounded generative container · eight independent H–O cubits · three passive observers · append-only local memory</p></header>
+<main><section class="card"><h2>Self-evolving container (no observer intervention)</h2>
+<canvas id="field" width="1100" height="620"></canvas>
+<div class="row"><button id="pause">Pause</button><button id="step">Step once</button><button id="replay">Rehydrate from history</button><button id="export">Export JSON</button></div>
+<p class="note">The container follows fixed local evolution rules. The observer samples states but never selects, scores, or steers them. Runs only while this page is open; browser storage is not permanent and no server agent is running.</p>
+<div class="bar" id="metrics">Initializing…</div></section>
+<aside class="card"><h2>Immutable rule / mutable experience</h2>
+<div class="bar">RULE ID: GWELL-086-OA-1<br>GOVERNANCE: observe only<br>OBSERVERS: A / B / C<br>IDENTITY: scalar 0<br>HISTORY: append-only<br>REPLAY: deterministic event reduction</div>
+<h3>Independent reports</h3><div id="reports" class="bar">—</div>
+<h3>Recent append-only records</h3><pre id="events"></pre>
+<h3>Integrity</h3><div id="audit" class="bar">—</div><p class="note">Hash chains here detect accidental local corruption. They are not cryptographic signatures or tamper-proof storage. Public GitHub history fixes the governing rule; local event history requires export for independent backup.</p>
+</aside></main>
+<script>
+(()=>{'use strict';
+const $=id=>document.getElementById(id),cv=$('field'),g=cv.getContext('2d'),key='GWELL086_OA1_APPEND_V1';
+const RULE='Give space. Observe without interference. Preserve the record.';
+const channels=['H','He','Li','Be','B','C','N','O'];
+const seed=Array.from({length:8},(_,i)=>({id:channels[i],angle:i*Math.PI/4,phase:i*0.6180339887,energy:0.4+(i%3)*0.11}));
+let ledger=[],state=seed.map(x=>({...x})),seq=0,run=true,tick=0;
+function hash(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return (h>>>0).toString(16).padStart(8,'0')}
+function core(r){return JSON.stringify({n:r.n,type:r.type,body:r.body,prev:r.prev})}
+function append(type,body){
+ const r={n:ledger.length,type,body,prev:ledger.length?ledger[ledger.length-1].hash:'GENESIS'};
+ r.hash=hash(core(r));ledger.push(r);
+ try{localStorage.setItem(key,JSON.stringify(ledger))}catch(e){$('audit').textContent='Storage unavailable: '+e.message}
+ return r;
+}
+function evolve(s,n){return s.map((v,i)=>{const other=s[(i+1)%8];return {...v,angle:v.angle+0.012*(i%2?-1:1),phase:(v.phase+0.023+0.003*Math.sin(other.phase-v.phase))%(Math.PI*2),energy:Math.min(0.98,Math.max(0.02,v.energy+0.006*Math.sin(v.phase-other.phase)))}})}
+function replay(){
+ const s=seed.map(x=>({...x}));let cur=s;
+ for(const r of ledger)if(r.type==='TICK')cur=evolve(cur,r.body.tick);
+ return cur;
+}
+function verify(){
+ let prev='GENESIS',good=true,steps=0;
+ for(let i=0;i<ledger.length;i++){const r=ledger[i];if(r.n!==i||r.prev!==prev||hash(core(r))!==r.hash)good=false;prev=r.hash;if(r.type==='TICK')steps++}
+ const rebuilt=replay();const same=JSON.stringify(rebuilt)===JSON.stringify(state);
+ $('audit').textContent='hash chain: '+(good?'PASS':'FAIL')+' | replay: '+(same?'PASS':'FAIL')+' | ticks: '+steps+' | records: '+ledger.length;
+ return good&&same;
+}
+function step(){
+ const next=tick+1;append('TICK',{tick:next});state=evolve(state,next);tick=next;
+ // observers separately append observations; they do not affect evolve
+ if(tick%15===0)for(const [i,name] of ['A','B','C'].entries()){
+ const j=(i*3+Math.floor(tick/15))%8,v=state[j];
+ append('REPORT',{observer:name,at:tick,target:v.id,phase:Number(v.phase.toFixed(6)),energy:Number(v.energy.toFixed(6)),status:'observed'});
+ }
+}
+function init(){
+ try{const stored=JSON.parse(localStorage.getItem(key)||'[]');if(!Array.isArray(stored))throw Error('invalid history');ledger=stored;
+ let prev='GENESIS';for(let i=0;i<ledger.length;i++){const r=ledger[i];if(r.n!==i||r.prev!==prev||hash(core(r))!==r.hash)throw Error('invalid chain at '+i);prev=r.hash}
+ state=replay();tick=ledger.filter(x=>x.type==='TICK').length;
+ }catch(e){ledger=[];state=seed.map(x=>({...x}));tick=0;$('audit').textContent='History rejected: '+e.message}
+}
+function paint(time){
+ g.fillStyle='#050e1b';g.fillRect(0,0,cv.width,cv.height);
+ const cx=550,cy=310,r=176;g.strokeStyle='#4fcbd533';g.lineWidth=1;
+ for(let rr=45;rr<260;rr+=40){g.beginPath();g.arc(cx,cy,rr,0,Math.PI*2);g.stroke()}
+ for(let i=0;i<8;i++){const v=state[i],a=v.angle+time*.000025,x=cx+Math.cos(a)*r,y=cy+Math.sin(a)*r*.8,col=i%2?'#b68aff':'#54e6d8';
+ g.strokeStyle=col+'80';g.lineWidth=2;g.beginPath();g.moveTo(cx,cy);g.quadraticCurveTo(cx+Math.cos(a+0.4)*100,cy+Math.sin(a+0.4)*100,x,y);g.stroke();
+ const rad=12+v.energy*15,gl=g.createRadialGradient(x,y,1,x,y,rad*2);gl.addColorStop(0,'#fffffff0');gl.addColorStop(.2,col);gl.addColorStop(1,'#00000000');g.fillStyle=gl;g.beginPath();g.arc(x,y,rad*2,0,Math.PI*2);g.fill();
+ g.fillStyle='#e8fbff';g.font='14px system-ui';g.textAlign='center';g.fillText(v.id,x,y+rad*2+11)}
+ g.strokeStyle='#b48affaa';g.lineWidth=1.6;
+ const pts=Array.from({length:8},(_,i)=>{const a=i*Math.PI/4+time*.00015;return [cx+Math.cos(a)*55,cy+Math.sin(a)*55]});
+ for(let i=0;i<8;i++){g.beginPath();g.moveTo(...pts[i]);g.lineTo(...pts[(i+3)%8]);g.stroke()}
+ const gr=g.createRadialGradient(cx,cy,1,cx,cy,24);gr.addColorStop(0,'#fff8e5');gr.addColorStop(.4,'#ffd991');gr.addColorStop(1,'#00000000');g.fillStyle=gr;g.beginPath();g.arc(cx,cy,24,0,Math.PI*2);g.fill();g.fillStyle='#152438';g.font='bold 16px monospace';g.fillText('0',cx,cy+6);
+}
+function display(){
+ const rs=ledger.filter(x=>x.type==='REPORT');$('reports').innerHTML=['A','B','C'].map(k=>{const r=[...rs].reverse().find(x=>x.body.observer===k);return k+': '+(r?r.body.target+' / tick '+r.body.at:'not yet observed')}).join('<br>');
+ $('events').textContent=ledger.slice(-9).map(r=>r.n+' | '+r.type+' | '+r.hash+' | '+(r.type==='REPORT'?r.body.observer+' observed '+r.body.target:'step '+r.body.tick)).join('\n');
+ $('metrics').textContent='container ticks: '+tick+' | cubits: 8 | rule: frozen | observer interference: none';
+ verify();
+}
+$('pause').onclick=()=>{run=!run;$('pause').textContent=run?'Pause':'Resume'};
+$('step').onclick=()=>{step();display()};
+$('replay').onclick=()=>{state=replay();display()};
+$('export').onclick=()=>{const blob=new Blob([JSON.stringify({rule:RULE,ruleId:'GWELL-086-OA-1',ledger},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='GWELL-086-memory-'+tick+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)};
+init();display();let last=0;function loop(t){if(run&&t-last>=300){step();display();last=t}paint(t);requestAnimationFrame(loop)}requestAnimationFrame(loop);
+})();
+</script></body></html>

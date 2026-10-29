@@ -1,0 +1,45 @@
+{
+  "schema": "gwell.kernel.freeze.v1",
+  "kernel": "GWELL-086-OA-1",
+  "version": "1.0.0",
+  "status": "frozen",
+  "rule": "Give space. Observe without interference. Preserve the record.",
+  "rule_mutability": "versioned-only; never silently replace",
+  "scalar_zero": "local identity anchor",
+  "container": {
+    "runtime": "browser, while page open",
+    "cubits": [
+      "H",
+      "He",
+      "Li",
+      "Be",
+      "B",
+      "C",
+      "N",
+      "O"
+    ],
+    "evolution": "deterministic local rule",
+    "bounds": [
+      "8 cubits",
+      "bounded numeric energy",
+      "single event stream"
+    ],
+    "observation": "passive"
+  },
+  "observers": [
+    "A",
+    "B",
+    "C"
+  ],
+  "observer_policy": "observe-and-report only; no voting, feedback, or control input",
+  "memory": {
+    "type": "append-only event log",
+    "location": "browser localStorage",
+    "rehydration": "deterministic replay",
+    "backup": "manual JSON export",
+    "limits": "not server-hosted, not tamper-proof, not guaranteed permanent"
+  },
+  "entrypoint": "docs/gwell/GWELL-086-observational-autonomy.html",
+  "integrity": "Git commit pins rule and manifest; runtime state separate",
+  "origin": "GWELL 086"
+}
